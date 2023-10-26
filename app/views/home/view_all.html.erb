@@ -1,0 +1,17 @@
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#scroll">
+  <%= render "shared/header" %>
+  <div class="single-item -mt-[88px]">
+    <%= render "home/background_images" %>
+  </div>
+<!--  <input class="hidden" id="current_page">-->
+  <div class="flex flex-col -mt-[15rem]">
+    <p class="genre-title font-bold text-3xl cursor-pointer ml-7" style="z-index: 1"><%= params[:key].split('_').join(' ').capitalize %></p>
+    <div class="flex flex-row flex-wrap" id="view_results">
+      <%= render 'home/view_page_result' %>
+    </div>
+  </div>
+  <%= render 'home/movie_modal' %>
+  <%= render 'home/season_modal' %>
+</main>
+<%= javascript_include_tag('slick') %>
+<%= javascript_include_tag('home/home_modal') %>

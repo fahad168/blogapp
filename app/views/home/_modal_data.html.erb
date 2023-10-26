@@ -1,0 +1,85 @@
+<div class="relative bg-[#141414] rounded-lg shadow dark:bg-gray-700" id="moviedate">
+  <div class="absolute flex items-center justify-between -m-3 rounded-2xl bg-white place-self-end" style="z-index: 1">
+    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="hideModal()">
+      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+      <span class="sr-only">Close modal</span>
+    </button>
+  </div>
+  <% if @trailer.present? %>
+  <div class="relative">
+    <div class="w-full h-[30rem] rounded-t-lg">
+        <iframe
+          id="iframe"
+          width="100%"
+          src="https://www.youtube.com/embed/<%= @trailer['key'] %>?controls=0&autoplay=1"
+          frameborder="0"
+          allowfullscreen
+          class="w-full h-[30rem] object-cover rounded-t-lg rounded-b-lg"
+        ></iframe>
+    </div>
+  </div>
+  <% else %>
+    <div class="relative">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= @movie_detail['poster_path'] %>" class="w-full">
+      <div class="absolute inset-x-0 bottom-0 h-[5rem] bg-gradient-to-t from-[#141414] to-transparent"></div>
+    </div>
+  <% end %>
+  <div>
+    <div class="flex flex-col">
+      <p class="text-4xl pl-5 font-bold"><%= @movie_detail['original_title'] %></p>
+      <div class="flex flex-row pl-5 mt-2">
+        <p class="text-gray-500 dark:text-gray-400"><%= @movie_detail['release_date'].split('-').first %></p>
+        <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h<%= @movie_detail['runtime'] % 60 %>m</p>
+      </div>
+      <div class="pl-5 mt-3">
+        <p class="text-gray-500 dark:text-gray-400">
+          <%= @movie_detail['overview'] %>
+        </p>
+      </div>
+<!--      <div class="pl-5 mt-8">-->
+<!--        <div class="flex flex-row">-->
+<!--          <p>Cast: </p>-->
+          <%# @movie_detail['credits']['cast'].first(10).each do |cast| %>
+<!--            <span class="text-gray-500 dark:text-gray-400"><%#= cast['original_name'] %>,</span>-->
+          <%# end %>
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+    <% if @clips.present? %>
+      <div class="genre flex flex-col w-full mt-8">
+        <div class="genre-content pl-8 pb-5">
+          <p class="genre-title font-bold text-3xl">Collection</p>
+        </div>
+        <div class="flex flex-row pl-4 overflow-x-auto pr-4">
+          <% @clips.each do |clip| %>
+            <a class="cursor-pointer mb-6">
+              <iframe
+                id="iframe"
+                width="100%"
+                src="https://www.youtube.com/embed/<%= clip['key'] %>"
+                frameborder="0"
+                allowfullscreen
+                class="h-[15rem] pl-4 w-[28rem]"
+              ></iframe>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @similar_movies.present? %>
+      <div class="genre flex flex-col mt-[2rem] w-full">
+        <div class="genre-content pl-8 pb-5">
+          <p class="genre-title font-bold text-3xl">Similar Movies</p>
+        </div>
+        <div class="flex flex-row overflow-x-auto">
+          <% @similar_movies['results']&.each do |playing| %>
+            <%= render 'home/card', playing: playing %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

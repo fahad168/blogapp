@@ -1,0 +1,20 @@
+<% @episode_details['episodes'].each do |episode| %>
+   <a class="episode_card cursor-pointer flex flex-row justify-start">
+    <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= episode['still_path'] %>" class="object-contain">
+    <div class="flex flex-col ml-6 w-full">
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-row">
+          <p class="text-xl"><%= episode['episode_number'] %>-</p>
+          <p class="text-lg ml-3"><%= episode['name'] %></p>
+        </div>
+        <div class="place-self-end mr-[2rem]">
+          <p class="text-sm"><%= episode['runtime'] %>m</p>
+        </div>
+      </div>
+      <div class="mt-3">
+        <p class="text-sm"><%= episode['overview'] %></p>
+      </div>
+    </div>
+  </a>
+<% end %>
+

@@ -1,0 +1,10 @@
+<img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>">
+<div class="descriptions flex flex-col justify-between">
+  <h1 class="truncate font-bold text-xl"><%= playing['original_name'] %></h1>
+  <p class="line-clamp-5"><%= playing['overview'] %></p>
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-row"><p class="text-[red] font-bold">Rating:</p> <p class="ml-2"><%= playing['vote_average'] %>/10</p></div>
+    <div class="flex flex-row"><p class="text-[red] font-bold">Votes:</p> <p class="ml-2"><%= playing['vote_count'] %></p></div>
+    <div class="flex flex-row"><p class="text-[red] font-bold">Year:</p> <p class="ml-2"><%= playing['first_air_date'].split('-').first %></p></div>
+  </div>
+</div>

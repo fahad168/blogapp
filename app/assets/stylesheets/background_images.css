@@ -1,0 +1,48 @@
+.background-bg1 {
+    background-image: url("background_image1.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg2 {
+    background-image: url("background_image2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg3 {
+    background-image: url("background_image3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg4 {
+    background-image: url("background_image4.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg5 {
+    background-image: url("background_image5.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg6 {
+    background-image: url("background_image6.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg7 {
+    background-image: url("background_image7.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.background-bg8 {
+    background-image: url("background_image8.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

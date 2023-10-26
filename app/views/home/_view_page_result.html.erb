@@ -1,0 +1,7 @@
+<% @result['results']&.each do |playing| %>
+  <% if params[:type] == 'series' %>
+    <%= render 'home/view_tv_card', playing: playing %>
+  <% else %>
+    <%= render 'home/view_all_card', playing: playing %>
+  <% end %>
+<% end %>
