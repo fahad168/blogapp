@@ -1,11 +1,11 @@
 <% if @specific_genre.present? %>
   <% if !@specific_genre.is_a?(Array) %>
     <% @specific_genre['results']&.each do |playing| %>
-      <%= render 'movies/view_all_modal_card_data', playing: playing %>
+      <%= render 'tv_shows/view_all_modal_card_data', playing: playing %>
     <% end %>
   <% else %>
     <% @specific_genre&.each do |playing| %>
-      <%= render 'movies/view_all_modal_card_data', playing: playing %>
+      <%= render 'tv_shows/view_all_modal_card_data', playing: playing %>
     <% end %>
   <% end %>
 <% else %>

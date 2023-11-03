@@ -22,7 +22,11 @@
   </div>
   <% else %>
     <div class="relative">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= @movie_detail['poster_path'] %>" class="w-full">
+      <% if @movie_detail['poster_path'].present? %>
+        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= @movie_detail['poster_path'] %>" class="w-full">
+      <% else %>
+        <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
+      <% end %>
       <div class="absolute inset-x-0 bottom-0 h-[5rem] bg-gradient-to-t from-[#141414] to-transparent"></div>
     </div>
   <% end %>

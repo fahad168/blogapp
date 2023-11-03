@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   get '/view_all', to: 'home#view_all'
   get '/movies', to: 'movies#index'
   post '/specific_genre_movies', to: 'movies#specific_genre_movies'
+  get '/tv_shows', to: 'tv_shows#index'
+  post '/specific_genre_shows', to: 'tv_shows#specific_genre_shows'
 end

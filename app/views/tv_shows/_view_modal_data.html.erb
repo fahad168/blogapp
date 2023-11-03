@@ -13,15 +13,13 @@
       <input autocomplete="off" id="search" type="text" class="border-2 border-[grey] bg-transparent h-[3rem] rounded-md mr-4 mt-6 w-[20rem] pl-3 text-[grey] hover:border-[grey]" placeholder="Search <%= @genre_name %>">
     </div>
   <% end %>
-  <input hidden id="movie_genre_ids" value="<%= params[:genre_ids] %>">
+  <input hidden id="genre_ids" value="<%= params[:genre_ids] %>">
   <div class="flex flex-row flex-wrap mb-[1rem]" id="viewModalData">
-    <%= render 'movies/view_modal_card' %>
+    <%= render 'tv_shows/view_modal_card' %>
   </div>
   <div id="load_more">
     <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
-    <button data-controller="view-modal" data-action="click->view-modal#scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>">
-      <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0">
-    </button>
+    <button data-controller="view-modal" data-action="click->view-modal#show_scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>"><img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0"></button>
   </div>
 </div>
 
@@ -31,19 +29,19 @@
         if (event.key === "Enter") {
             const loaderContainer = document.getElementById("loader-container");
             loaderContainer.style.display = "flex";
-            var movie_name = input.value
+            var series_name = input.value
             var genre_name = '<%= @genre_name %>'
-            var genre_ids = document.getElementById('movie_genre_ids').value
+            var genre_ids = document.getElementById('genre_ids').value
             if(genre_name === 'Action &amp; Adventure') {
                 genre_name = 'Action'
-            }else if(genre_name === 'Science Fiction') {
-                genre_name = 'Science'
+            }else if(genre_name === 'Sci-Fi &amp; Fantasy') {
+                genre_name = 'Sci-Fi'
             }
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 type: 'POST',
-                url: `/specific_genre_movies?q=${movie_name}&genre_name=${genre_name}`,
-                data: { q: movie_name, genre_name: genre_ids, genre_ids: genre_ids, authenticity_token: csrfToken, key: 'search' },
+                url: "/specific_genre_shows",
+                data: { q: series_name, genre_name: genre_name, authenticity_token: csrfToken, genre_ids: genre_ids },
                 success: function (response) {
                     document.getElementById('load_more').style.display = "none"
                     var modal = $('#viewModalData')

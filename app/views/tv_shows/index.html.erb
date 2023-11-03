@@ -1,0 +1,113 @@
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#shows_scroll" onload="init()">
+  <%= render "shared/header" %>
+  <div class="single-item -mt-[88px]">
+    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].first['id']  %>">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].first['backdrop_path'] %>" class="h-full w-full">
+      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].second['id']  %>">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].second['backdrop_path'] %>" class="h-full w-full">
+      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].third['id']  %>">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].third['backdrop_path'] %>" class="h-full w-full">
+      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].fourth['id']  %>">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].fourth['backdrop_path'] %>" class="h-full w-full">
+      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].fifth['id']  %>">
+      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].fifth['backdrop_path'] %>" class="h-full w-full">
+      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+  </div>
+  <div class="genre flex flex-col -mb-[15rem] bottom-0 w-full absolute">
+    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
+      <p class="genre-title font-bold text-3xl cursor-pointer">Today Trending Shows</p>
+    </div>
+    <div class="flex flex-row overflow-x-auto">
+      <% @trending['results']&.first(10)&.each_with_index do |playing, index| %>
+        <%= render 'tv_shows/tv_trending', playing: playing, index: index %>
+      <% end %>
+    </div>
+  </div>
+  <div class="genre flex flex-col bottom-0 w-full mt-[17rem]">
+    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
+      <p class="genre-title font-bold text-3xl cursor-pointer">Action & Adventure</p>
+      <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= TvGenre.where(genre_name: 'Action & Adventure').pluck(:genre_id) %>)">View All</button>
+    </div>
+    <div class="flex flex-row overflow-x-auto">
+      <% @action_adventure['results']&.each do |playing| %>
+        <%= render 'home/tv_card', playing: playing %>
+      <% end %>
+    </div>
+  </div>
+  <div class="genre flex flex-col bottom-0 w-full mt-[2rem]">
+    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
+      <p class="genre-title font-bold text-3xl cursor-pointer">Sci-Fi & Fantasy</p>
+      <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= TvGenre.where(genre_name: 'Sci-Fi & Fantasy').pluck(:genre_id) %>)">View All</button>
+    </div>
+    <div class="flex flex-row overflow-x-auto">
+      <% @sci_fi_fantasy['results']&.each do |playing| %>
+        <%= render 'home/tv_card', playing: playing %>
+      <% end %>
+    </div>
+  </div>
+  <div class="genre flex flex-col bottom-0 w-full mt-[2rem]">
+    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
+      <p class="genre-title font-bold text-3xl cursor-pointer">Comedy</p>
+      <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= TvGenre.where(genre_name: 'Comedy').pluck(:genre_id) %>)">View All</button>
+    </div>
+    <div class="flex flex-row overflow-x-auto">
+      <% @comedy['results']&.each do |playing| %>
+        <%= render 'home/tv_card', playing: playing %>
+      <% end %>
+    </div>
+  </div>
+  <div id="genre_loader" style="display: none; justify-content: space-evenly">
+    <div class="loader">
+      <div class="dot dot1"></div>
+      <div class="dot dot2"></div>
+      <div class="dot dot3"></div>
+    </div>
+  </div>
+  <%= render 'home/season_modal' %>
+  <%= render 'tv_shows/view_all_modal' %>
+</main>
+<%= javascript_include_tag('slick') %>
+<%#= javascript_include_tag('home/season_modal') %>
+<%= javascript_include_tag('home/home_modal') %>
+
+<script>
+    $(document).ready(function () {
+        localStorage.setItem('scroll_time', '0')
+    })
+
+    function hideViewModal(){
+        $('#viewShowModal').hide()
+        document.getElementById('indexFile').style.overflow = ''
+        $('#overlay').hide();
+    }
+
+    function openViewModal(genre_ids) {
+        const loaderContainer = document.getElementById("loader-container");
+        loaderContainer.style.display = "flex";
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type: 'POST',
+            url: 'specific_genre_shows',
+            data: { authenticity_token: csrfToken, genre_ids: genre_ids },
+            success: function (response) {
+                var innerModal = $('#viewInnerShowModal')
+                innerModal.empty()
+                innerModal.append(response.entries)
+                document.getElementById('viewShowModal').style.display = 'flex'
+                document.getElementById('viewShowModal').style.justifyContent = 'center'
+                localStorage.setItem('viewCurrentPage', '1')
+                $('#overlay').show();
+                loaderContainer.style.display = "none";
+            }
+        })
+    }
+</script>

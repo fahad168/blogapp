@@ -1,0 +1,2 @@
+class TvGenre < ApplicationRecord
+end

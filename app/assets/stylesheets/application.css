@@ -180,3 +180,46 @@ p{
     -webkit-line-clamp: 5; /* Adjust this number to set the maximum number of lines to display */
     overflow: hidden;
 }
+
+.shadow-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.background-text {
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.animated-text {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.gradient-text {
+    background-image: linear-gradient(to right, red, white);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.custom-font-text {
+    font-family: 'Pacifico', cursive;
+}
+
+.outlined-text {
+    border: 2px solid #3498db;
+}
+

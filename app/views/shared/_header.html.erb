@@ -7,22 +7,22 @@
     </div>
     <ul class="absolute md:static shadow md:shadow-none z-50 md:z-30 p-5 md:p-0 hidden md:flex gap-8 items-center">
       <li>
-        <%= link_to "Home", '/', class: "block hover:text-[white] py-2 robo-font text-base text-[grey] #{'text-base font-medium text-[white]' if params[:controller] == 'home'}" %>
+        <%= link_to "Home", '/', class: "block hover:text-[white] py-2 robo-font text-base #{params[:controller] == 'home' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
       <li>
-        <%= link_to "Movies", '/movies', class: "block hover:text-[white] py-2 robo-font text-base text-[grey]" %>
+        <%= link_to "Movies", '/movies', class: "block hover:text-[white] py-2 robo-font text-base #{params[:controller] == 'movies' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
       <li>
-        <%= link_to "Series", '', class: "block hover:text-[white] py-2 robo-font text-base text-[grey]" %>
+        <%= link_to "TV Shows", '/tv_shows', class: "block hover:text-[white] py-2 robo-font text-base #{params[:controller] == 'tv_shows' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
       <li>
-        <%= link_to "Premium", '', class: "block hover:text-[white] py-2 robo-font text-base text-[grey]" %>
+        <%= link_to "Premium", '', class: "block hover:text-[white] py-2 robo-font text-base text-[white]" %>
       </li>
       <li>
-        <%= link_to "About", '', class: "block hover:text-[white] py-2 robo-font text-base text-[grey]" %>
+        <%= link_to "About", '', class: "block hover:text-[white] py-2 robo-font text-base text-[white]" %>
       </li>
     </ul>
-    <button class="bg-[red] w-[6rem] h-[3rem] rounded-lg">
+    <button class="bg-[white] w-[6rem] h-[3rem] rounded-lg">
       Sign Up
     </button>
   </div>

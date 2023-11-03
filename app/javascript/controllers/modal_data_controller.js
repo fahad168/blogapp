@@ -34,6 +34,7 @@ export default class extends Controller {
             dataType: 'json',
             success: (data) => {
                 var modal = $('#seasonInnerModal')
+                document.getElementById('viewShowModal').style.display = 'none'
                 modal.empty()
                 modal.append(data.entries)
                 $('.nice-select').niceSelect()
@@ -86,17 +87,45 @@ export default class extends Controller {
             loaderContainer.style.display = "flex";
             var scrollTime = localStorage.getItem('scroll_time')
             var nextScroll = parseInt(scrollTime) + 1
-            localStorage.setItem('scroll_time', nextScroll.toString())
-            let url = `${window.location.href}?next_scroll=${nextScroll}`
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'json',
-                success: (data) => {
-                    $('#indexFile').append(data.entries)
-                    loaderContainer.style.display = "none";
-                }
-            })
+            if(nextScroll <= 4) {
+                localStorage.setItem('scroll_time', nextScroll.toString())
+                let url = `${window.location.href}?next_scroll=${nextScroll}`
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: (data) => {
+                        $('#indexFile').append(data.entries)
+                        loaderContainer.style.display = "none";
+                    }
+                })
+            }
+        }
+    }
+
+    shows_scroll() {
+        var body = document.body,
+            html = document.documentElement
+        var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
+
+        if (window.pageYOffset >= height - window.innerHeight - 200) {
+            const loaderContainer = document.getElementById("genre_loader");
+            loaderContainer.style.display = "flex";
+            var scrollTime = localStorage.getItem('scroll_time')
+            var nextScroll = parseInt(scrollTime) + 1
+            if(nextScroll <= 3) {
+                localStorage.setItem('scroll_time', nextScroll.toString())
+                let url = `${window.location.href}?next_scroll=${nextScroll}`
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: (data) => {
+                        $('#indexFile').append(data.entries)
+                        loaderContainer.style.display = "none";
+                    }
+                })
+            }
         }
     }
 }

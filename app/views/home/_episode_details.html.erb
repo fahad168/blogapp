@@ -1,6 +1,10 @@
 <% @episode_details['episodes'].each do |episode| %>
    <a class="episode_card cursor-pointer flex flex-row justify-start">
-    <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= episode['still_path'] %>" class="object-contain">
+     <% if episode['still_path'].present? %>
+       <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= episode['still_path'] %>" class="object-contain">
+     <% else %>
+       <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image" class="object-contain">
+     <% end %>
     <div class="flex flex-col ml-6 w-full">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row">

@@ -1,0 +1,22 @@
+<a class="card ml-[1.875rem] mb-[1rem] cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_movie_data" data-movie-id="<%= playing['id'] %>">
+  <% if playing['poster_path'].present? %>
+    <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="Poster Image">
+  <% else %>
+    <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
+  <% end %>
+  <div class="descriptions flex flex-col justify-between">
+    <h1 class="truncate font-bold text-xl"><%= playing['original_title'] %></h1>
+    <p class="line-clamp-5"><%= playing['overview'] %></p>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-row"><p class="text-[red] font-bold">Rating:</p>
+        <p class="ml-2"><%= playing['vote_average'] %>/10</p></div>
+      <div class="flex flex-row"><p class="text-[red] font-bold">Votes:</p>
+        <p class="ml-2"><%= playing['vote_count'] %></p></div>
+      <% if playing['release_date'].present? %>
+        <div class="flex flex-row"><p class="text-[red] font-bold">Year:</p>
+          <p class="ml-2"><%= playing['release_date'].split('-').first %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</a>
