@@ -1,26 +1,12 @@
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#shows_scroll" onload="init()">
   <%= render "shared/header" %>
   <div class="single-item -mt-[88px]">
-    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].first['id']  %>">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].first['backdrop_path'] %>" class="h-full w-full">
-      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-    </div>
-    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].second['id']  %>">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].second['backdrop_path'] %>" class="h-full w-full">
-      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-    </div>
-    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].third['id']  %>">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].third['backdrop_path'] %>" class="h-full w-full">
-      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-    </div>
-    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].fourth['id']  %>">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].fourth['backdrop_path'] %>" class="h-full w-full">
-      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-    </div>
-    <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= @popular_seasons['results'].fifth['id']  %>">
-      <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= @popular_seasons['results'].fifth['backdrop_path'] %>" class="h-full w-full">
-      <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-    </div>
+    <% @popular_seasons['results'].each_with_index do |season, index| %>
+      <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= season['id'] %>">
+        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full">
+        <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+      </div>
+    <% end %>
   </div>
   <div class="genre flex flex-col -mb-[15rem] bottom-0 w-full absolute">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">

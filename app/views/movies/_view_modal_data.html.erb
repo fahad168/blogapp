@@ -17,12 +17,14 @@
   <div class="flex flex-row flex-wrap mb-[1rem]" id="viewModalData">
     <%= render 'movies/view_modal_card' %>
   </div>
-  <div id="load_more">
-    <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
-    <button data-controller="view-modal" data-action="click->view-modal#scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>">
-      <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0">
-    </button>
-  </div>
+  <% unless params[:q].present? %>
+    <div id="load_more">
+      <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
+      <button data-controller="view-modal" data-action="click->view-modal#scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>">
+        <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0">
+      </button>
+    </div>
+  <% end %>
 </div>
 
 <script>
@@ -30,6 +32,7 @@
     input.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             const loaderContainer = document.getElementById("loader-container");
+            localStorage.setItem('viewSearchPage', '1')
             loaderContainer.style.display = "flex";
             var movie_name = input.value
             var genre_name = '<%= @genre_name %>'
@@ -43,15 +46,41 @@
             $.ajax({
                 type: 'POST',
                 url: `/specific_genre_movies?q=${movie_name}&genre_name=${genre_name}`,
-                data: { q: movie_name, genre_name: genre_ids, genre_ids: genre_ids, authenticity_token: csrfToken, key: 'search' },
+                data: { q: movie_name, genre_name: genre_name, genre_ids: genre_ids, authenticity_token: csrfToken, key: 'search' },
                 success: function (response) {
                     document.getElementById('load_more').style.display = "none"
                     var modal = $('#viewModalData')
                     modal.empty()
                     modal.append(response.entries)
+                    add_load_more()
                     loaderContainer.style.display = "none";
                 }
             })
         }
     });
+
+    function add_load_more() {
+        const loadMoreDiv = document.createElement('div');
+        loadMoreDiv.setAttribute('id', 'load_more_search')
+        const borderBottom = document.createElement('div');
+        borderBottom.style.borderBottom = '2px solid white';
+        borderBottom.classList.add('ml-7', 'mr-7');
+
+        const button = document.createElement('button');
+        button.dataset.controller = 'view-modal';
+        button.dataset.action = 'click->view-modal#search_scroll';
+        button.dataset.url = '<%= ENV['WEBSITE_URL'] %>';
+        button.dataset.searchKey = '<%= params[:q] %>';
+        button.dataset.genreIds = '<%= params[:genre_ids] %>';
+        button.dataset.genreName = '<%= @genre_name %>';
+
+        const img = document.createElement('img');
+        img.src = '<%= asset_path('view_more.svg') %>';
+        img.classList.add('w-8', 'h-8', 'ml-[35rem]', '-mt-[2.3rem]', 'bg-[#141414]', 'sepia', 'hover:sepia-0');
+
+        button.appendChild(img);
+        loadMoreDiv.appendChild(borderBottom);
+        loadMoreDiv.appendChild(button);
+        $('#moviedate').append(loadMoreDiv)
+    }
 </script>

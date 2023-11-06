@@ -51,13 +51,13 @@ class MoviesController < ApplicationController
 
   def get_scroll_4
     @category1 = "Horror"
-    @result1 = JSON.parse(Home::MovieService.get_genre_movies(@category3))
+    @result1 = JSON.parse(Home::MovieService.get_genre_movies(@category1))
     @category2 = "Thriller"
-    @result2 = JSON.parse(Home::MovieService.get_genre_movies(@category1))
+    @result2 = JSON.parse(Home::MovieService.get_genre_movies(@category2))
     @category3 = "War"
-    @result3 = JSON.parse(Home::MovieService.get_genre_movies(@category2))
+    @result3 = JSON.parse(Home::MovieService.get_genre_movies(@category3))
     @category4 = "Western"
-    @result4 = JSON.parse(Home::MovieService.get_genre_movies(@category3))
+    @result4 = JSON.parse(Home::MovieService.get_genre_movies(@category4))
     render json: { entries: render_to_string(partial: 'movies/index_genres_category', formats: [:html]) }
   end
 
@@ -70,7 +70,7 @@ class MoviesController < ApplicationController
   end
 
   def specific_genre_movies
-    if params[:q].present?
+    if params[:q].present? && params[:q] != ""
       filter_movies_by_name(params)
     else
       genre_ids = params[:genre_ids].is_a?(Array) ? params[:genre_ids].join(',') : JSON.parse(params[:genre_ids]).join(',')
@@ -86,8 +86,9 @@ class MoviesController < ApplicationController
 
   def filter_movies_by_name(params)
     search_results = JSON.parse(Home::MovieService.search_movie(params))
-    genre_name = params[:genre_name]
-    genre_id = case genre_name
+    @total_pages = search_results['total_pages']
+    @genre_name = params[:genre_name]
+    genre_id = case @genre_name
                when 'Science'
                  Genre.find_by(genre_name: 'Science Fiction')&.genre_id
                when 'Action'
@@ -95,7 +96,6 @@ class MoviesController < ApplicationController
                else
                  Genre.find_by(genre_name: genre_name)&.genre_id
                end
-
     if search_results['results'].present?
       @specific_genre = search_results['results'].select do |result|
         Array(genre_id).any? { |id| result['genre_ids'].include?(id) }
@@ -104,6 +104,10 @@ class MoviesController < ApplicationController
       @message = "Not Found Any Movie With Name #{params[:q]}"
     end
 
-    render json: { entries: render_to_string(partial: 'movies/view_modal_card', formats: [:html]) }
+    if params[:next_page].present?
+      render json: { entries: render_to_string(partial: 'movies/view_modal_card', formats: [:html]) }
+    else
+      render json: { entries: render_to_string(partial: 'movies/view_modal_data', formats: [:html]) }
+    end
   end
 end

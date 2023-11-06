@@ -26,7 +26,7 @@ class Home::TvShowService
   end
 
   def self.popular_shows
-    url = URI("#{ENV['TMBD_BASE_URL']}/tv/popular")
+    url = URI("#{ENV['TMBD_BASE_URL']}/#{ENV['TMBD_DISCOVER_TV']}?first_air_date_year=#{Date.today.year}&vote_average.gte=10")
     base_method(url)
   end
 
@@ -37,37 +37,37 @@ class Home::TvShowService
 
   def self.action_adventure
     with_genre_ids = TvGenre.where(genre_name: 'Action & Adventure').pluck(:genre_id)
-    without_genre_ids = TvGenre.where.not(genre_name: 'Action & Adventure').pluck(:genre_id)
-    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=vote_count.desc&with_genres=#{with_genre_ids.join(',')}&without_genres=#{without_genre_ids.join(',')}")
+    # without_genre_ids = TvGenre.where(genre_name: 'Sci-Fi & Fantasy').pluck(:genre_id)
+    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=vote_count.desc&with_genres=#{with_genre_ids.join(',')}")
     base_method(url)
   end
 
   def self.sci_fi_fantasy
     with_genre_ids = TvGenre.where(genre_name: 'Sci-Fi & Fantasy').pluck(:genre_id)
-    without_genre_ids = TvGenre.where.not(genre_name: 'Sci-Fi & Fantasy').pluck(:genre_id)
-    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=popularity.desc&with_genres=#{with_genre_ids.join(',')}&without_genres=#{without_genre_ids.join(',')}")
+    # without_genre_ids = TvGenre.where(genre_name: 'Action & Adventure').pluck(:genre_id)
+    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=popularity.desc&with_genres=#{with_genre_ids.join(',')}")
     base_method(url)
   end
 
   def self.comedy
     with_genre_ids = TvGenre.where(genre_name: 'Comedy').pluck(:genre_id)
     without_genre_ids = TvGenre.where.not(genre_name: 'Comedy').pluck(:genre_id)
-    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=popularity.desc&with_genres=#{with_genre_ids.join(',')}&without_genres=#{without_genre_ids.join(',')}")
+    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=popularity.desc&with_genres=#{with_genre_ids.join(',')}")
     base_method(url)
   end
 
   def self.specifics_genres(params, genre_ids)
     # genre_ids = params[:genre_ids].is_a?(Array) ? params[:genre_ids].join(',') : JSON.parse(params[:genre_ids]).join(',')
-    without_genre_ids = TvGenre.where.not(genre_id: params[:genre_ids].is_a?(Array) ? params[:genre_ids] : JSON.parse(params[:genre_ids])).pluck(:genre_id)
-    previous_year = Date.today.year - 2
-    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?with_genres=#{genre_ids}&without_genres=#{without_genre_ids.join(',')}&primary_release_date.gte=#{previous_year}-01-01&primary_release_date.lte=#{Date.today.strftime('%Y-%m-%d')}&with_original_language=en&origin=US#{params[:next_page].present? ? "&page=#{params[:next_page]}" : ''}")
+    # without_genre_ids = TvGenre.where.not(genre_id: params[:genre_ids].is_a?(Array) ? params[:genre_ids] : JSON.parse(params[:genre_ids])).pluck(:genre_id)
+    # previous_year = Date.today.year - 2
+    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?sort_by=popularity.desc&with_genres=#{genre_ids}#{params[:next_page].present? ? "&page=#{params[:next_page]}" : ''}")
     base_method(url)
   end
 
   def self.get_genre_shows(name)
     with_genre_ids = TvGenre.where(genre_name: name).pluck(:genre_id)
-    without_genre_ids = TvGenre.where.not(genre_name: name).pluck(:genre_id)
-    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?with_genres=#{with_genre_ids.join(',')}&without_genres=#{without_genre_ids.join(',')}")
+    # without_genre_ids = TvGenre.where.not(genre_name: name).pluck(:genre_id)
+    url = URI("#{ENV['TMBD_BASE_URL']}/discover/tv?with_genres=#{with_genre_ids.join(',')}")
     base_method(url)
   end
 
