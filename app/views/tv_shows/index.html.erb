@@ -1,7 +1,7 @@
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#shows_scroll" onload="init()">
   <%= render "shared/header" %>
   <div class="single-item -mt-[88px]">
-    <% @popular_seasons['results'].each_with_index do |season, index| %>
+    <% @popular_seasons['results']&.each_with_index do |season, index| %>
       <div class="relative h-screen cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= season['id'] %>">
         <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full">
         <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
