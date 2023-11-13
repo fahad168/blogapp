@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   post '/specific_genre_movies', to: 'movies#specific_genre_movies'
   get '/tv_shows', to: 'tv_shows#index'
   post '/specific_genre_shows', to: 'tv_shows#specific_genre_shows'
+  get '/watch_season_episodes', to: 'tv_shows#watch_season_episodes'
 end

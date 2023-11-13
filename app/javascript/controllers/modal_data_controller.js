@@ -34,7 +34,10 @@ export default class extends Controller {
             dataType: 'json',
             success: (data) => {
                 var modal = $('#seasonInnerModal')
-                document.getElementById('viewShowModal').style.display = 'none'
+                var showModal = document.getElementById('viewShowModal')
+                if (showModal) {
+                    showModal.style.display = 'none'
+                }
                 modal.empty()
                 modal.append(data.entries)
                 $('.nice-select').niceSelect()

@@ -72,7 +72,7 @@ class Home::TvShowService
   end
 
   def self.search_show(params)
-    url = URI("#{ENV['TMBD_BASE_URL']}/search/tv?query=#{params[:q]}")
+    url = URI("#{ENV['TMBD_BASE_URL']}/search/tv?query=#{params[:q]}#{params[:next_page].present? ? "&page=#{params[:next_page]}" : ''}")
     base_method(url)
   end
 end

@@ -52,7 +52,11 @@
                     var modal = $('#viewModalData')
                     modal.empty()
                     modal.append(response.entries)
-                    add_load_more()
+                    var total_pages = '<%= @total_pages %>'
+                    var current_page = localStorage.getItem('viewSearchPage')
+                    if(parseInt(current_page) <= parseInt(total_pages) || total_pages === ""){
+                        add_load_more()
+                    }
                     loaderContainer.style.display = "none";
                 }
             })
@@ -60,6 +64,10 @@
     });
 
     function add_load_more() {
+        var load = $('#load_more_search')
+        if(load){
+            load.remove()
+        }
         const loadMoreDiv = document.createElement('div');
         loadMoreDiv.setAttribute('id', 'load_more_search')
         const borderBottom = document.createElement('div');
@@ -73,6 +81,7 @@
         button.dataset.searchKey = '<%= params[:q] %>';
         button.dataset.genreIds = '<%= params[:genre_ids] %>';
         button.dataset.genreName = '<%= @genre_name %>';
+        button.dataset.totalPages = '<%= @total_pages %>';
 
         const img = document.createElement('img');
         img.src = '<%= asset_path('view_more.svg') %>';

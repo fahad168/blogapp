@@ -72,14 +72,15 @@ class TvShowsController < ApplicationController
 
   def filter_shows_by_name(params)
     search_results = JSON.parse(Home::TvShowService.search_show(params))
-    genre_name = params[:genre_name]
-    genre_id = case genre_name
+    @total_pages = search_results['total_pages']
+    @genre_name = params[:genre_name]
+    genre_id = case @genre_name
                when 'Sci-Fi'
                  TvGenre.find_by(genre_name: 'Sci-Fi & Fantasy')&.genre_id
                when 'Action'
                  TvGenre.find_by(genre_name: 'Action & Adventure')&.genre_id
                else
-                 TvGenre.find_by(genre_name: genre_name)&.genre_id
+                 TvGenre.find_by(genre_name: @genre_name)&.genre_id
                end
     if search_results['results'].present?
       @specific_genre = search_results['results'].select do |result|
@@ -88,7 +89,16 @@ class TvShowsController < ApplicationController
     else
       @message = "No Show Found With Name #{params[:q]}"
     end
-    render json: { entries: render_to_string(partial: 'tv_shows/view_modal_card', formats: [:html]) }
+
+    if params[:next_page].present?
+      render json: { entries: render_to_string(partial: 'tv_shows/view_modal_card', formats: [:html]) }
+    else
+      render json: { entries: render_to_string(partial: 'tv_shows/view_modal_data', formats: [:html]) }
+    end
+  end
+
+  def watch_season_episodes
+
   end
 
 end

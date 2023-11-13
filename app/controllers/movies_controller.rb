@@ -94,7 +94,7 @@ class MoviesController < ApplicationController
                when 'Action'
                  Genre.where(genre_name: %w[Action Adventure]).pluck(:genre_id)
                else
-                 Genre.find_by(genre_name: genre_name)&.genre_id
+                 Genre.find_by(genre_name: @genre_name)&.genre_id
                end
     if search_results['results'].present?
       @specific_genre = search_results['results'].select do |result|

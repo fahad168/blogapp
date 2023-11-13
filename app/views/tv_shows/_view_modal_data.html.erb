@@ -1,4 +1,4 @@
-<div class="relative bg-[#141414] rounded-lg shadow dark:bg-gray-700" id="moviedate">
+<div class="relative bg-[#141414] rounded-lg shadow dark:bg-gray-700" id="seasonData">
   <% if params[:genre_ids].is_a?(Array) %>
     <div class="absolute flex items-center justify-between -m-3 rounded-2xl bg-white place-self-end" style="z-index: 1">
       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="hideViewModal()">
@@ -14,13 +14,17 @@
     </div>
   <% end %>
   <input hidden id="genre_ids" value="<%= params[:genre_ids] %>">
-  <div class="flex flex-row flex-wrap mb-[1rem]" id="viewModalData">
+  <div class="flex flex-row flex-wrap mb-[1rem]" id="viewSeasonModalData">
     <%= render 'tv_shows/view_modal_card' %>
   </div>
-  <div id="load_more">
-    <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
-    <button data-controller="view-modal" data-action="click->view-modal#show_scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>"><img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0"></button>
-  </div>
+  <% unless params[:q].present? %>
+    <div id="load_more">
+      <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
+      <button data-controller="view-modal" data-action="click->view-modal#show_scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>">
+        <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.3rem] bg-[#141414] sepia hover:sepia-0">
+      </button>
+    </div>
+  <% end %>
 </div>
 
 <script>
@@ -29,6 +33,7 @@
         if (event.key === "Enter") {
             const loaderContainer = document.getElementById("loader-container");
             loaderContainer.style.display = "flex";
+            localStorage.setItem('viewSearchPage', '1')
             var series_name = input.value
             var genre_name = '<%= @genre_name %>'
             var genre_ids = document.getElementById('genre_ids').value
@@ -44,12 +49,47 @@
                 data: { q: series_name, genre_name: genre_name, authenticity_token: csrfToken, genre_ids: genre_ids },
                 success: function (response) {
                     document.getElementById('load_more').style.display = "none"
-                    var modal = $('#viewModalData')
+                    var modal = $('#viewSeasonModalData')
                     modal.empty()
                     modal.append(response.entries)
+                    var total_pages = '<%= @total_pages %>'
+                    var current_page = localStorage.getItem('viewSearchPage')
+                    if(parseInt(current_page) <= parseInt(total_pages) || total_pages === ""){
+                        add_load_more()
+                    }
                     loaderContainer.style.display = "none";
                 }
             })
         }
     });
+
+    function add_load_more() {
+        var load = $('#load_more_search')
+        if(load){
+            load.remove()
+        }
+        const loadMoreDiv = document.createElement('div');
+        loadMoreDiv.setAttribute('id', 'load_more_search')
+        const borderBottom = document.createElement('div');
+        borderBottom.style.borderBottom = '2px solid white';
+        borderBottom.classList.add('ml-7', 'mr-7');
+
+        const button = document.createElement('button');
+        button.dataset.controller = 'view-modal';
+        button.dataset.action = 'click->view-modal#search_season_scroll';
+        button.dataset.url = '<%= ENV['WEBSITE_URL'] %>';
+        button.dataset.searchKey = '<%= params[:q] %>';
+        button.dataset.genreIds = '<%= params[:genre_ids] %>';
+        button.dataset.genreName = '<%= @genre_name %>';
+        button.dataset.totalPages = '<%= @total_pages %>';
+
+        const img = document.createElement('img');
+        img.src = '<%= asset_path('view_more.svg') %>';
+        img.classList.add('w-8', 'h-8', 'ml-[35rem]', '-mt-[2.3rem]', 'bg-[#141414]', 'sepia', 'hover:sepia-0');
+
+        button.appendChild(img);
+        loadMoreDiv.appendChild(borderBottom);
+        loadMoreDiv.appendChild(button);
+        $('#seasonData').append(loadMoreDiv)
+    }
 </script>

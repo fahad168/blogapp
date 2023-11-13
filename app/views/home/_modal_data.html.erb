@@ -32,10 +32,13 @@
   <% end %>
   <div>
     <div class="flex flex-col">
-      <p class="text-4xl pl-5 font-bold"><%= @movie_detail['original_title'] %></p>
+      <div class="flex flex-row justify-between">
+        <p class="text-4xl pl-5 font-bold mt-3"><%= @movie_detail['original_title'] %></p>
+        <button class="text-white dark:text-white-400 ml-2 bg-[green] p-2 rounded-lg mt-3 mr-7" onclick="open_movie('<%= @movie_detail['id'] %>')">Watch Now</button>
+      </div>
       <div class="flex flex-row pl-5 mt-2">
         <p class="text-gray-500 dark:text-gray-400"><%= @movie_detail['release_date'].split('-').first %></p>
-        <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h<%= @movie_detail['runtime'] % 60 %>m</p>
+        <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h <%= @movie_detail['runtime'] % 60 %>m</p>
       </div>
       <div class="pl-5 mt-3">
         <p class="text-gray-500 dark:text-gray-400">
@@ -87,3 +90,17 @@
     <% end %>
   </div>
 </div>
+<%= render 'home/movie_play_modal' %>
+
+<script>
+    function open_movie(tmdb_id) {
+        var dynamicUrl = `https://moviesapi.club/movie/${tmdb_id}`;
+        var iframe = document.getElementById('movieIframe');
+        iframe.src = dynamicUrl;
+        document.getElementById('moviePlayModal').style.display = "flex"
+    }
+
+    function hideMovie() {
+        document.getElementById('moviePlayModal').style.display = "none"
+    }
+</script>
