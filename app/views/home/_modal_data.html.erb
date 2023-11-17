@@ -32,11 +32,14 @@
   <% end %>
   <div>
     <div class="flex flex-col">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between w-full">
         <p class="text-4xl pl-5 font-bold mt-3"><%= @movie_detail['original_title'] %></p>
-        <button class="text-white dark:text-white-400 ml-2 bg-[green] p-2 rounded-lg mt-3 mr-7" onclick="open_movie('<%= @movie_detail['id'] %>')">Watch Now</button>
+        <div class="w-[20%]">
+          <button class="text-white dark:text-white-400 ml-2 bg-[green] p-3 rounded-lg mt-3 mr-7 zoom-on-hover" onclick="open_movie('<%= @movie_detail['id'] %>')">Watch Now</button>
+        </div>
       </div>
-      <div class="flex flex-row pl-5 mt-2">
+      <div class="flex flex-row pl-5 mt-2 items-center">
+        <img src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="show_toast()">
         <p class="text-gray-500 dark:text-gray-400"><%= @movie_detail['release_date'].split('-').first %></p>
         <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h <%= @movie_detail['runtime'] % 60 %>m</p>
       </div>
@@ -102,5 +105,18 @@
 
     function hideMovie() {
         document.getElementById('moviePlayModal').style.display = "none"
+    }
+
+    function show_toast() {
+        $.toast({
+            heading: 'Warning',
+            text: 'Needs Sign In before Adding to Favourites',
+            showHideTransition: 'slide',
+            position: 'top-right',
+            icon: 'warning',
+            hideAfter: 5000,
+            bgColor: 'red',
+            textColor: 'white'
+        })
     }
 </script>

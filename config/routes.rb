@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }, skip: :registrations
+  devise_scope :user do
+    get '/users/sign_up' => 'registrations#new', as: :new_user_registration
+    post '/users/sign_up' => 'registrations#create', as: :user_registration
+    post '/users/google_onetap_callback', to: 'omniauth_callbacks#google_onetap', as: :google_onetap_callback
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -13,4 +19,5 @@ Rails.application.routes.draw do
   get '/tv_shows', to: 'tv_shows#index'
   post '/specific_genre_shows', to: 'tv_shows#specific_genre_shows'
   get '/watch_season_episodes', to: 'tv_shows#watch_season_episodes'
+  get '/profile', to: 'profile#index'
 end
