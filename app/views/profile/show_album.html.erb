@@ -1,0 +1,53 @@
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
+  <%= render "shared/header" %>
+  <div class="single-item -mt-[88px]">
+    <%= render "home/background_images" %>
+  </div>
+  <div class="genre flex flex-col -mt-[5rem] bottom-0 w-full absolute">
+    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
+      <p class="genre-title font-bold text-3xl cursor-pointer"><%= @album.title %> by <%= @user.username %></p>
+    </div>
+    <div class="flex flex-row flex-wrap overflow-x-auto">
+      <% if @album.album_contents.present? %>
+        <% @album.album_contents.each do |content| %>
+          <a class="card ml-[1.875rem] cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_movie_data" data-movie-id="<%= content.movie_id %>">
+            <% if content.img_url.present? %>
+              <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= content.img_url %>">
+            <% else %>
+              <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
+            <% end %>
+            <div class="descriptions flex flex-col justify-between">
+              <h1 class="truncate font-bold text-xl"><%= content.original_title %></h1>
+              <p class="line-clamp-5"><%= content.description %></p>
+              <div class="flex flex-row justify-between">
+                <div class="flex flex-row"><p class="text-[red] font-bold">Rating:</p>
+                  <p class="ml-2"><%= content.rating %>/10</p></div>
+                <div class="flex flex-row"><p class="text-[red] font-bold">Votes:</p>
+                  <p class="ml-2"><%= content.votes %></p></div>
+                <% if content.release_date.present? %>
+                  <div class="flex flex-row"><p class="text-[red] font-bold">Year:</p>
+                    <p class="ml-2"><%= content.release_date.split('-').first %></p></div>
+                <% end %>
+              </div>
+            </div>
+          </a>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= render 'home/movie_modal' %>
+</main>
+<%= javascript_include_tag('slick') %>
+<script>
+    $('.single-item').slick({
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: false
+    })
+
+    function hideModal() {
+        $('#movieModal').hide()
+        document.getElementById('indexFile').style.overflow = ''
+        $('#overlay').hide();
+    }
+</script>

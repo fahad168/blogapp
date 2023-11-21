@@ -5,7 +5,10 @@ export default class extends Controller {
     static targets = ['movieData']
     get_movie_data() {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         const movieId = this.element.getAttribute('data-movie-id');
         $.ajax({
             type: 'GET',
@@ -26,7 +29,10 @@ export default class extends Controller {
 
     get_season_data() {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         const seasonId = this.element.getAttribute('data-season-id');
         $.ajax({
             type: 'GET',

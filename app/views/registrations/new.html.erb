@@ -49,18 +49,3 @@
     </div>
   </div>
 </div>
-
-<% if flash[:alert].present? %>
-  <script>
-      $.toast({
-          heading: 'Error',
-          text: '<%= flash[:alert] %>',
-          showHideTransition: 'slide',
-          position: 'top-right',
-          icon: 'error',
-          hideAfter: 5000,
-          bgColor: 'red',
-          textColor: 'black'
-      })
-  </script>
-<% end %>

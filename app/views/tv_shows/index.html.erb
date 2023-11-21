@@ -78,7 +78,10 @@
 
     function openViewModal(genre_ids) {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        loaderContainer.style.display = "block";
+        overlay.style.display = "block";
+        overlay.classList.remove('hidden')
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             type: 'POST',
@@ -93,6 +96,8 @@
                 localStorage.setItem('viewCurrentPage', '1')
                 $('#overlay').show();
                 loaderContainer.style.display = "none";
+                overlay.style.display = "none";
+                overlay.classList.add('hidden')
             }
         })
     }

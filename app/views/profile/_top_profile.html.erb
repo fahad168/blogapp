@@ -1,0 +1,17 @@
+<div class="relative">
+  <div class="h-[25rem] background-bg1 flex flex-row justify-start">
+    <div class="w-[10rem] h-[10rem] bg-[white] rounded-full absolute ml-[25rem] mt-[6rem]">
+      <img src="<%= asset_path('user.svg') %>">
+    </div>
+    <div class="ml-[37rem] flex flex-col justify-start mt-[7.5rem]">
+      <p class="font-bold text-white mb-10"><%= current_user.username %></p>
+      <p class="font-bold text-white"><%= current_user.email %></p>
+    </div>
+    <div class="ml-[20rem] flex flex-col justify-start mt-[7.5rem]">
+      <p class="font-bold text-white">Followers: 0</p>
+      <p class="font-bold text-white">Followings: 0</p>
+      <p class="font-bold text-white">Profile Views: 0</p>
+    </div>
+  </div>
+  <div class="absolute inset-x-0 bottom-0 h-[10rem] bg-gradient-to-t from-black to-transparent"></div>
+</div>

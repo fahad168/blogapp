@@ -20,4 +20,10 @@ Rails.application.routes.draw do
   post '/specific_genre_shows', to: 'tv_shows#specific_genre_shows'
   get '/watch_season_episodes', to: 'tv_shows#watch_season_episodes'
   get '/profile', to: 'profile#index'
+  get '/albums', to: 'profile#albums'
+  post '/create_album', to: 'profile#create_album'
+  get '/album/:username/:album_title', to: 'profile#show_album'
+  get '/album', to: 'profile#show_album_data'
+  get '/movies_dropdown_data', to: 'profile#movies_dropdown_data'
+  get '/show_dropdown_data', to: 'profile#show_dropdown_data'
 end

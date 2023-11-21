@@ -34,8 +34,8 @@
     <div class="flex flex-col">
       <div class="flex flex-row justify-between w-full">
         <p class="text-4xl pl-5 font-bold mt-3"><%= @movie_detail['original_title'] %></p>
-        <div class="w-[20%]">
-          <button class="text-white dark:text-white-400 ml-2 bg-[green] p-3 rounded-lg mt-3 mr-7 zoom-on-hover" onclick="open_movie('<%= @movie_detail['id'] %>')">Watch Now</button>
+        <div class="w-[25%]">
+          <button class="watch" onclick="open_movie('<%= @movie_detail['id'] %>')"><span>Watch Now</span></button>
         </div>
       </div>
       <div class="flex flex-row pl-5 mt-2 items-center">

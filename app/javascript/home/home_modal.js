@@ -21,7 +21,7 @@ function hideSeasonModal() {
 }
 
 function get_episode_details() {
-    const loaderContainer = document.getElementById("loader-container");
+    const loaderContainer = document.getElementById("loader-container1");
     loaderContainer.style.display = "flex";
     const seriesId = document.getElementById('season_id').value
     var seasonNo = document.getElementById('season_select').value

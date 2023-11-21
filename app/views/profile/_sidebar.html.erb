@@ -1,0 +1,19 @@
+<div class="flex flex-col justify-start">
+  <ul class="p-5">
+    <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'index' ? 'bg-white text-black' : 'text-white' %>">
+      <%= link_to 'Profile', profile_path %>
+    </li>
+    <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'albums' ? 'bg-white text-black' : 'text-white' %>">
+      <%= link_to 'Albums', albums_path, data: {turbo: false} %>
+    </li>
+    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
+      Followers
+    </li>
+    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
+      Followings
+    </li>
+    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
+      Settings
+    </li>
+  </ul>
+</div>

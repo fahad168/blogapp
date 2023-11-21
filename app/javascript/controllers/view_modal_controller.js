@@ -3,7 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
     scroll () {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         var viewCurrentPage = localStorage.getItem('viewCurrentPage')
         var viewNextPage = parseInt(viewCurrentPage)
         viewNextPage += 1
@@ -20,13 +23,18 @@ export default class extends Controller {
             success: (data) => {
                 $('#viewModalData').append(data.entries)
                 loaderContainer.style.display = "none";
+                overlay.classList.add('hidden')
+                overlay.style.display = "none"
             }
         })
     }
 
     show_scroll () {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         var viewCurrentPage = localStorage.getItem('viewCurrentPage')
         var viewNextPage = parseInt(viewCurrentPage)
         viewNextPage += 1
@@ -43,13 +51,18 @@ export default class extends Controller {
             success: (data) => {
                 $('#viewModalData').append(data.entries)
                 loaderContainer.style.display = "none";
+                overlay.classList.add('hidden')
+                overlay.style.display = "none"
             }
         })
     }
 
     search_scroll() {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         var viewCurrentPage = localStorage.getItem('viewSearchPage')
         var viewNextPage = parseInt(viewCurrentPage)
         viewNextPage += 1
@@ -80,11 +93,16 @@ export default class extends Controller {
             })
         }
         loaderContainer.style.display = "none";
+        overlay.classList.add('hidden')
+        overlay.style.display = "none"
     }
 
     search_season_scroll() {
         const loaderContainer = document.getElementById("loader-container");
-        loaderContainer.style.display = "flex";
+        const overlay = document.getElementById("overlay");
+        overlay.classList.remove('hidden')
+        overlay.style.display = "block"
+        loaderContainer.style.display = "block";
         var viewCurrentPage = localStorage.getItem('viewSearchPage')
         var viewNextPage = parseInt(viewCurrentPage)
         viewNextPage += 1
@@ -115,5 +133,7 @@ export default class extends Controller {
             })
         }
         loaderContainer.style.display = "none";
+        overlay.classList.add('hidden')
+        overlay.style.display = "none"
     }
 }
