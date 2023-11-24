@@ -7,32 +7,35 @@
         <%= render 'profile/sidebar' %>
       </div>
       <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg">
-        <div class="flex flex-col mt-10 pr-[15rem] pl-[15rem]">
-          <label class="text-white mb-2">Username</label>
-          <input name="username" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" value="<%= current_user.username %>">
-        </div>
-        <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
-          <label class="text-white mb-2">Email</label>
-          <input name="email" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" value="<%= current_user.email %>" disabled>
-        </div>
-        <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
-          <label class="text-white mb-2">Current Password</label>
-          <input type="password" name="current_password" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="Current Password ....">
-        </div>
-        <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
-          <label class="text-white mb-2">New Password</label>
-          <input type="password" name="password" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="New Password ....">
-        </div>
-        <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
-          <label class="text-white mb-2">Password Confirmation</label>
-          <input type="password" name="password_confirmation" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="Password Confirmation ....">
-        </div>
-        <div class="flex flex-col mt-10 pr-[15rem] pl-[15rem] mb-10">
-          <button class="bg-red-500 hover:bg-red-400 cursor-pointer text-white font-bold py-2 mt-3 px-4 rounded focus:outline-none focus:shadow-outline">
-            Update
-          </button>
-        </div>
+        <%= form_with(url: '/profile/update', method: :post, data: { turbo: false }) do |f| %>
+          <div class="flex flex-col mt-10 pr-[15rem] pl-[15rem]">
+            <label class="text-white mb-2">Username</label>
+            <input name="username" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" value="<%= current_user.username %>">
+          </div>
+          <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
+            <label class="text-white mb-2">Email</label>
+            <input name="email" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" value="<%= current_user.email %>" disabled>
+          </div>
+          <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
+            <label class="text-white mb-2">Current Password</label>
+            <input type="password" name="current_password" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="Current Password ....">
+          </div>
+          <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
+            <label class="text-white mb-2">New Password</label>
+            <input type="password" name="password" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="New Password ....">
+          </div>
+          <div class="flex flex-col mt-3 pr-[15rem] pl-[15rem]">
+            <label class="text-white mb-2">Password Confirmation</label>
+            <input type="password" name="password_confirmation" class="shadow appearance-none border rounded w-full py-2 bg-transparent px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-white" placeholder="Password Confirmation ....">
+          </div>
+          <div class="flex flex-col mt-10 pr-[15rem] pl-[15rem] mb-10">
+            <button class="bg-red-500 hover:bg-red-400 cursor-pointer text-white font-bold py-2 mt-3 px-4 rounded focus:outline-none focus:shadow-outline">
+              Update
+            </button>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 </main>
+<%= javascript_include_tag('home/create_album') %>

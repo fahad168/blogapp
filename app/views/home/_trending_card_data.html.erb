@@ -11,10 +11,10 @@
   <p class="line-clamp-5"><%= playing['overview'] %></p>
   <div class="flex flex-row justify-between">
     <div class="flex flex-row"><p class="text-[red] font-bold">Rating:</p>
-      <p class="ml-2"><%= playing['vote_average'] %>/10</p></div>
+      <p class="ml-2 text-sm"><%= playing['vote_average'] %>/10</p></div>
     <div class="flex flex-row"><p class="text-[red] font-bold">Votes:</p>
-      <p class="ml-2"><%= playing['vote_count'] %></p></div>
+      <p class="ml-2 text-sm"><%= playing['vote_count'] %></p></div>
     <div class="flex flex-row"><p class="text-[red] font-bold">Year:</p>
-      <p class="ml-2"><%= playing['release_date'].split('-').first %></p></div>
+      <p class="ml-2 text-sm"><%= playing['release_date'].split('-').first %></p></div>
   </div>
 </div>

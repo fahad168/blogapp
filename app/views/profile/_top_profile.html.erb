@@ -1,17 +1,51 @@
 <div class="relative">
-  <div class="h-[25rem] background-bg1 flex flex-row justify-start">
-    <div class="w-[10rem] h-[10rem] bg-[white] rounded-full absolute ml-[25rem] mt-[6rem]">
-      <img src="<%= asset_path('user.svg') %>">
-    </div>
-    <div class="ml-[37rem] flex flex-col justify-start mt-[7.5rem]">
-      <p class="font-bold text-white mb-10"><%= current_user.username %></p>
-      <p class="font-bold text-white"><%= current_user.email %></p>
-    </div>
-    <div class="ml-[20rem] flex flex-col justify-start mt-[7.5rem]">
-      <p class="font-bold text-white">Followers: 0</p>
-      <p class="font-bold text-white">Followings: 0</p>
-      <p class="font-bold text-white">Profile Views: 0</p>
+  <div class="h-[25rem] flex items-center <%= current_user.cover_image.attached? ? '' : 'bg-[red]' %>" style="background-image: url(<%= current_user.cover_image.attached? ? rails_blob_url(current_user.cover_image) : 'background_image1' %>);background-position: center; object-fit: cover">
+    <div class="grid grid-cols-3 w-full">
+      <div class="bg-black h-[15rem] flex flex-row justify-end items-center pr-10 rounded-r-full" style="opacity: 60%">
+        <div class="flex flex-col justify-start mr-5">
+          <p class="font-bold text-white mb-10"><%= current_user.username %></p>
+          <p class="font-bold text-white"><%= current_user.email %></p>
+        </div>
+        <div class="flex flex-row justify-center">
+          <img src="<%= current_user.profile_image.attached? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover">
+        </div>
+      </div>
+      <div></div>
+      <div class="bg-black h-[15rem] w-full flex items-center rounded-l-full" style="opacity: 60%">
+        <div class="flex flex-row justify-evenly ml-[3rem] w-full">
+          <p class="font-bold text-white">Followers: 0</p>
+          <p class="font-bold text-whit`e">Followings: 0</p>
+          <p class="font-bold text-white">Profile Views: 0</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="absolute inset-x-0 bottom-0 h-[10rem] bg-gradient-to-t from-black to-transparent"></div>
+  <div class="absolute inset-x-0 bottom-0 h-[10rem] bg-gradient-to-t from-black to-transparent">
+    <div class="flex flex-col justify-end h-full">
+      <div class="flex flex-row justify-end mr-5">
+        <img src="<%= asset_path('gallery.svg') %>" class="cursor-pointer hover:opacity-75" id="dropdownDefaultButton" data-dropdown-toggle="dropdown">
+      </div>
+    </div>
+    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <li>
+          <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-modal-target="viewCover" data-modal-toggle="viewCover">View Cover Photo</button>
+        </li>
+        <li>
+          <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-modal-target="updateCover" data-modal-toggle="updateCover">Change Cover Photo</button>
+        </li>
+        <li>
+          <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-modal-target="viewProfile" data-modal-toggle="viewProfile">View Profile Photo</button>
+        </li>
+        <li>
+          <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-modal-target="updateProfile" data-modal-toggle="updateProfile">Change Profile Photo</button>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
+<%= render 'profile/update_cover_modal' %>
+<%= render 'profile/view_cover_photo' %>
+<%= render 'profile/view_profile_photo' %>
+<%= render 'profile/update_profile_modal' %>
+

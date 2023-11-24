@@ -3,6 +3,65 @@ class ProfileController < ApplicationController
 
   def index; end
 
+  def cover_photo
+    if current_user.update(cover_image_params)
+      flash[:notice] = "Cover Photo Successfully Updated"
+    else
+      flash[:alert] = "Something Went Wrong"
+    end
+    redirect_to profile_path
+  end
+
+  def profile_image
+    if current_user.update(profile_image_params)
+      flash[:notice] = "Profile Image Successfully Updated"
+    else
+      flash[:alert] = "Something Went Wrong"
+    end
+    redirect_to profile_path
+  end
+
+  def update
+    @user = current_user
+
+    if invalid_current_password?(params[:current_password])
+      redirect_to profile_path
+      return
+    end
+
+    update_user_profile(params[:password], params[:current_password])
+
+    redirect_to profile_path
+  end
+
+  def invalid_current_password?(current_password)
+    return false unless current_password.present? && !current_user.valid_password?(current_password)
+
+    flash[:alert] = "Current Password is incorrect"
+    true
+  end
+
+  def update_user_profile(password, current_password)
+    if password.present?
+      if current_password.blank?
+        flash[:alert] = "Current Password is required for updating password"
+      else
+        if @user.update(user_params_with_password)
+          flash[:notice] = "Password Updated Successfully"
+          sign_in :user, @user, bypass: true
+        else
+          flash[:alert] = @user.errors.full_messages.first
+        end
+      end
+    else
+      if @user.update(user_params_without_password)
+        flash[:notice] = "Profile Updated Successfully"
+      else
+        flash[:alert] = @user.errors.full_messages.first
+      end
+    end
+  end
+
   def albums
     @albums = current_user.albums.order('created_at DESC')
   end
@@ -10,7 +69,7 @@ class ProfileController < ApplicationController
   def create_album
     @album = Album.new(album_params)
     if @album.save
-      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username}/#{@album.title}?user=#{current_user.id}&album=#{@album.id}"
+      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username}/#{@album.title.split(' ').join}?user=#{current_user.id}&album=#{@album.id}"
       flash[:notice] = "#{@album.title} created successfully with shareable link #{link}"
       if params[:movie_id].present?
         create_album_movie(params, @album)
@@ -38,9 +97,19 @@ class ProfileController < ApplicationController
     end
   end
 
+  def add_movie
+    @movie_detail = JSON.parse(Home::MovieService.movie_details(params))
+    @album = Album.find_by(id: params[:album_id])
+    if @movie_detail.present?
+      @album.album_contents.create(movie_id: @movie_detail['id'], imdb_id: @movie_detail['imdb_id'], original_title: @movie_detail['original_title'], release_date: @movie_detail['release_date'], rating: @movie_detail['vote_average'], votes: @movie_detail['vote_count'], img_url: @movie_detail['poster_path'], description: @movie_detail['overview'])
+      render json: { message: "#{@movie_detail['original_title']} added successfully in #{@album.title} album" }, status: :ok
+    end
+  end
+
   def show_album
     @user = User.find_by(id: params[:user])
     @album = Album.find_by(id: params[:album])
+    @album.increment(:total_views).save
   end
 
   def show_album_data
@@ -63,6 +132,22 @@ class ProfileController < ApplicationController
   private
 
   def album_params
-    params.permit(:title, :private, :album_type, :album_genre).merge(user_id: current_user.id)
+    params.permit(:title, :private, :album_type, :album_genre, :album_image).merge(user_id: current_user.id)
+  end
+
+  def cover_image_params
+    params.permit(:cover_image)
+  end
+
+  def profile_image_params
+    params.permit(:profile_image)
+  end
+
+  def user_params_with_password
+    params.permit(:username, :password, :password_confirmation)
+  end
+
+  def user_params_without_password
+    params.permit(:username)
   end
 end

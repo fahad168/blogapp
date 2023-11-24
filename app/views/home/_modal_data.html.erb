@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="flex flex-row pl-5 mt-2 items-center">
-        <img src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="show_toast()">
+        <img title="Add To Album" src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="<%= user_signed_in? ? "open_movie_albums(#{@movie_detail['id']})" : 'show_toast()' %>">
         <p class="text-gray-500 dark:text-gray-400"><%= @movie_detail['release_date'].split('-').first %></p>
         <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h <%= @movie_detail['runtime'] % 60 %>m</p>
       </div>
@@ -94,6 +94,7 @@
   </div>
 </div>
 <%= render 'home/movie_play_modal' %>
+<%= render 'home/movie_albums_modal' %>
 
 <script>
     function open_movie(tmdb_id) {
@@ -110,7 +111,7 @@
     function show_toast() {
         $.toast({
             heading: 'Warning',
-            text: 'Needs Sign In before Adding to Favourites',
+            text: 'Needs Sign In before Adding to Albums',
             showHideTransition: 'slide',
             position: 'top-right',
             icon: 'warning',
@@ -119,4 +120,11 @@
             textColor: 'white'
         })
     }
+
+    function open_movie_albums(movie_id) {
+        document.getElementById('selectAlbum').style.display = 'flex'
+        document.getElementById('selectAlbum').style.justifyContent = 'center'
+        document.getElementById('movie_id').value = movie_id
+    }
+
 </script>

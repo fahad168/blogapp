@@ -36,6 +36,8 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem 'google-api-client'
 gem 'clipboard-rails'
+gem 'aws-sdk-s3'
+# gem 'lazyload-rails'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

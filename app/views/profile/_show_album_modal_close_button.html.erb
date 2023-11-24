@@ -24,12 +24,12 @@
             <p class="line-clamp-5"><%= content.description %></p>
             <div class="flex flex-row justify-between">
               <div class="flex flex-row"><p class="text-[red] font-bold">Rating:</p>
-                <p class="ml-2"><%= content.rating %>/10</p></div>
+                <p class="ml-2 text-sm"><%= content.rating %>/10</p></div>
               <div class="flex flex-row"><p class="text-[red] font-bold">Votes:</p>
-                <p class="ml-2"><%= content.votes %></p></div>
+                <p class="ml-2 text-sm"><%= content.votes %></p></div>
               <% if content.release_date.present? %>
                 <div class="flex flex-row"><p class="text-[red] font-bold">Year:</p>
-                  <p class="ml-2"><%= content.release_date.split('-').first %></p></div>
+                  <p class="ml-2 text-sm"><%= content.release_date.split('-').first %></p></div>
               <% end %>
             </div>
           </div>

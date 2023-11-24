@@ -6,5 +6,3 @@ import "controllers"
 document.addEventListener("load", function () {
     new ClipboardJS('.copy-link-btn');
 });
-
-
