@@ -67,6 +67,10 @@ function selected_show() {
     document.getElementById('season_ids').value = $('#tvDropdown ul li.selected')[0].dataset.value
 }
 
+function handle_album_image(input) {
+    document.getElementById('album_filename').innerText = input.files[0].name
+}
+
 function handle_image(input) {
     document.getElementById('filename').innerText = input.files[0].name
 }
@@ -90,6 +94,15 @@ function cancel_profile_image() {
         const dataTransfer = new DataTransfer();
         images.files = dataTransfer.files
         document.getElementById('filenameProfile').innerText = "Not selected file"
+    }
+}
+
+function cancel_album_image() {
+    var images = $('#album_file')[0];
+    if (images.files.length > 0) {
+        const dataTransfer = new DataTransfer();
+        images.files = dataTransfer.files
+        document.getElementById('album_filename').innerText = "Not selected file"
     }
 }
 

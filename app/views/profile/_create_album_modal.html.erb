@@ -67,7 +67,7 @@
               <span class="slider"></span>
             </label>
           </div>
-          <label for="file"  class="image_container mt-4 cursor-pointer">
+          <label for="album_file"  class="image_container mt-4 cursor-pointer">
             <div class="header">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -87,8 +87,8 @@
                   <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
                 </g>
               </svg>
-              <p id="filename">Not selected file</p>
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="cancel_image()">
+              <p id="album_filename">Not selected file</p>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="cancel_album_image()">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
@@ -98,7 +98,7 @@
                 </g>
               </svg>
             </label>
-            <%= f.file_field :album_image, id: 'file', accept: "image/jpeg, image/jpg, image/png", onchange: 'handle_image(this)' %>
+            <%= f.file_field :album_image, id: 'album_file', accept: "image/jpeg, image/jpg, image/png", onchange: 'handle_album_image(this)', required: true, class: 'hidden' %>
           </label>
         </div>
         <div class="flex flex-row justify-end">
