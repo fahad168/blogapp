@@ -1335,6 +1335,9 @@ p{
     #popular_play_responsive {
         height: 65vh !important;
     }
+    #popular_image {
+        object-fit: cover;
+    }
 }
 
 @media screen and (min-width: 200px) and (max-width: 600px) {
