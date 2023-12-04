@@ -1207,7 +1207,6 @@ p{
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    font-size: 100px;
     margin: 0;
     font-family: 'frozen', serif;
     font-weight: 700;
@@ -1329,5 +1328,18 @@ p{
     }
 }
 
+@media screen and (min-width: 200px) and (max-width: 1000px) {
+    #popular_movies_responsive {
+        height: 50vh !important;
+    }
+    #popular_play_responsive {
+        height: 65vh !important;
+    }
+}
 
-
+@media screen and (min-width: 200px) and (max-width: 600px) {
+    .card {
+        height: 120px;
+        min-width: 120px;
+    }
+}

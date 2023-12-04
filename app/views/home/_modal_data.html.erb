@@ -34,7 +34,7 @@
     <div class="flex flex-col">
       <div class="flex flex-row justify-between w-full">
         <p class="text-4xl pl-5 font-bold mt-3"><%= @movie_detail['original_title'] %></p>
-        <div class="w-[25%]">
+        <div class="lg:w-[25%]">
           <button class="watch" onclick="open_movie('<%= @movie_detail['id'] %>')"><span>Watch Now</span></button>
         </div>
       </div>
@@ -71,7 +71,7 @@
                 src="https://www.youtube.com/embed/<%= clip['key'] %>"
                 frameborder="0"
                 allowfullscreen
-                class="h-[15rem] pl-4 w-[28rem]"
+                class="md:h-[15rem] h-[7.5rem] w-[7.5rem] pl-4 md:w-[28rem] "
               ></iframe>
             </a>
           <% end %>
