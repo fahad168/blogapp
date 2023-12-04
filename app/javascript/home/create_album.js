@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.nice-select').niceSelect()
+    // $('.nice-select').niceSelect()
     $('.chosen-select').chosen({
         disable_search_threshold: 10,
         placeholder_text_single: 'Select Movies',

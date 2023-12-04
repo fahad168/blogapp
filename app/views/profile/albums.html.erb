@@ -55,7 +55,6 @@
       </div>
     </div>
   </div>
-  <button id="shareModal" hidden="hidden" data-modal-target="share-modal" data-modal-toggle="share-modal"></button>
   <%= render 'profile/create_album_modal' %>
   <%= render 'profile/shareable_link_modal' %>
   <%= render 'profile/show_album_modal' %>
@@ -75,12 +74,18 @@
         document.getElementById('twitter').href = `https://twitter.com/intent/tweet?url=${shareLink.value}`
         document.getElementById('facebook').href = `https://www.facebook.com/sharer.php?u=${shareLink.value}`
         document.getElementById('mail').href = `mailto:?subject=Shared%20by%20<%= current_user.username.capitalize %>&body=${shareLink.value}`
-        $('#shareModal').click()
+        document.getElementById('share-modal').style.display = 'flex'
+        document.getElementById('overlay').style.display = 'block'
     })
   </script>
 <% end %>
 
 <script>
+  function close_share_modal() {
+      document.getElementById('share-modal').style.display = 'none'
+      document.getElementById('overlay').style.display = 'none'
+  }
+
   function show_album(id) {
       const loaderContainer = document.getElementById("loader-container");
       const overlay = document.getElementById("overlay");

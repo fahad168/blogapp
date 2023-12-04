@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    if($('.single-item').length !== 0) {
+    var length = $('.single-item').length
+    if( length !== 0) {
         $('.single-item').slick({
             autoplay: true,
             autoplaySpeed: 5000,
