@@ -1,9 +1,11 @@
 $(document).ready(function () {
-    $('.single-item').slick({
-        autoplay: true,
-        autoplaySpeed: 5000,
-        arrows: false
-    })
+    if($('.single-item')) {
+        $('.single-item').slick({
+            autoplay: true,
+            autoplaySpeed: 5000,
+            arrows: false
+        })
+    }
     $('.nice-select').niceSelect()
     localStorage.setItem('page', 1)
 })
