@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if($('.single-item')) {
+    if($('.single-item').length !== 0) {
         $('.single-item').slick({
             autoplay: true,
             autoplaySpeed: 5000,
