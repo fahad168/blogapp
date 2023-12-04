@@ -97,6 +97,7 @@
           localStorage.setItem('texture_count', '1')
       } else {
           localStorage.setItem('texture_count', '1')
+          texture_count = parseInt(localStorage.getItem('texture_count'))
       }
       document.querySelectorAll('#texting').forEach(function (image) {
           image.style.backgroundImage = `url(/assets/text_texture${texture_count}.jpg)`
