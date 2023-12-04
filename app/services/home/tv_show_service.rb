@@ -26,7 +26,7 @@ class Home::TvShowService
   end
 
   def self.popular_shows
-    url = URI("#{ENV['TMBD_BASE_URL']}/#{ENV['TMBD_DISCOVER_TV']}?first_air_date_year=#{Date.today.year}&vote_average.gte=10")
+    url = URI("#{ENV['TMBD_BASE_URL']}/#{ENV['TMBD_DISCOVER_TV']}?first_air_date_year=#{Date.today.year}&sort_by=vote_count.desc")
     base_method(url)
   end
 

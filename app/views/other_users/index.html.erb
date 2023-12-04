@@ -1,0 +1,78 @@
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
+  <%= render "shared/header" %>
+  <div class="single-item -mt-[88px]">
+    <%= render "home/background_images" %>
+  </div>
+  <% count = 0 %>
+  <% @users&.each_with_index do |user| %>
+    <% if user.albums.present? && user.setting.private_albums != true %>
+      <div class="genre flex flex-col <%= if count == 0
+                                            '-mb-[15rem] bottom-0 absolute'
+                                          else
+                                            count == 1 ? 'mt-[17rem]' : 'mt-[2rem]'
+                                          end %> w-full">
+        <div class="genre-content flex flex-row justify-between pl-8 pr-5 pb-5">
+          <p class="genre-title font-bold text-3xl">Albums by <a href="/other_user_profile?id=<%= user.id %>" class="hover:underline"><%= user.username %></a></p>
+          <% if current_user.followings.pluck(:following_id).include?(user.id) %>
+            <% if current_user.followings.find_by(following_id: user.id).status == 'Pending' %>
+              <button type="button" id="button<%= user.id %>" class="btn relative px-8 w-[8rem] text-white text-base font-bold uppercase rounded-lg overflow-hidden bg-transparent border-2 border-[white] transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full hover:border-0 before:bg-gradient-to-r before:from-red-900 before:to-red-800 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0" onclick="cancel_following('<%= user.id %>')">
+                <span class="btn-text-one">Requested</span>
+                <span class="btn-text-two">Cancel</span>
+              </button>
+            <% elsif current_user.followings.find_by(following_id: user.id).status == 'Rejected' %>
+              <button type="button" id="button<%= user.id %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0" onclick="create_following('<%= user.id %>')">
+                Follow
+              </button>
+            <% else %>
+              <a href="/other_user_profile?id=<%= user.id %>" type="button" id="button<%= user.id %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0">
+                View profile
+              </a>
+            <% end %>
+          <% else %>
+            <button type="button" id="button<%= user.id %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0" onclick="create_following('<%= user.id %>')">
+              Follow
+            </button>
+          <% end %>
+        </div>
+        <div class="flex flex-row overflow-x-auto">
+          <% user.albums.each do |album| %>
+            <% if album.private == false %>
+              <a class="card ml-[1.875rem] cursor-pointer">
+                <img src="<%= album.album_image.blob.url %>" loading="lazy" alt="Album Image" class="object-cover">
+                <div class="descriptions flex flex-col justify-between">
+                  <h1 class="truncate font-bold text-xl"><%= album.title %></h1>
+                  <!--                <p class="line-clamp-5"><%#= playing['overview'] %></p>-->
+                  <div class="flex flex-row justify-between">
+                    <div class="flex flex-row"><p class="text-[red] font-bold">Movies:</p>
+                      <p class="ml-2 text-sm"><%= album.total_movies %></p>
+                    </div>
+                    <div class="flex flex-row"><p class="text-[red] font-bold">Views:</p>
+                      <p class="ml-2 text-sm"><%= album.total_views %></p>
+                    </div>
+                    <div class="flex flex-row"><p class="text-[red] font-bold">Shared:</p>
+                      <p class="ml-2 text-sm"><%= album.shared_count %></p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <% count += 1 %>
+    <% end %>
+  <% end %>
+</main>
+
+<%= javascript_include_tag('slick') %>
+<%= javascript_include_tag('home/profile') %>
+
+<script>
+  $(document).ready(function () {
+      $('.single-item').slick({
+          autoplay: true,
+          autoplaySpeed: 2000,
+          arrows: false
+      })
+  })
+</script>

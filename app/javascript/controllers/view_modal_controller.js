@@ -23,8 +23,8 @@ export default class extends Controller {
             success: (data) => {
                 $('#viewModalData').append(data.entries)
                 loaderContainer.style.display = "none";
-                overlay.classList.add('hidden')
-                overlay.style.display = "none"
+                // overlay.classList.add('hidden')
+                // overlay.style.display = "none"
             }
         })
     }
@@ -49,10 +49,10 @@ export default class extends Controller {
             data: { authenticity_token: csrfToken, next_page: viewNextPage, genre_ids: dataGenreIds},
             dataType: 'json',
             success: (data) => {
-                $('#viewModalData').append(data.entries)
+                $('#viewSeasonModalData').append(data.entries)
                 loaderContainer.style.display = "none";
-                overlay.classList.add('hidden')
-                overlay.style.display = "none"
+                // overlay.classList.add('hidden')
+                // overlay.style.display = "none"
             }
         })
     }

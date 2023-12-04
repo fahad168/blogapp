@@ -31,7 +31,7 @@
     <div class="flex flex-col">
       <p class="text-4xl pl-5 font-bold"><%= @season_detail['original_name'] %></p>
       <div class="flex flex-row pl-5 mt-2 items-center">
-        <img src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="show_toast()">
+        <img src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="<%= user_signed_in? ? "open_season_albums(#{@season_detail['id']})" : 'show_toast()' %>">>
         <p class="text-gray-500 dark:text-gray-400"><%= @season_detail['first_air_date'].split('-').first %></p>
         <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @season_detail['number_of_seasons'] %> Seasons</p>
       </div>
@@ -44,7 +44,7 @@
     <div class="genre flex flex-col w-full mt-[5rem]" data-controller="modal-data">
       <div class="genre-content flex flex-row justify-between pl-8 pb-2">
         <p class="genre-title font-bold text-2xl place-self-center">Episodes</p>
-        <select id="season_select" class="nice-select mr-6 bg-white robo-font mb-2 text-base bg-transparent flex items-center leading-tight text-[1.16888rem] rounded-[0.76369rem] text-[black] border-2 border-[black] active:border-[black] focus:border-[black] hover:border-[black] h-[3rem]" onchange="get_episode_details()">
+        <select id="season_select" class="nice-select mr-6 bg-white robo-font mb-2 text-base flex items-center leading-tight text-[1.16888rem] rounded-[0.76369rem] text-[black] border-2 border-[black] active:border-[black] focus:border-[black] hover:border-[black] h-[3rem]" onchange="get_episode_details()">
           <% @season_detail['seasons'].each_with_index do |season| %>
             <option value="<%= season['season_number'] %>">Season <%= season['season_number'] %> (Episodes <%= season['episode_count'] %>)</option>
           <% end %>
@@ -69,6 +69,7 @@
     <%# end %>
   </div>
 </div>
+<%= render "home/series_album_modal" %>
 
 <script>
     function show_toast() {
@@ -82,5 +83,11 @@
             bgColor: 'red',
             textColor: 'white'
         })
+    }
+
+    function open_season_albums(series_id) {
+        document.getElementById('selectSeriesAlbum').style.display = 'flex'
+        document.getElementById('selectSeriesAlbum').style.justifyContent = 'center'
+        document.getElementById('series_id').value = series_id
     }
 </script>

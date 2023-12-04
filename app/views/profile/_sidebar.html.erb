@@ -6,14 +6,14 @@
     <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'albums' ? 'bg-white text-black' : 'text-white' %>">
       <%= link_to 'Albums', albums_path, data: {turbo: false} %>
     </li>
-    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
-      Followers
+    <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'followers' ? 'bg-white text-black' : 'text-white' %>">
+      <%= link_to 'Followers', followers_path, data: {turbo: false} %>
     </li>
-    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
-      Followings
+    <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'followings' ? 'bg-white text-black' : 'text-white' %>">
+      <%= link_to 'Followings', followings_path, data: {turbo: false} %>
     </li>
-    <li class="text-white pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md">
-      Settings
+    <li class="pl-7 mt-5 cursor-pointer hover:bg-[white] hover:text-black rounded-md <%= params[:action] == 'settings' ? 'bg-white text-black' : 'text-white' %>">
+      <%= link_to 'Settings', settings_path, data: {turbo: false} %>
     </li>
   </ul>
 </div>

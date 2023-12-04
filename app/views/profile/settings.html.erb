@@ -1,0 +1,86 @@
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
+  <%= render "shared/header" %>
+  <div class="-mt-[88px]">
+    <%= render 'profile/top_profile' %>
+    <div class="flex flex-row justify-center mt-[2rem]">
+      <div class="border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg">
+        <%= render 'profile/sidebar' %>
+      </div>
+      <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg overflow-y-scroll max-h-[40rem]">
+        <div class="flex flex-row justify-center mt-10">
+          <div class="flex flex-col">
+            <p class="text-white font-bold text-2xl mb-3">Privacy</p>
+            <div class="flex flex-row justify-between w-[30rem]">
+              <div class="flex flex-col justify-start">
+                <p class="text-[grey]">Private Account</p>
+                <p class="text-sm text-[grey]">Only approved users can see your profile</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" <%= @settings.private_account == true ? 'checked' : '' %> name="private_account" class="sr-only peer" onchange="update_settings(this)">
+                <div class="group peer ring-0 bg-[red] rounded-full outline-none duration-300 after:duration-300 w-24 h-12  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-10 after:w-10 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-12 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                </div>
+              </label>
+            </div>
+            <div class="flex flex-row justify-between w-[30rem] mt-10">
+              <div class="flex flex-col justify-start">
+                <p class="text-[grey]">Private Album</p>
+                <p class="text-sm text-[grey]">This will make all albums private</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" <%= @settings.private_albums == true ? 'checked' : '' %> name="private_albums" class="sr-only peer" onchange="update_settings(this)">
+                <div class="group peer ring-0 bg-[red] rounded-full outline-none duration-300 after:duration-300 w-24 h-12  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-10 after:w-10 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-12 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                </div>
+              </label>
+            </div>
+            <p class="text-white font-bold text-2xl mt-6 mb-3">Others</p>
+            <div class="flex flex-row justify-between w-[30rem]">
+              <div class="flex flex-col justify-start">
+                <p class="text-[grey]">Adult Content</p>
+                <p class="text-sm text-[grey]">Will hide adult movies and tv shows</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" <%= @settings.adult_content == true ? 'checked' : '' %> name="adult_content" class="sr-only peer" onchange="update_settings(this)">
+                <div class="group peer ring-0 bg-[red] rounded-full outline-none duration-300 after:duration-300 w-24 h-12  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-10 after:w-10 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-12 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                </div>
+              </label>
+            </div>
+            <p class="text-white font-bold text-2xl mt-6 mb-3">Account Control</p>
+            <div class="flex flex-row justify-between w-[30rem] mb-10">
+              <div class="flex flex-col justify-start">
+                <p class="text-[grey]">Delete Account</p>
+                <p class="text-sm text-[grey]">This action cannot be reversed</p>
+              </div>
+              <button class="delete-button">
+                <svg class="delete-svgIcon" viewBox="0 0 448 512">
+                  <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+    function update_settings(input) {
+        var checked = input.checked
+        $.ajax({
+            type: 'GET',
+            url: `/update_settings?${input.name}=${checked}`,
+            success: function (response) {
+                $.toast({
+                    heading: 'Success',
+                    text: `${ input.name.split('_').join(' ').toUpperCase() } updated successfully`,
+                    showHideTransition: 'slide',
+                    position: 'top-right',
+                    icon: 'success',
+                    hideAfter: 5000,
+                    bgColor: 'green',
+                    textColor: 'white'
+                })
+            }
+        })
+    }
+</script>

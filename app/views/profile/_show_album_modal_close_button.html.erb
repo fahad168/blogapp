@@ -10,10 +10,10 @@
       <span class="sr-only">Close modal</span>
     </button>
   </div>
-  <div class="flex flex-row overflow-x-auto mt-5 mb-5">
+  <div class="flex flex-row flex-wrap mt-5 mb-5">
     <% if @album.album_contents.present? %>
       <% @album.album_contents.each do |content| %>
-        <a class="card ml-[1.875rem] cursor-pointer" data-controller="modal-data" data-action="click-><%= @album.album_type == 'movie' ? 'modal-data#get_movie_data' : 'modal-data#get_season_data' %>" data-movie-id="<%= content.movie_id %>" data-season-id="<%= content.movie_id %>">
+        <a class="card ml-[1.875rem] mt-3 cursor-pointer" data-controller="modal-data" data-action="click-><%= @album.album_type == 'movie' ? 'modal-data#get_movie_data' : 'modal-data#get_season_data' %>" data-movie-id="<%= content.movie_id %>" data-season-id="<%= content.movie_id %>">
           <% if content.img_url.present? %>
             <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= content.img_url %>">
           <% else %>

@@ -69,7 +69,7 @@ class ProfileController < ApplicationController
   def create_album
     @album = Album.new(album_params)
     if @album.save
-      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username}/#{@album.title.split(' ').join}?user=#{current_user.id}&album=#{@album.id}"
+      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username&.split(' ')&.join}/#{@album.title.split(' ').join}?user=#{current_user.id}&album=#{@album.id}"
       flash[:notice] = "#{@album.title} created successfully with shareable link #{link}"
       if params[:movie_id].present?
         create_album_movie(params, @album)
@@ -106,6 +106,15 @@ class ProfileController < ApplicationController
     end
   end
 
+  def add_series
+    @tv_detail = JSON.parse(Home::TvShowService.get_season_detail(params))
+    @album = Album.find_by(id: params[:album_id])
+    if @tv_detail.present?
+      @album.album_contents.create(movie_id: @tv_detail['id'], imdb_id: @tv_detail['imdb_id'], original_title: @tv_detail['original_name'], release_date: @tv_detail['first_air_date'], rating: @tv_detail['vote_average'], votes: @tv_detail['vote_count'], img_url: @tv_detail['poster_path'], description: @tv_detail['overview'])
+      render json: { message: "#{@tv_detail['original_name']} added successfully in #{@album.title} album" }, status: :ok
+    end
+  end
+
   def show_album
     @user = User.find_by(id: params[:user])
     @album = Album.find_by(id: params[:album])
@@ -129,6 +138,52 @@ class ProfileController < ApplicationController
     render json: { entries: render_to_string(partial: 'profile/dropdown', formats: [:html]) }
   end
 
+  def followers
+    @followers = current_user.followers.where(status: 1)
+  end
+
+  def followings
+    @followings = current_user.followings.where(status: 1)
+  end
+
+  def explore
+    followings = current_user.followings.where(status: [0, 1, 2])
+    excluded_user_ids = [current_user.id] + followings.pluck(:following_id)
+    @users = User.where.not(id: excluded_user_ids).order(:username)
+  end
+
+  def pending_requests
+    @pending_requests = current_user.followers.where(status: 0)
+  end
+
+  def unfollow
+    @user = User.find_by(id: params[:following_id])
+    @following = Following.find_by(following_id: params[:following_id], user_id: current_user.id)
+    @follower = Follower.find_by(user_id: params[:following_id], follower_id: current_user.id)
+    @following.destroy; @follower.destroy
+    flash[:notice] = "#{@user.username} UnFollowed Successfully"
+    redirect_to followings_path
+  end
+
+  def unfriend
+    @user = User.find_by(id: params[:follower_id])
+    @following = Following.find_by(user_id: params[:follower_id], following_id: current_user.id)
+    @follower = Follower.find_by(user_id: current_user.id, follower_id: params[:follower_id])
+    @following.destroy; @follower.destroy
+    flash[:notice] = "#{@user.username} UnFriend Successfully"
+    redirect_to followers_path
+  end
+
+  def settings
+    @settings = current_user.setting
+  end
+
+  def update_settings
+    current_user.setting.update(setting_params)
+    render json: { message: 'Updated Successfully' }, status: :ok
+  end
+
+
   private
 
   def album_params
@@ -149,5 +204,9 @@ class ProfileController < ApplicationController
 
   def user_params_without_password
     params.permit(:username)
+  end
+
+  def setting_params
+    params.permit(:private_account, :private_albums, :adult_content)
   end
 end

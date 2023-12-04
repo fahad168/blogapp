@@ -8,7 +8,7 @@
       </div>
       <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg">
         <div class="flex justify-end mr-4 mt-3">
-          <button class="button bg-[red] rounded-lg w-[10rem] p-2" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Create Album</button>
+          <button class="button bg-[green] rounded-lg w-[10rem] p-2" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Create Album</button>
         </div>
         <div class="flex flex-row flex-wrap">
           <% if @albums.present? %>
@@ -18,7 +18,7 @@
                   <div class="border">
                   </div>
                   <div class="w-full h-full">
-                    <img src="<%= album.album_image.attached? ? album.album_image.blob.url : asset_path('no_image_found.png') %>" class="rounded-lg">
+                    <img src="<%= album.album_image.attached? ? album.album_image.blob.url : asset_path('no_image_found.png') %>" loading="lazy" class="rounded-lg h-[9rem] absolute w-full mt-1">
                   </div>
                   <div class="icons">
                     <div class="logo">
@@ -75,7 +75,7 @@
         document.getElementById('twitter').href = `https://twitter.com/intent/tweet?url=${shareLink.value}`
         document.getElementById('facebook').href = `https://www.facebook.com/sharer.php?u=${shareLink.value}`
         document.getElementById('mail').href = `mailto:?subject=Shared%20by%20<%= current_user.username.capitalize %>&body=${shareLink.value}`
-        document.getElementById('shareModal').click()
+        $('#shareModal').click()
     })
   </script>
 <% end %>
