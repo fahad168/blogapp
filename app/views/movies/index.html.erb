@@ -46,7 +46,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @upcoming['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing %>
+        <%= render 'home/card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @action_adventure['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing %>
+        <%= render 'home/card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>
@@ -68,7 +68,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @fantasy['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing %>
+        <%= render 'home/card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>

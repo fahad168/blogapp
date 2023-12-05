@@ -3,12 +3,12 @@
   <div class="single-item -mt-[88px]">
     <% @popular_seasons['results']&.each_with_index do |season, index| %>
       <div class="relative h-screen">
-        <div class="absolute flex flex-col justify-center ml-[5rem] w-[80%]" style="height: 80vh">
-          <h1 class="texting w-full focus:outline-none line-clamp-1" id="texting" contenteditable data-heading="<%= season['name'] %>">
+        <div class="absolute flex flex-col justify-center md:ml-[5rem] ml-10 w-[80%]" style="height: 80vh" id="popular_movies_responsive">
+          <h1 class="texting lg:text-[6.25rem] md:text-[3rem] text-[2rem] w-full focus:outline-none line-clamp-1" id="texting" contenteditable data-heading="<%= season['name'] %>">
             <%= season['name'] %>
           </h1>
         </div>
-        <div class="flex flex-col justify-center absolute mt-5 ml-[5rem] h-screen">
+        <div class="flex flex-col justify-center absolute lg:mt-5 mt-0 lg:ml-[5rem] ml-10 h-screen" id="popular_play_responsive">
           <div class="flex flex-row">
             <button class="play mr-5" onclick="openModal('<%= season['id'] %>', '1', '1')">
               <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
@@ -21,15 +21,15 @@
           </div>
         </div>
         <% if season['backdrop_path'].present? %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full" id="popular_image">
         <% else %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['poster_path'] %>" class="h-full w-full">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['poster_path'] %>" class="h-full w-full" id="popular_image">
         <% end %>
         <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
       </div>
     <% end %>
   </div>
-  <div class="genre flex flex-col -mb-[15rem] bottom-0 w-full absolute">
+  <div class="genre flex flex-col lg:-mb-[15rem] mb-[2rem] bottom-0 w-full absolute">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
       <p class="genre-title font-bold text-3xl cursor-pointer">Today Trending Shows</p>
     </div>
@@ -39,14 +39,14 @@
       <% end %>
     </div>
   </div>
-  <div class="genre flex flex-col bottom-0 w-full mt-[17rem]">
+  <div class="genre flex flex-col bottom-0 w-full lg:mt-[17rem] mt-0">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
       <p class="genre-title font-bold text-3xl cursor-pointer">Action & Adventure</p>
       <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= TvGenre.where(genre_name: 'Action & Adventure').pluck(:genre_id) %>)">View All</button>
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @action_adventure['results']&.each do |playing| %>
-        <%= render 'home/tv_card', playing: playing %>
+        <%= render 'home/tv_card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @sci_fi_fantasy['results']&.each do |playing| %>
-        <%= render 'home/tv_card', playing: playing %>
+        <%= render 'home/tv_card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>
@@ -68,7 +68,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @comedy['results']&.each do |playing| %>
-        <%= render 'home/tv_card', playing: playing %>
+        <%= render 'home/tv_card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>

@@ -5,7 +5,7 @@
   </div>
   <div class="flex flex-row overflow-x-auto">
     <% @result1['results']&.each do |playing| %>
-      <%= render 'home/card', playing: playing %>
+      <%= render 'home/card', playing: playing, page: 'mt-0' %>
     <% end %>
   </div>
 </div>
@@ -17,7 +17,7 @@
   </div>
   <div class="flex flex-row overflow-x-auto">
     <% @result2['results']&.each do |playing| %>
-      <%= render 'home/card', playing: playing %>
+      <%= render 'home/card', playing: playing, page: 'mt-0' %>
     <% end %>
   </div>
 </div>
@@ -29,7 +29,7 @@
   </div>
   <div class="flex flex-row overflow-x-auto">
     <% @result3['results']&.each do |playing| %>
-      <%= render 'home/card', playing: playing %>
+      <%= render 'home/card', playing: playing, page: 'mt-0' %>
     <% end %>
   </div>
 </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @result4['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing %>
+        <%= render 'home/card', playing: playing, page: 'mt-0' %>
       <% end %>
     </div>
   </div>

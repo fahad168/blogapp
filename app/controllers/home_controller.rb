@@ -46,4 +46,8 @@ class HomeController < ApplicationController
       end
     end
   end
+
+  def search_results
+    @search_results = JSON.parse(Home::SearchService.new(params).base_method)
+  end
 end
