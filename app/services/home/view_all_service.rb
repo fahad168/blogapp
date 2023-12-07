@@ -9,6 +9,10 @@ class Home::ViewAllService
       Home::HomeService.top_rated_shows(params)
     when 'top_rated_movies'
       Home::HomeService.top_rated(params)
+    when 'lollywood'
+      Home::HomeService.lollywood(params)
+    when 'bollywood'
+      Home::HomeService.bollywood(params)
     else
     end
   end

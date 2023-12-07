@@ -1,20 +1,32 @@
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
   <%= render "shared/header" %>
   <div class="flex flex-col mt-[5rem]">
-    <% if @search_results['results']&.first['media_type'] != "person" %>
-      <p class="genre-title font-bold text-3xl cursor-pointer ml-7" style="z-index: 1">Results
-        for <%= params[:q].capitalize %></p>
+    <% if @keywords_suggestions['results'].present? %>
+      <div class="w-[80%] flex flex-row flex-wrap ml-[1.875rem] mb-10">
+        <p class="text-white text-xl font-bold">Suggestions: </p>
+        <% @keywords_suggestions['results'].each_with_index do |keyword, index| %>
+          <a class="text-white hover:underline <%= index == 0 ? 'ml-5' : '' %>" href="/search_results?q=<%= keyword['name'] %>&page=<%= params[:page] %>"><%= keyword['name'] %></a>
+          <% if @keywords_suggestions['results'][index + 1].present? %>
+            <p> &nbsp;,&nbsp;&nbsp;</p>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @search_results['results']&.first.present? %>
+      <% if @search_results['results']&.first['media_type'] != "person" %>
+        <p class="genre-title font-bold text-3xl cursor-pointer ml-7" style="z-index: 1">Results for <%= params[:q].capitalize %></p>
+      <% end %>
     <% end %>
     <div class="flex flex-row md:justify-start justify-center flex-wrap" id="view_results">
       <% @search_results['results']&.each do |result| %>
-        <% if result['media_type'] == 'movie' || !result['media_type'] %>
+        <% if result['media_type'] == 'movie' %>
           <%= render 'home/card', playing: result, page: 'mt-5' %>
-        <% elsif result['media_type'] == 'tv' %>
+        <% elsif result['media_type'] == 'tv' || !result['media_type'] %>
           <%= render 'home/tv_card', playing: result, page: 'mt-5' %>
         <% elsif result['media_type'] == "person" %>
           <% if result['known_for'].present? %>
             <div class="flex flex-col justify-start w-full">
-              <div class="flex flex-row justify-start ml-7 mt-4">
+              <a href="/person_detail?person_id=<%= result['id'] %>" class="flex flex-row justify-start ml-7 mt-4">
                 <% if result['profile_path'].present? %>
                   <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= result['profile_path'] %>" class="w-10 h-10 rounded-full">
                 <% else %>
@@ -22,7 +34,7 @@
                 <% end %>
                 <p class="genre-title font-bold text-3xl cursor-pointer ml-2" style="z-index: 1"><%= result['original_name'] %>
                   , <%= result['known_for_department'] %></p>
-              </div>
+              </a>
               <div class="flex flex-row overflow-x-auto">
                 <% result['known_for'].each do |movie| %>
                   <% if movie['media_type'] == 'movie' || !movie['media_type'] %>

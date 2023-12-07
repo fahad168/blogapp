@@ -82,28 +82,14 @@
   <%= render 'home/season_modal' %>
   <%= render 'tv_shows/view_all_modal' %>
   <%= render 'tv_shows/watch_season_episodes' %>
+  <%= render 'home/one_touch_sign_in' %>
 </main>
 <%= javascript_include_tag('slick') %>
 <%#= javascript_include_tag('home/season_modal') %>
 <%= javascript_include_tag('home/home_modal') %>
+<%= javascript_include_tag('home/slick_play_modal') %>
 
 <script>
-    $(document).ready(function () {
-        localStorage.setItem('scroll_time', '0')
-        var texture_count = localStorage.getItem('texture_count')
-        if(texture_count && parseInt(texture_count) < 9) {
-            texture_count = parseInt(texture_count) + 1
-            localStorage.setItem('texture_count', `${texture_count}`)
-        } else if (texture_count && parseInt(texture_count) === 9) {
-            localStorage.setItem('texture_count', '1')
-        } else {
-            localStorage.setItem('texture_count', '1')
-        }
-        document.querySelectorAll('#texting').forEach(function (image) {
-            image.style.backgroundImage = `url(/assets/text_texture${texture_count}.jpg)`
-        })
-    })
-
     function hideViewModal(){
         $('#viewShowModal').hide()
         document.getElementById('indexFile').style.overflow = ''
@@ -132,16 +118,5 @@
                 loaderContainer.style.display = "none";
             }
         })
-    }
-
-    function openModal(tmdb_id, season_number, episode_number) {
-        var dynamicUrl = `https://moviesapi.club/tv/${tmdb_id}-${season_number}-${episode_number}`;
-        var iframe = document.getElementById('episodeIframe');
-        iframe.src = dynamicUrl;
-        document.getElementById('episodeModal').style.display = "flex"
-    }
-
-    function hideEpisode() {
-        document.getElementById('episodeModal').style.display = "none"
     }
 </script>

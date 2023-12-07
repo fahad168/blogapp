@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   root 'home#index'
   get '/search_results', to: 'home#search_results'
+  get '/person_detail', to: 'home#person_detail'
   get '/get_modal_data', to: 'home#get_modal_data'
   get '/get_season_details', to: 'home#get_season_data'
   post '/episodes_details', to: 'home#episodes_details'

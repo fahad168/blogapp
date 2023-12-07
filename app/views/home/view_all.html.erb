@@ -1,7 +1,54 @@
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#scroll">
   <%= render "shared/header" %>
   <div class="single-item -mt-[88px]">
-    <%= render "home/background_images" %>
+    <% @result['results']&.last(10).each_with_index do |movie, index| %>
+      <div class="relative h-screen">
+        <div class="absolute flex flex-col justify-center md:ml-[5rem] ml-10 w-[80%]" style="height: 80vh" id="popular_movies_responsive">
+          <h1 class="texting lg:text-[6.25rem] md:text-[3rem] text-[2rem] w-full focus:outline-none line-clamp-1" id="texting" contenteditable data-heading="<% if movie['original_title'].present? %>
+                                                                                                                                                                <%= params[:key] == 'bollywood' ? movie['title'] : movie['original_title'] %>
+                                                                                                                                                              <% else %>
+                                                                                                                                                                <%= movie['name'] %>
+                                                                                                                                                              <% end %>">
+            <% if movie['original_title'].present? %>
+              <%= params[:key] == 'bollywood' ? movie['title'] : movie['original_title'] %>
+            <% else %>
+              <%= movie['name'] %>
+            <% end %>
+          </h1>
+        </div>
+        <div class="flex flex-col justify-center absolute lg:mt-5 mt-0 lg:ml-[5rem] ml-10 h-screen" id="popular_play_responsive">
+          <% if movie['original_title'].present? %>
+            <div class="flex flex-row">
+              <button class="play mr-5" onclick="open_movie('<%= movie['id'] %>')">
+                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
+                  <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <button class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_movie_data" data-movie-id="<%= movie['id'] %>">View
+                Details
+              </button>
+            </div>
+          <% else %>
+            <div class="flex flex-row">
+              <button class="play mr-5" onclick="openModal('<%= movie['id'] %>', '1', '1')">
+                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
+                  <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <button class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= movie['id'] %>">View
+                Details
+              </button>
+            </div>
+          <% end %>
+        </div>
+        <% if movie['backdrop_path'].present? %>
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= movie['backdrop_path'] %>" class="h-full w-full" id="popular_image">
+        <% else %>
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= movie['poster_path'] %>" class="h-full w-full" id="popular_image">
+        <% end %>
+        <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
+      </div>
+    <% end %>
   </div>
 <!--  <input class="hidden" id="current_page">-->
   <div class="flex flex-col lg:-mt-[15rem] mt-0">
@@ -12,6 +59,10 @@
   </div>
   <%= render 'home/movie_modal' %>
   <%= render 'home/season_modal' %>
+  <%= render "home/movie_play_modal" %>
+  <%= render "tv_shows/watch_season_episodes" %>
+  <%= render 'home/one_touch_sign_in' %>
 </main>
 <%= javascript_include_tag('slick') %>
 <%= javascript_include_tag('home/home_modal') %>
+<%= javascript_include_tag('home/slick_play_modal') %>

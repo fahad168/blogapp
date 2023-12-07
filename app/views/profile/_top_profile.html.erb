@@ -1,6 +1,6 @@
 <div class="relative">
   <div class="h-[25rem] flex items-center <%= current_user.cover_image.attached? ? '' : 'bg-[grey]' %>" style="background-image: url(<%= current_user.cover_image.attached? ? rails_blob_url(current_user.cover_image) : 'background_image1' %>);background-position: center; object-fit: cover">
-    <div class="grid grid-cols-3 w-full">
+    <div class="grid grid-cols-3 w-full mt-10">
       <div class="bg-black h-[15rem] flex flex-row justify-end items-center pr-10 rounded-r-full" style="opacity: 60%">
         <div class="flex flex-col justify-start mr-5">
           <p class="font-bold text-white mb-10"><%= current_user.username %></p>
