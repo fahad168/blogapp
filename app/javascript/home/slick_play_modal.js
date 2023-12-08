@@ -10,7 +10,7 @@ $(document).ready(function () {
         localStorage.setItem('texture_count', '1')
     }
     document.querySelectorAll('#texting').forEach(function (image) {
-        image.style.backgroundImage = `url(/assets/text_texture${texture_count}.jpg)`
+        image.style.backgroundImage = `url(/assets/textures/text_texture${texture_count}.jpg)`
     })
 })
 
