@@ -1,6 +1,6 @@
 <p class="absolute text-7xl font-bold text-[red] mt-4 bg-[black]" style="height: 3rem; width: 3.2rem"><%= index + 1 %></p>
 <% if playing['poster_path'].present? %>
-  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>">
+  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="poster image">
 <% else %>
   <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
 <% end %>

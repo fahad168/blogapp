@@ -15,7 +15,7 @@
       <% @album.album_contents.each do |content| %>
         <a class="card ml-[1.875rem] mt-3 cursor-pointer" data-controller="modal-data" data-action="click-><%= @album.album_type == 'movie' ? 'modal-data#get_movie_data' : 'modal-data#get_season_data' %>" data-movie-id="<%= content.movie_id %>" data-season-id="<%= content.movie_id %>">
           <% if content.img_url.present? %>
-            <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= content.img_url %>">
+            <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= content.img_url %>" alt="movie image">
           <% else %>
             <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
           <% end %>

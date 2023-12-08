@@ -61,7 +61,7 @@
         </div>
         <div class="">
           <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex mx-3 bg-gray-400 rounded-full" type="button">
-            <img src="<%= current_user.profile_image.present? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover">
+            <img src="<%= current_user.profile_image.present? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover" alt="profile image">
             <%#= image_tag current_user.profile_image.present? ? current_user.profile_image.blob.url : 'user.svg', alt: '', class: "lazyload w-10 h-10 rounded-full object-cover" %>
           </button>
           <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">

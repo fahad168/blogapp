@@ -38,9 +38,9 @@
           <% end %>
         </div>
         <% if trending['backdrop_path'].present? %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['backdrop_path'] %>" class="h-full w-full" id="popular_image">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['backdrop_path'] %>" class="h-full w-full" id="popular_image" alt="backdrop">
         <% else %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['poster_path'] %>" class="h-full w-full" id="popular_image">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['poster_path'] %>" class="h-full w-full" id="popular_image" alt="poster">
         <% end %>
         <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
       </div>
@@ -116,16 +116,7 @@
   <%= render 'home/season_modal' %>
   <%= render "home/movie_play_modal" %>
   <%= render "tv_shows/watch_season_episodes" %>
-  <% unless user_signed_in? %>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <div id="g_id_onload"
-         data-client_id="<%= ENV['GOOGLE_CLIENT_ID'] %>"
-         data-login_uri="<%= google_onetap_callback_path %>"
-         data-authenticity_token="<%= form_authenticity_token %>"
-         data-itp_support="true"
-    >
-    </div>
-  <% end %>
+  <%= render "home/one_touch_sign_in" %>
 </main>
 <%= javascript_include_tag('slick') %>
 <%= javascript_include_tag('home/home_modal') %>

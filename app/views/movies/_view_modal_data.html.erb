@@ -21,7 +21,7 @@
     <div id="load_more">
       <div style="border-bottom: 2px solid white" class="ml-7 mr-7"></div>
       <button data-controller="view-modal" data-action="click->view-modal#scroll" data-url="<%= ENV['WEBSITE_URL'] %>" data-genre-ids="<%= params[:genre_ids] %>">
-        <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.5rem] bg-[#141414] sepia hover:sepia-0">
+        <img src="<%= asset_path('view_more.svg') %>" class="w-8 h-8 ml-[35rem] -mt-[2.5rem] bg-[#141414] sepia hover:sepia-0" alt="view more">
       </button>
     </div>
   <% end %>

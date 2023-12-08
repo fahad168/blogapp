@@ -17,7 +17,7 @@
                 <%= f.hidden_field :follower_id, value: request.follower_id %>
                 <div class="bg-[#494F55] shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-lg flex flex-row justify-between searchable-item mb-10 p-4">
                   <div class="flex flex-row justify-start">
-                    <img class="w-10 h-10 rounded-full object-cover <%= user.profile_image.attached? ? '' : 'border-2 border-[grey]' %>" src="<%= user.profile_image.attached? ? user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy">
+                    <img class="w-10 h-10 rounded-full object-cover <%= user.profile_image.attached? ? '' : 'border-2 border-[grey]' %>" src="<%= user.profile_image.attached? ? user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" alt="profile image">
                     <p class="text-center ml-5 hover:underline cursor-pointer mt-1" data-searchable="item<%= index %>"><%= user.username %></p>
                   </div>
                   <div class="flex flex-row w-[35%] justify-between">

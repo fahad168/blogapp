@@ -28,9 +28,9 @@
             <div class="flex flex-col justify-start w-full">
               <a href="/person_detail?person_id=<%= result['id'] %>" class="flex flex-row justify-start ml-7 mt-4">
                 <% if result['profile_path'].present? %>
-                  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= result['profile_path'] %>" class="w-10 h-10 rounded-full">
+                  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= result['profile_path'] %>" class="w-10 h-10 rounded-full" alt="profile image">
                 <% else %>
-                  <img src="<%= asset_path('user.svg') %>" class="w-10 h-10 rounded-full">
+                  <img src="<%= asset_path('user.svg') %>" class="w-10 h-10 rounded-full" alt="svg">
                 <% end %>
                 <p class="genre-title font-bold text-3xl cursor-pointer ml-2" style="z-index: 1"><%= result['original_name'] %>
                   , <%= result['known_for_department'] %></p>

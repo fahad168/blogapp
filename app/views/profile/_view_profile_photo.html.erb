@@ -14,7 +14,7 @@
         </button>
       </div>
       <% if current_user.profile_image.attached? %>
-        <img src="<%= current_user.profile_image.blob.url %>">
+        <img src="<%= current_user.profile_image.blob.url %>" alt="user image">
       <% else %>
         <p class="text-white text-center mt-10 pb-10">No Profile Image</p>
       <% end %>

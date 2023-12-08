@@ -126,6 +126,13 @@ class ProfileController < ApplicationController
     render json: { entries: render_to_string(partial: 'profile/show_album_modal_close_button', formats: [:html]) }
   end
 
+  def destroy
+    @album = Album.find_by(id: params[:id])
+    @album.destroy
+    flash[:notice] = "Album deleted successfully"
+    redirect_to albums_path
+  end
+
   def movies_dropdown_data
     @genre = Genre.find(params[:genre_id])
     @dropdown_data = JSON.parse(Home::MovieService.get_genre_movies(@genre.genre_name))

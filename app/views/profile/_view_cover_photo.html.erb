@@ -14,7 +14,7 @@
         </button>
       </div>
       <% if current_user.cover_image.attached? %>
-        <img src="<%= current_user.cover_image.blob.url %>">
+        <img src="<%= current_user.cover_image.blob.url %>" alt="cover image">
       <% else %>
         <p class="text-white text-center mt-10 pb-10">No Cover Image</p>
       <% end %>

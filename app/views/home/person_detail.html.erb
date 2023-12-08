@@ -3,7 +3,7 @@
   <div class="-mt-[88px]">
     <div class="relative">
       <div class="h-[20rem] flex items-center" style="background-image: url(<%= asset_path("person_details_bg.jpg") %>); object-fit: fill; background-position: center">
-        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w500/<%= @person_details['profile_path'] %>" class="w-[10rem] h-[15rem] rounded-xl object-cover mt-[25rem] ml-[15rem]">
+        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w500/<%= @person_details['profile_path'] %>" class="w-[10rem] h-[15rem] rounded-xl object-cover mt-[25rem] ml-[15rem]" alt="profile image">
         <div class="flex flex-col mt-[29rem] ml-[2rem]">
           <div class="flex flex-row">
             <p class="text-[white] text-2xl"><%= @person_details['name'] %></p>

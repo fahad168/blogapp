@@ -7,7 +7,7 @@
           <p class="font-bold text-white"><%= @user.email %></p>
         </div>
         <div class="flex flex-row justify-center">
-          <img src="<%= @user.profile_image.attached? ? @user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover">
+          <img src="<%= @user.profile_image.attached? ? @user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover" alt="user image">
         </div>
       </div>
       <div></div>

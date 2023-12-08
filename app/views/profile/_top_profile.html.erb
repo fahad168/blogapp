@@ -7,7 +7,7 @@
           <p class="font-bold text-white"><%= current_user.email %></p>
         </div>
         <div class="flex flex-row justify-center">
-          <img src="<%= current_user.profile_image.attached? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover">
+          <img src="<%= current_user.profile_image.attached? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover" alt="user image">
         </div>
       </div>
       <div></div>
@@ -23,7 +23,7 @@
   <div class="absolute inset-x-0 bottom-0 h-[10rem] bg-gradient-to-t from-black to-transparent">
     <div class="flex flex-col justify-end h-full">
       <div class="flex flex-row justify-end mr-5">
-        <img src="<%= asset_path('gallery.svg') %>" class="cursor-pointer hover:opacity-75" id="dropdownDefaultButton" data-dropdown-toggle="dropdown">
+        <img src="<%= asset_path('gallery.svg') %>" class="cursor-pointer hover:opacity-75" id="dropdownDefaultButton" data-dropdown-toggle="dropdown" alt="gallery">
       </div>
     </div>
     <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">

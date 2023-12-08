@@ -1,5 +1,5 @@
 <% if playing['poster_path'].present? %>
-  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>">
+  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="poster">
 <% else %>
   <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
 <% end %>

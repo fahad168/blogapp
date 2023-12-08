@@ -23,7 +23,7 @@
   <% else %>
     <div class="relative">
       <% if @movie_detail['poster_path'].present? %>
-        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= @movie_detail['poster_path'] %>" class="w-full">
+        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= @movie_detail['poster_path'] %>" class="w-full" alt="poster">
       <% else %>
         <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
       <% end %>
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="flex flex-row pl-5 mt-2 items-center">
-        <img title="Add To Album" src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="<%= user_signed_in? ? "open_movie_albums(#{@movie_detail['id']})" : 'show_toast()' %>">
+        <img title="Add To Album" src="<%= asset_path('add.svg') %>" class="mr-3 cursor-pointer zoom-on-hover" onclick="<%= user_signed_in? ? "open_movie_albums(#{@movie_detail['id']})" : 'show_toast()' %>" alt="add">
         <p class="text-gray-500 dark:text-gray-400"><%= @movie_detail['release_date'].split('-').first %></p>
         <p class="text-gray-500 dark:text-gray-400 ml-2"><%= @movie_detail['runtime'] / 60 %>h <%= @movie_detail['runtime'] % 60 %>m</p>
       </div>

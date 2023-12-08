@@ -19,7 +19,7 @@
                 <%= f.hidden_field :follower_id, value: follower.follower_id %>
                 <div class="bg-[#494F55] shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-lg flex flex-row justify-between searchable-item mb-10 p-4">
                   <div class="flex flex-row justify-start">
-                    <img class="w-10 h-10 rounded-full object-cover <%= user.profile_image.attached? ? '' : 'border-2 border-[grey]' %>" src="<%= user.profile_image.attached? ? user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy">
+                    <img class="w-10 h-10 rounded-full object-cover <%= user.profile_image.attached? ? '' : 'border-2 border-[grey]' %>" src="<%= user.profile_image.attached? ? user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" alt="profile image">
                     <p class="text-center ml-5 hover:underline cursor-pointer mt-1" data-searchable="item<%= index %>"><%= user.username %></p>
                   </div>
                   <button type="submit" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0">

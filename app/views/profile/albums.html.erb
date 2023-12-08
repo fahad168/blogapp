@@ -13,26 +13,31 @@
         <div class="flex flex-row flex-wrap">
           <% if @albums.present? %>
             <% @albums.each do |album| %>
-              <div class="album_card cursor-pointer" onclick="show_album('<%= album.id %>')">
+              <div class="album_card">
                 <div class="top-section">
                   <div class="border">
                   </div>
-                  <div class="w-full h-full">
-                    <img src="<%= album.album_image.attached? ? album.album_image.blob.url : asset_path('no_image_found.png') %>" loading="lazy" class="rounded-lg h-[9rem] absolute w-full mt-1">
+                  <div class="w-full h-full" onclick="show_album('<%= album.id %>')">
+                    <img src="<%= album.album_image.attached? ? album.album_image.blob.url : asset_path('no_image_found.png') %>" loading="lazy" class="rounded-lg h-[9rem] absolute w-full mt-1 cursor-pointer" alt="album image">
                   </div>
                   <div class="icons">
                     <div class="logo">
                       <%= album.title.split(' ').first.capitalize %>
                     </div>
                     <div class="social-media">
-                      <a href="https://web.whatsapp.com/send?text=<%= CGI.escape(album.shareable_link) %>" data-action="share/whatsapp/share" class="text-white" target="_blank"><img src="<%= asset_path('whatsapp.svg') %>" class="w-[0.8rem]"></a>
-                      <a href="https://twitter.com/intent/tweet?url=<%= CGI.escape(album.shareable_link) %>&text=<%= album.title.capitalize %>%20by%20<%= current_user.username.capitalize %>&media=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw780%2F<%= album.album_contents.present? ? album.album_contents.first.img_url : '' %>" class="text-white" target="_blank"><img src="<%= asset_path('twitter.svg') %>" class="w-[0.8rem]"></a>
-                      <a href="https://www.facebook.com/sharer.php?u=<%= CGI.escape(album.shareable_link) %>" class="text-white" target="_blank"><img src="<%= asset_path('facebook.svg') %>" class="w-[0.8rem]"></a>
+                      <a href="https://web.whatsapp.com/send?text=<%= CGI.escape(album.shareable_link) %>" data-action="share/whatsapp/share" class="text-white" target="_blank"><img src="<%= asset_path('whatsapp.svg') %>" class="w-[0.8rem] hover:opacity-75" alt="whatsapp"></a>
+                      <a href="https://twitter.com/intent/tweet?url=<%= CGI.escape(album.shareable_link) %>&text=<%= album.title.capitalize %>%20by%20<%= current_user.username.capitalize %>&media=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw780%2F<%= album.album_contents.present? ? album.album_contents.first.img_url : '' %>" class="text-white" target="_blank"><img src="<%= asset_path('twitter.svg') %>" class="w-[0.8rem] hover:opacity-75" alt="twitter"></a>
+                      <a href="https://www.facebook.com/sharer.php?u=<%= CGI.escape(album.shareable_link) %>" class="text-white" target="_blank"><img src="<%= asset_path('facebook.svg') %>" class="w-[0.8rem] hover:opacity-75" alt="facebook"></a>
                     </div>
                   </div>
                 </div>
                 <div class="bottom-section">
-                  <span class="title"><%= album.title.capitalize %></span>
+                  <div class="flex flex-row justify-between">
+                    <span class="title cursor-pointer hover:underline" onclick="show_album('<%= album.id %>')"><%= album.title.capitalize %></span>
+                    <%= link_to "/album/#{album.id}", data: { turbo_method: :delete }, class: 'hover:opacity-75' do %>
+                      <%= image_tag asset_path('bin.svg') %>
+                    <% end %>
+                  </div>
                   <div class="row row1">
                     <div class="item">
                       <span class="big-text"><%= album.album_contents.count %></span>
@@ -64,7 +69,7 @@
 
 <%= javascript_include_tag('home/home_modal') %>
 
-<% if flash[:notice].present? %>
+<% if flash[:notice].present? && !flash[:notice].include?('deleted') %>
   <script>
     $(document).ready(function () {
         var notice = '<%= flash[:notice] %>'
