@@ -44,17 +44,17 @@
               <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M22 22L20 20"></path>
             </svg>
           </button>
-            <% if params[:controller] == 'home' %>
-              <%= f.hidden_field :page, value: 'home' %>
+            <% if params[:controller] == 'tv_shows' %>
+              <%= f.hidden_field :page, value: 'tv_show' %>
             <% elsif params[:controller] == 'movies' %>
               <%= f.hidden_field :page, value: 'movies' %>
             <% else %>
-              <%= f.hidden_field :page, value: 'tv_show' %>
+              <%= f.hidden_field :page, value: 'home' %>
             <% end %>
-            <input value="<%= params[:q].present? ? params[:q] : '' %>" placeholder="<%= if params[:controller] == 'home'
-                                      'Movies, Tv Shows, People'
+            <input value="<%= params[:q].present? ? params[:q] : '' %>" placeholder="<%= if params[:controller] == 'movies'
+                                      'Search movies'
                                     else
-                                      params[:controller] == 'movies' ? 'Search movies' : 'Search tv shows'
+                                      params[:controller] == 'tv_shows' ? 'Search tv shows' : 'Movies, Tv Shows, People'
                                     end %>" class="input" name="q" type="text">
             <%#= f.submit "" %>
           <% end %>
@@ -74,7 +74,7 @@
                 <%= link_to "Profile", profile_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
               </li>
               <li class="hover:text-[gray] mt-2">
-                <%= link_to "Settings", settings_path, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+                <%= link_to "Settings", settings_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
               </li>
             </ul>
             <div class="py-2">

@@ -1,19 +1,16 @@
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
   <%= render "shared/header" %>
-  <div class="">
-    <%= render 'profile/top_profile' %>
-    <div class="flex flex-row justify-center mt-[2rem]">
-      <div class="border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg">
-        <%= render 'profile/new_sidebar' %>
-      </div>
-      <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg">
-        <div class="flex justify-end mr-4 mt-3">
-          <button class="button bg-[green] rounded-lg w-[10rem] p-2" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Create Album</button>
-        </div>
-        <div class="flex flex-row flex-wrap">
-          <% if @albums.present? %>
-            <% @albums.each do |album| %>
-              <div class="album_card">
+  <div class="relative">
+    <%= render 'other_users/other_top_profile' %>
+  </div>
+  <div class="min-w-screen min-h-[30rem] bg-transparent px-5 pb-5 pt-[15rem] flex flex-row justify-center">
+    <div class="py-3 px-5 bg-transparent border-2 border-[gray] rounded shadow-xl w-[80%]">
+      <%= render 'other_users/others_sidebar' %>
+      <div class="flex flex-row flex-wrap mt-[2rem]">
+        <% if @other_albums.present? && !@user.setting.private_albums %>
+          <% @other_albums.each do |album| %>
+            <% if album.private == false %>
+              <div class="album_card ml-[3rem]">
                 <div class="top-section">
                   <div class="border">
                   </div>
@@ -34,9 +31,6 @@
                 <div class="bottom-section">
                   <div class="flex flex-row justify-between">
                     <span class="title cursor-pointer hover:underline" onclick="show_album('<%= album.id %>')"><%= album.title.capitalize %></span>
-                    <%= link_to "/album/#{album.id}", data: { turbo_method: :delete }, class: 'hover:opacity-75' do %>
-                      <%= image_tag asset_path('bin.svg') %>
-                    <% end %>
                   </div>
                   <div class="row row1">
                     <div class="item">
@@ -56,39 +50,21 @@
               </div>
             <% end %>
           <% end %>
-        </div>
+        <% else %>
+          <div class="flex flex-row justify-center w-full mt-[2rem]">
+            <% if @user.setting.private_account %>
+              <p class="text-[red] text-center">Account is private. Follow to see!!!</p>
+            <% else %>
+              <p class="text-[red] text-center">No albums present</p>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
+    <%= render 'profile/show_album_modal' %>
+    <%= render 'home/movie_modal' %>
+    <%= render 'home/season_modal' %>
   </div>
-  <%= render 'profile/create_album_modal' %>
-  <%= render 'profile/shareable_link_modal' %>
-  <%= render 'profile/show_album_modal' %>
-  <%= render 'home/movie_modal' %>
-  <%= render 'home/season_modal' %>
 </main>
-
-<%= javascript_include_tag('home/home_modal') %>
 <%= javascript_include_tag('home/show_album') %>
-
-<% if flash[:notice].present? && !flash[:notice].include?('deleted') %>
-  <script>
-    $(document).ready(function () {
-        var notice = '<%= flash[:notice] %>'
-        var shareLink = document.getElementById('shareLink')
-        shareLink.value = notice.split('link ')[1]
-        document.getElementById('whatsapp').href = `https://web.whatsapp.com/send?text=${shareLink.value}`
-        document.getElementById('twitter').href = `https://twitter.com/intent/tweet?url=${shareLink.value}`
-        document.getElementById('facebook').href = `https://www.facebook.com/sharer.php?u=${shareLink.value}`
-        document.getElementById('mail').href = `mailto:?subject=Shared%20by%20<%= current_user.username.capitalize %>&body=${shareLink.value}`
-        document.getElementById('share-modal').style.display = 'flex'
-        document.getElementById('overlay').style.display = 'block'
-    })
-  </script>
-<% end %>
-
-<script>
-  function close_share_modal() {
-      document.getElementById('share-modal').style.display = 'none'
-      document.getElementById('overlay').style.display = 'none'
-  }
-</script>
+<%= javascript_include_tag('home/home_modal') %>

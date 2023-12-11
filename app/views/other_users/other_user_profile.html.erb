@@ -1,53 +1,31 @@
-<div class="relative">
-  <div class="h-[25rem] flex items-center <%= @user.cover_image.attached? ? '' : 'bg-[grey]' %>" style="background-image: url(<%= @user.cover_image.attached? ? rails_blob_url(@user.cover_image) : 'background_image1' %>);background-position: center; object-fit: cover">
-    <div class="grid grid-cols-3 w-full">
-      <div class="bg-black h-[15rem] flex flex-row justify-end items-center pr-10 rounded-r-full" style="opacity: 60%">
-        <div class="flex flex-col justify-start mr-5">
-          <p class="font-bold text-white mb-10"><%= @user.username %></p>
-          <p class="font-bold text-white"><%= @user.email %></p>
-        </div>
-        <div class="flex flex-row justify-center">
-          <img src="<%= @user.profile_image.attached? ? @user.profile_image.blob.url : asset_path('user.svg') %>" id="user-image" loading="lazy" class="border-2 border-white rounded-full w-[10rem] h-[10rem] object-cover" alt="user image">
+<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
+  <%= render "shared/header" %>
+  <div class="relative">
+    <%= render 'other_users/other_top_profile' %>
+  </div>
+  <div class="min-w-screen min-h-[30rem] bg-transparent px-5 pb-5 pt-[15rem] flex flex-row justify-center">
+    <div class="py-3 px-5 bg-transparent border-2 border-[gray] rounded shadow-xl w-[80%]">
+      <%= render 'other_users/others_sidebar' %>
+      <div class="mt-[5rem] mb-[5rem] flex flex-row">
+        <div class="flex flex-col justify-center w-full ml-[12rem]">
+          <div class="grid grid-cols-2 w-[50%] mx-auto gap-5" style="justify-items: start">
+            <label class="text-gray-500">Username:</label>
+            <p class="text-white"><%= @user.username %></p>
+          </div>
+          <div class="grid grid-cols-2 w-[50%] gap-5 mx-auto mt-5" style="justify-items: start">
+            <label class="text-gray-500">Email:</label>
+            <p class="text-white text-center"><%= @user.email %></p>
+          </div>
+          <div class="grid grid-cols-2 w-[50%] gap-5 mx-auto mt-5" style="justify-items: start">
+            <label class="text-gray-500">Followers:</label>
+            <p class="text-white text-center"><%= @user.followers.where(status: 1).count %></p>
+          </div>
+          <div class="grid grid-cols-2 w-[50%] gap-5 mx-auto mt-5" style="justify-items: start">
+            <label class="text-gray-500">Followings:</label>
+            <p class="text-white text-center"><%= @user.followings.where(status: 1).count %></p>
+          </div>
         </div>
       </div>
-      <div></div>
-      <div class="bg-black h-[15rem] w-full flex items-center rounded-l-full" style="opacity: 60%">
-        <div class="flex flex-row justify-evenly ml-[3rem] w-full">
-          <p class="font-bold text-white">Followers: <%= @user.followers.where(status: 1).count %></p>
-          <p class="font-bold text-whit`e">Followings: <%= @user.followings.where(status: 1).count %></p>
-          <p class="font-bold text-white">Profile Views: 0</p>
-        </div>
-      </div>
     </div>
   </div>
-  <div class="absolute inset-x-0 bottom-0 h-[10rem] bg-gradient-to-t from-black to-transparent">
-  </div>
-</div>
-<div class="flex flex-row justify-center">
-  <ul class="flex flex-wrap -mb-1 px-4 md:px-8" id="paymentTab" data-tabs-toggle="#payoutTabsContent" role="tablist">
-    <li class="mr-4" role="presentation" id="tab1">
-      <button class="flex gap-3 items-center outline-none px-4 pt-1 pb-4 text-lg profile_tab" id="bank-tab" data-tabs-target="#bank" type="button" role="tab" aria-controls="bank" aria-selected="false">
-        <%#= image_tag "bank-tab.svg", class: "w-7 h-7" %>
-        Bank
-      </button>
-    </li>
-    <li role="presentation" id="tab2">
-      <button class="flex gap-3 items-center outline-none px-4 pt-1 pb-4 text-lg profile_tab" id="credit_card-tab" data-tabs-target="#credit_card" type="button" role="tab" aria-controls="credit_card" aria-selected="false">
-        <%#= image_tag "credit-tab.svg", class: "w-7 h-7" %>
-        Credit Card
-      </button>
-    </li>
-  </ul>
-  <div id="payoutTabsContent">
-    <div class="hidden" id="bank" role="tabpanel" aria-labelledby="bank-tab">
-      <%#= render "bank_tab" %>
-    </div>
-    <div class="hidden" id="credit_card" role="tabpanel" aria-labelledby="credit_card-tab">
-      <%#= render "credit_card" %>
-    </div>
-  </div>
-</div>
-
-<!--  <div class="border-2 border-[grey] h-[25rem] max-h-[40rem] w-[80%] mt-10 ml-10 rounded-lg">-->
-<!--  </div>-->
-
+</main>

@@ -1,0 +1,11 @@
+<div class="h-[20rem] flex items-center rounded-br-xl rounded-bl-xl" style="background-image: url(<%= @user.cover_image.attached? ? rails_blob_url(@user.cover_image) : asset_path("person_details_bg.jpg") %>);background-position: center; object-fit: cover">
+  <img src="<%= @user.profile_image.attached? ? @user.profile_image.blob.url : asset_path('user.svg') %>" class="w-[10rem] h-[15rem] rounded-xl object-cover mt-[25rem] ml-[15rem] <%= @user.profile_image.attached? ? '' : 'border-2 border-[white] bg-black' %>" alt="profile image" loading="lazy">
+  <div class="flex flex-col mt-[26rem] ml-[2rem]">
+    <div class="flex flex-row mt-5">
+      <p class="text-[white] text-2xl"><%= @user.username %></p>
+    </div>
+    <div>
+      <p><%= @user.email %></p>
+    </div>
+  </div>
+</div>

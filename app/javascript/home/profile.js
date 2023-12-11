@@ -68,7 +68,7 @@ function create_requested_button(following_id) {
     var button = document.createElement("button");
     button.id = `button${following_id}`;
     button.type = "button";
-    button.className = "btn relative px-8 w-[8rem] text-white text-base font-bold uppercase rounded-lg overflow-hidden bg-transparent border-2 border-[white] transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full hover:border-0 before:bg-gradient-to-r before:from-red-900 before:to-red-800 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0";
+    button.className = "btn relative px-8 w-[8rem] h-[2.5rem] text-white text-base font-bold uppercase rounded-lg overflow-hidden bg-transparent border-2 border-[white] transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full hover:border-0 before:bg-gradient-to-r before:from-red-900 before:to-red-800 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0";
 
     var span1 = document.createElement("span");
     span1.className = "btn-text-one";

@@ -1,10 +1,10 @@
 $(document).ready(function () {
     localStorage.setItem('scroll_time', '0')
     var texture_count = localStorage.getItem('texture_count')
-    if (texture_count && parseInt(texture_count) < 9) {
+    if (texture_count && parseInt(texture_count) < 10) {
         texture_count = parseInt(texture_count) + 1
         localStorage.setItem('texture_count', `${texture_count}`)
-    } else if (texture_count && parseInt(texture_count) === 9) {
+    } else if (texture_count && parseInt(texture_count) === 10) {
         localStorage.setItem('texture_count', '1')
     } else {
         localStorage.setItem('texture_count', '1')
@@ -22,6 +22,7 @@ function open_movie(tmdb_id) {
 }
 
 function hideMovie() {
+    document.getElementById('movieIframe').src = ""
     document.getElementById('moviePlayModal').style.display = "none"
 }
 
@@ -33,5 +34,6 @@ function openModal(tmdb_id, season_number, episode_number) {
 }
 
 function hideEpisode() {
+    document.getElementById('episodeIframe').src = ""
     document.getElementById('episodeModal').style.display = "none"
 }
