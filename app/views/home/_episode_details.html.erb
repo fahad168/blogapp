@@ -1,5 +1,5 @@
 <% @episode_details['episodes'].each do |episode| %>
-   <a class="episode_card cursor-pointer flex flex-row justify-start" onclick="openModal('<%= episode['show_id'] %>', '<%= episode['season_number'] %>', '<%= episode['episode_number'] %>')">
+   <div class="episode_card cursor-pointer flex flex-row justify-start" onclick="openModal('<%= episode['show_id'] %>', '<%= episode['season_number'] %>', '<%= episode['episode_number'] %>')">
      <% if episode['still_path'].present? %>
        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= episode['still_path'] %>" class="object-contain" alt="poster">
      <% else %>
@@ -19,7 +19,7 @@
         <p class="text-sm"><%= episode['overview'] %></p>
       </div>
     </div>
-  </a>
+  </div>
 <% end %>
 <%= render 'tv_shows/watch_season_episodes' %>
 

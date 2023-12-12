@@ -64,7 +64,7 @@
         </div>
         <div class="flex flex-row pl-4 overflow-x-auto pr-4">
           <% @clips.each do |clip| %>
-            <a class="cursor-pointer mb-6">
+            <div class="cursor-pointer mb-6">
               <iframe
                 id="iframe"
                 width="100%"
@@ -73,7 +73,7 @@
                 allowfullscreen
                 class="md:h-[15rem] h-[7.5rem] w-[7.5rem] pl-4 md:w-[28rem] "
               ></iframe>
-            </a>
+            </div>
           <% end %>
         </div>
       </div>

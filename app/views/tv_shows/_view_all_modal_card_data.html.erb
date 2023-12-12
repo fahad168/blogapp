@@ -1,4 +1,4 @@
-<a class="card ml-[1.875rem] mb-[1rem] cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= playing['id'] %>">
+<div class="card ml-[1.875rem] mb-[1rem] cursor-pointer" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= playing['id'] %>">
   <% if playing['poster_path'].present? %>
     <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="Poster Image">
   <% else %>
@@ -23,4 +23,4 @@
       <% end %>
     </div>
   </div>
-</a>
+</div>

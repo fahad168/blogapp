@@ -33,9 +33,9 @@
           Follow
         </button>
       <% else %>
-        <a type="button" id="button<%= params[:id] %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0">
+        <div id="button<%= params[:id] %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0 cursor-pointer">
           Friends
-        </a>
+        </div>
       <% end %>
     <% else %>
       <button type="button" id="button<%= params[:id] %>" class="relative py-2 px-8 text-black text-base font-bold uppercase rounded-lg overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-500 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-lg hover:before:left-0" onclick="create_following('<%= params[:id] %>')">

@@ -17,7 +17,7 @@
         <div class="flex flex-row overflow-x-auto">
           <% user.albums.each do |album| %>
             <% if album.private == false %>
-              <a class="card ml-[1.875rem] cursor-pointer" onclick="show_album('<%= album.id %>')">
+              <div class="card ml-[1.875rem] cursor-pointer" onclick="show_album('<%= album.id %>')">
                 <img src="<%= album.album_image.blob.url %>" loading="lazy" alt="Album Image" class="object-cover">
                 <div class="descriptions flex flex-col justify-between">
                   <h1 class="truncate font-bold text-xl"><%= album.title.capitalize %></h1>
@@ -34,7 +34,7 @@
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             <% end %>
           <% end %>
         </div>
