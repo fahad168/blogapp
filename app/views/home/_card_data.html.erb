@@ -1,7 +1,7 @@
 <% if playing['poster_path'].present? %>
-  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="poster">
+  <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= playing['poster_path'] %>" alt="poster" loading="lazy">
 <% else %>
-  <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image">
+  <img src="<%= asset_path('no_image_found.png') %>" alt="Poster Image" loading="lazy">
 <% end %>
 <div class="descriptions flex flex-col justify-between">
   <h1 class="truncate font-bold text-xl"><%= playing['original_title'] %></h1>
