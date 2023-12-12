@@ -30,9 +30,9 @@
       <li>
         <%= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
-      <li>
-        <%= link_to "About", '', class: "block hover:text-[white] py-2 robo-font text-base text-[white]" %>
-      </li>
+<!--      <li>-->
+        <%#= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:text-[white] py-2 robo-font text-base text-[white]" %>
+<!--      </li>-->
     </ul>
     <% if user_signed_in? %>
       <div class="flex flex-row justify-end">
