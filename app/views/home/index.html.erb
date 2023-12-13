@@ -87,7 +87,7 @@
   $(document).ready(function () {
       $.ajax({
           type: 'GET',
-          url: "<%= ENV['WEBSITE_URL'] %>?type=js",
+          url: "/?type=js",
           success: function (res) {
               $('#indexFile').append(res.entries)
           }
