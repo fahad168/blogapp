@@ -50,4 +50,5 @@ Rails.application.routes.draw do
   post '/create_following', to: 'followings#create'
   post '/cancel_following', to: 'followings#cancel'
   post '/update_request', to: 'followings#update_request'
+  get '/browse', to: 'advance_search#index'
 end

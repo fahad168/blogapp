@@ -30,15 +30,15 @@
       <li>
         <%= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
-<!--      <li>-->
-        <%#= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:text-[white] py-2 robo-font text-base text-[white]" %>
-<!--      </li>-->
+      <li>
+        <%= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'advance_search' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+      </li>
     </ul>
     <% if user_signed_in? %>
       <div class="flex flex-row justify-end">
         <div class="input-wrapper">
           <%= form_with(url: "/search_results", method: :get, data: { turbo: false }) do |f| %>
-          <button class="icon" type="button" name="search_button">
+          <button class="icon" type="button" aria-label="search_button">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="25px" width="25px">
               <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"></path>
               <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M22 22L20 20"></path>

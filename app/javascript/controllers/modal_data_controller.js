@@ -57,14 +57,6 @@ export default class extends Controller {
     }
 
     scroll() {
-        // var current_page = document.getElementById('current_page')
-        // let next_page
-        // if (current_page.value === '') {
-        //     next_page = 2
-        // } else {
-        //     next_page = parseInt(current_page.value) + 1
-        // }
-        // current_page.value = next_page.toString()
         var body = document.body,
             html = document.documentElement
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
