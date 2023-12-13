@@ -7,6 +7,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield(:meta_tags) %>
+    <%= favicon_link_tag('web_logo.svg', class: 'w-16 h-16') %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <script src="https://cdn.tailwindcss.com"></script>
