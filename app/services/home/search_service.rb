@@ -1,9 +1,10 @@
 class Home::SearchService
 
-  def initialize(params)
+  def initialize(params, user)
     @page = params[:page]
     @keyword = params[:q]
     @person_id = params[:person_id]
+    @user = user
   end
 
   def base_method
@@ -17,11 +18,11 @@ class Home::SearchService
   def make_url
     case @page
     when 'home'
-      URI("#{ENV['TMBD_BASE_URL']}/search/multi?query=#{@keyword}")
+      URI("#{ENV['TMBD_BASE_URL']}/search/multi?query=#{@keyword}&include_adult=#{@user.present? ? @user.setting.adult_content : 'false'}")
     when 'movies'
-      URI("#{ENV['TMBD_BASE_URL']}/search/movie?query=#{@keyword}")
+      URI("#{ENV['TMBD_BASE_URL']}/search/movie?query=#{@keyword}&include_adult=#{@user.present? ? @user.setting.adult_content : 'false'}")
     else
-      URI("#{ENV['TMBD_BASE_URL']}/search/tv?query=#{@keyword}")
+      URI("#{ENV['TMBD_BASE_URL']}/search/tv?query=#{@keyword}&include_adult=#{@user.present? ? @user.setting.adult_content : 'false'}")
     end
   end
 

@@ -1,5 +1,5 @@
 <% content_for :meta_tags do %>
-  <meta name="seasons" content="All genres seasons to watch and explore">
+  <meta name="description" content="All genres seasons to watch and explore">
   <meta name="keywords" content="seasons, genres, explore, search, tv_shows, episodes">
 <% end %>
 
@@ -15,20 +15,20 @@
         </div>
         <div class="flex flex-col justify-center absolute lg:mt-[6rem] z-10 mt-0 lg:ml-[5rem] ml-10 h-screen" id="popular_play_responsive">
           <div class="flex flex-row">
-            <button class="play mr-5" onclick="openModal('<%= season['id'] %>', '1', '1')">
+            <button aria-label="play_button" class="play mr-5" onclick="openModal('<%= season['id'] %>', '1', '1')">
               <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
                 <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
               </svg>
             </button>
-            <button class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= season['id'] %>">View
+            <button aria-label="view_details_button" class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= season['id'] %>">View
               Details
             </button>
           </div>
         </div>
         <% if season['backdrop_path'].present? %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full" id="popular_image" alt="backdrop image">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['backdrop_path'] %>" class="h-full w-full" id="popular_image" alt="backdrop image" loading="lazy">
         <% else %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['poster_path'] %>" class="h-full w-full" id="popular_image" alt="poster image">
+          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= season['poster_path'] %>" class="h-full w-full" id="popular_image" alt="poster image" loading="lazy">
         <% end %>
         <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
       </div>

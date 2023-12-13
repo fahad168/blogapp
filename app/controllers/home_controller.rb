@@ -1,12 +1,18 @@
 class HomeController < ApplicationController
   def index
-    @trending_all = JSON.parse(Home::HomeService.trending_all)
-    @playing_now = JSON.parse(Home::HomeService.now_playing(nil))
-    @popular = JSON.parse(Home::HomeService.popular(nil))
-    @top_rated_movies = JSON.parse(Home::HomeService.top_rated(nil))
-    @top_rated_shows = JSON.parse(Home::HomeService.top_rated_shows(nil))
-    @lollywood_movies = JSON.parse(Home::HomeService.lollywood(nil))
-    @bollywood_movies = JSON.parse(Home::HomeService.bollywood(nil))
+    if params[:type].present?
+      @top_rated_movies = JSON.parse(Home::HomeService.top_rated(nil))
+      @top_rated_shows = JSON.parse(Home::HomeService.top_rated_shows(nil))
+      @lollywood_movies = JSON.parse(Home::HomeService.lollywood(nil))
+      @bollywood_movies = JSON.parse(Home::HomeService.bollywood(nil))
+      respond_to do |format|
+        format.json { render json: { entries: render_to_string(partial: 'home/home_data', formats: [:html]) } }
+      end
+    else
+      @trending_all = JSON.parse(Home::HomeService.trending_all)
+      @playing_now = JSON.parse(Home::HomeService.now_playing(nil))
+      @popular = JSON.parse(Home::HomeService.popular(nil))
+    end
   end
 
   def get_modal_data
@@ -51,7 +57,7 @@ class HomeController < ApplicationController
   end
 
   def search_results
-    @search_results = JSON.parse(Home::SearchService.new(params).base_method)
+    @search_results = JSON.parse(Home::SearchService.new(params, current_user).base_method)
     @keywords_suggestions = JSON.parse(Home::SearchService.keywords_suggestions(params))
   end
 
