@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post '/profile/update', to: 'profile#update'
   get '/albums', to: 'profile#albums'
   post '/create_album', to: 'profile#create_album'
-  get '/album/:username/:album_title', to: 'profile#show_album'
+  get '/album/:username/:album_title/:album_id/:user_id', to: 'profile#show_album'
   get '/album', to: 'profile#show_album_data'
   delete '/album/:id', to: 'profile#destroy'
   get '/movies_dropdown_data', to: 'profile#movies_dropdown_data'

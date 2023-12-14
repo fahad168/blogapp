@@ -69,7 +69,7 @@ class ProfileController < ApplicationController
   def create_album
     @album = Album.new(album_params)
     if @album.save
-      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username&.split(' ')&.join}/#{@album.title.split(' ').join}?user=#{current_user.id}&album=#{@album.id}"
+      link = "#{ENV['WEBSITE_URL']}/album/#{current_user.username&.split(' ')&.join}/#{@album.title.split(' ').join}/#{@album.id}/#{current_user.id}"
       flash[:notice] = "#{@album.title} created successfully with shareable link #{link}"
       if params[:movie_id].present?
         create_album_movie(params, @album)
@@ -116,8 +116,8 @@ class ProfileController < ApplicationController
   end
 
   def show_album
-    @user = User.find_by(id: params[:user])
-    @album = Album.find_by(id: params[:album])
+    @user = User.find_by(id: params[:user_id])
+    @album = Album.find_by(id: params[:album_id])
     @album.increment(:total_views).save
   end
 
