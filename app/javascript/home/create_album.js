@@ -1,12 +1,3 @@
-$(document).ready(function () {
-    // $('.nice-select').niceSelect()
-    $('.chosen-select').chosen({
-        disable_search_threshold: 10,
-        placeholder_text_single: 'Select Movies',
-        no_results_text: 'No results found',
-    });
-})
-
 function show_genre(dropdown) {
     if (dropdown.value === 'movie') {
         document.getElementById('movie_genre').style.display = "block"
