@@ -190,6 +190,13 @@ class ProfileController < ApplicationController
     render json: { message: 'Updated Successfully' }, status: :ok
   end
 
+  def destroy_user
+    @user = User.find_by(id: params[:id])
+    if @user.destroy
+      flash[:notice] = "User deleted Successfully"
+      redirect_to '/'
+    end
+  end
 
   private
 

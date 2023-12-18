@@ -37,12 +37,10 @@
       <div class="border-t-2 border-white w-[11.3rem]"></div>
     </div>
     <div class="flex flex-col mt-5">
-      <div class="bg-[orange] rounded-lg p-3 text-center">
-        Sign Up With Google
-      </div>
-      <div class="bg-[blue] rounded-lg p-3 text-center mt-4">
-        Sign Up With Facebook
-      </div>
+      <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, class: 'w-[25rem] bg-[white] flex flex-rows justify-center rounded-lg text-center', data: {turbo: "false"} do %>
+        <%= image_tag('google.svg', class: 'w-12 h-12') %>
+        <p class="text-[black] mt-[0.6rem]">Sign Up With Google</p>
+      <% end %>
     </div>
     <div class="mt-[4rem] text-center">
       <p>Already Have Account <a href="/users/sign_in" class="underline text-[red]">Sign In</a></p>

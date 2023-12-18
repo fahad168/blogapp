@@ -24,6 +24,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def twitter2
+    debugger
+  end
+
   def facebook; end
 
   def auth

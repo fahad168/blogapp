@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get 'privacy_policy', to: proc { [200, {}, [File.read(Rails.root.join('public', 'policy', 'moviescorn_policy.pdf'))]] }
+  get 'terms_and_conditions', to: proc { [200, {}, [File.read(Rails.root.join('public', 'conditions', 'moviescorn_conditions.pdf'))]] }
   root 'home#index'
   get '/search_results', to: 'home#search_results'
   get '/person_detail', to: 'home#person_detail'
@@ -41,6 +43,7 @@ Rails.application.routes.draw do
   post '/unfollow', to: 'profile#unfollow'
   post '/unfriend', to: 'profile#unfriend'
   get '/settings', to: 'profile#settings'
+  delete '/user/:id', to: 'profile#destroy_user'
   get '/update_settings', to: 'profile#update_settings'
   get '/other_albums', to: 'other_users#index'
   get '/other_user_profile', to: 'other_users#other_user_profile'

@@ -19,6 +19,7 @@ gem 'dotenv-rails'
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
+gem 'meta-tags'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
@@ -33,6 +34,7 @@ gem "redis", "~> 4.0"
 
 gem 'jquery-rails'
 gem "omniauth-google-oauth2"
+gem 'omniauth-twitter2'
 gem "omniauth-rails_csrf_protection"
 gem 'google-api-client'
 gem 'clipboard-rails'

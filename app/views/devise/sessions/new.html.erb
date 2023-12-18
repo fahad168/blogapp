@@ -36,9 +36,10 @@
         <%#= button_to  image_tag('google.svg'), user_google_oauth2_omniauth_authorize_path, method: :post, class: 'w-10 h-10', :data => {turbo: "false"} %>
 <!--        <p class="text-black text-center mt-2">Continue with Google</p>-->
 <!--      </div>-->
-      <div class="bg-[blue] rounded-lg p-3 text-center mt-4">
-        Continue With Facebook
-      </div>
+      <%#= button_to user_twitter2_omniauth_authorize_path, method: :post, class: 'w-[25rem] bg-[white] flex flex-rows justify-center rounded-lg text-center', data: {turbo: "false"} do %>
+        <%#= image_tag('google.svg', class: 'w-12 h-12') %>
+<!--        <p class="text-[black] mt-[0.6rem]">Continue With Twitter</p>-->
+      <%# end %>
     </div>
     <div class="mt-[4rem] text-center">
       <p>Don't Have Account <a href="/users/sign_up" class="underline text-[red]">Sign Up</a></p>
