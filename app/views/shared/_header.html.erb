@@ -35,7 +35,7 @@
       </li>
     </ul>
     <% if user_signed_in? %>
-      <div class="flex flex-row justify-end">
+      <div class="md:flex hidden flex-row justify-end">
         <div class="input-wrapper">
           <%= form_with(url: "/search_results", method: :get, data: { turbo: false }) do |f| %>
           <button class="icon" type="button" aria-label="search_button">
@@ -86,9 +86,11 @@
         </div>
       </div>
     <%  else  %>
-      <a class="bg-[white] w-[6rem] h-[3rem] rounded-lg text-center" href="/users/sign_in">
-        <p class="text-center text-[black] mt-[0.5rem]">Sign In</p>
-      </a>
+      <div class="md:flex hidden flex-row justify-end">
+        <a class="bg-[white] w-[6rem] h-[3rem] rounded-lg text-center" href="/users/sign_in">
+          <p class="text-center text-[black] md:mt-[0.5rem] mt-[0.8rem]">Sign In</p>
+        </a>
+      </div>
     <%  end %>
   </div>
 </section>

@@ -8,7 +8,7 @@
   <div class="single-item -mt-[88px]">
     <% @trending_all['results']&.each_with_index do |trending, index| %>
       <div class="relative h-screen">
-        <div class="absolute flex flex-col justify-center md:ml-[5rem] ml-10 w-[80%]" style="height: 100vh" id="popular_movies_responsive">
+        <div class="absolute flex flex-col justify-center lg:ml-[5rem] md:ml-[3rem] ml-10 w-[80%]" style="height: 100vh" id="popular_movies_responsive">
           <h1 class="texting lg:text-[6.25rem] md:text-[3rem] text-[2rem] w-full focus:outline-none line-clamp-1" id="texting" contenteditable data-heading="<%= trending['original_title'] %>">
             <% if trending['media_type'] == 'movie' %>
               <%= trending['original_title'] %>
@@ -17,11 +17,11 @@
             <% end %>
           </h1>
         </div>
-        <div class="flex flex-col justify-center absolute lg:mt-[6rem] mt-0 lg:ml-[5rem] ml-10 h-screen z-10" id="popular_play_responsive">
+        <div class="flex flex-col justify-center absolute lg:mt-[6rem] md:mt-[1rem] mt-[2rem] lg:ml-[5rem] ml-10 h-screen z-10" id="popular_play_responsive">
           <% if trending['media_type'] == 'movie' %>
             <div class="flex flex-row">
-              <button aria-label="play_button" class="play mr-5" onclick="open_movie('<%= trending['id'] %>')">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
+              <button aria-label="play_button" class="play mr-5 items-center" onclick="open_movie('<%= trending['id'] %>')">
+                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="md:w-[26px] w-[20px]">
                   <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
                 </svg>
               </button>
@@ -31,8 +31,8 @@
             </div>
           <% elsif trending['media_type'] == 'tv' %>
             <div class="flex flex-row">
-              <button aria-label="play_button" class="play mr-5" onclick="openModal('<%= trending['id'] %>', '1', '1')">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="26px">
+              <button aria-label="play_button" class="play mr-5 items-center" onclick="openModal('<%= trending['id'] %>', '1', '1')">
+                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="md:w-[26px] w-[20px]">
                   <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
                 </svg>
               </button>
@@ -59,7 +59,7 @@
     <div class="flex flex-row overflow-x-auto">
       <% @playing_now['results']&.each do |playing| %>
         <%= render 'home/card', playing: playing, page: 'mt-0' %>
-    <% end %>
+      <% end %>
     </div>
   </div>
   <div class="genre flex flex-col lg:mt-[17rem] mt-0 w-full">

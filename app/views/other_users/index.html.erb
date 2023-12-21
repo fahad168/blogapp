@@ -12,9 +12,9 @@
   <% @users&.each_with_index do |user| %>
     <% if user.albums.present? && user.setting.private_albums != true %>
       <div class="genre flex flex-col <%= if count == 0
-                                            '-mb-[15rem] bottom-0 absolute'
+                                            'lg:-mb-[15rem] mb-4 bottom-0 absolute'
                                           else
-                                            count == 1 ? 'mt-[17rem]' : 'mt-[2rem]'
+                                            count == 1 ? 'lg:mt-[17rem] mt-0' : 'mt-[2rem]'
                                           end %> w-full">
         <div class="genre-content flex flex-row justify-between pl-8 pr-5 pb-5">
           <p class="genre-title font-bold text-3xl">Albums by <a href="/other_user_profile?id=<%= user.id %>" class="hover:underline"><%= user.username %></a></p>

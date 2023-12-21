@@ -96,5 +96,8 @@
         })
     </script>
   <% end %>
+  <% if params[:controller] != 'registrations' && params[:controller] != 'devise/sessions' %>
+    <%= render 'shared/bottom_bar' %>
+  <% end %>
   </body>
 </html>

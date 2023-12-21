@@ -51,9 +51,9 @@
     <% end %>
   </div>
 <!--  <input class="hidden" id="current_page">-->
-  <div class="flex flex-col lg:-mt-[15rem] mt-0">
+  <div class="flex flex-col lg:-mt-[15rem] -mt-[16rem]">
     <p class="genre-title font-bold text-3xl cursor-pointer ml-7" style="z-index: 1"><%= params[:key].split('_').join(' ').capitalize %></p>
-    <div class="flex flex-row justify-evenly flex-wrap" id="view_results">
+    <div class="flex flex-row flex-wrap" id="view_results">
       <%= render 'home/view_page_result' %>
     </div>
   </div>

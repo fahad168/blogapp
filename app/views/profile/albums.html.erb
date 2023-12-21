@@ -2,11 +2,20 @@
   <%= render "shared/header" %>
   <div class="">
     <%= render 'profile/top_profile' %>
-    <div class="flex flex-row justify-center mt-[2rem]">
-      <div class="border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg">
+    <div class="flex flex-row justify-center lg:mt-0 mt-[5rem]">
+      <div class="flex flex-row justify-start md:hidden -mr-5 -mt-3">
+        <label class="hamburger absolute">
+          <input type="checkbox" onclick="show_sidebar()">
+          <svg viewBox="0 0 32 32">
+            <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
+      </div>
+      <div class="md:block hidden border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg" id="sidebar">
         <%= render 'profile/new_sidebar' %>
       </div>
-      <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg">
+      <div class="border-2 border-[grey] md:w-[50%] w-full mt-10 ml-10 rounded-lg md:mb-0 mb-[8rem]">
         <div class="flex justify-end mr-4 mt-3">
           <button class="button bg-[green] rounded-lg w-[10rem] p-2" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Create Album</button>
         </div>
@@ -69,6 +78,7 @@
 
 <%= javascript_include_tag('home/home_modal') %>
 <%= javascript_include_tag('home/show_album') %>
+<%= javascript_include_tag('home/sidebar') %>
 
 <% if flash[:notice].present? && !flash[:notice].include?('deleted') %>
   <script>

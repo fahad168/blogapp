@@ -2,18 +2,27 @@
   <%= render "shared/header" %>
   <div class="">
     <%= render 'profile/top_profile' %>
-    <div class="flex flex-row justify-center mt-[2rem]">
-      <div class="border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg">
+    <div class="flex flex-row justify-center lg:mt-0 mt-[5rem]">
+      <div class="flex flex-row justify-start md:hidden -mt-5 -mr-8">
+        <label class="hamburger absolute">
+          <input type="checkbox" onclick="show_sidebar()">
+          <svg viewBox="0 0 32 32">
+            <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
+      </div>
+      <div class="md:block hidden border-2 border-[grey] h-[25rem] w-[15%] mt-10 ml-10 rounded-lg" id="sidebar">
         <%= render 'profile/new_sidebar' %>
       </div>
-      <div class="border-2 border-[grey] w-[50%] mt-10 ml-10 rounded-lg overflow-y-scroll max-h-[40rem]">
+      <div class="min-h-[25rem] border-2 border-[grey] md:w-[50%] w-full mt-10 ml-10 rounded-lg overflow-y-scroll max-h-[40rem] md:mb-0 mb-[8rem]">
         <div class="flex flex-row justify-center mt-10">
-          <div class="flex flex-col">
-            <p class="text-white font-bold text-2xl mb-3">Privacy</p>
-            <div class="flex flex-row justify-between w-[30rem]">
-              <div class="flex flex-col justify-start">
+          <div class="flex flex-col lg:w-[30rem] w-full lg:pl-0 lg:pr-0 pl-3 pr-3">
+            <p class="text-white font-bold text-2xl mb-3 lg:text-start text-center">Privacy</p>
+            <div class="flex flex-row justify-between">
+              <div class="flex flex-col lg:justify-start justify-center">
                 <p class="text-[grey]">Private Account</p>
-                <p class="text-sm text-[grey]">Only approved users can see your profile</p>
+                <p class="text-sm text-[grey] md:w-full w-[10rem] line-clamp-1">Only followers can see your profile</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" value="" <%= @settings.private_account == true ? 'checked' : '' %> name="private_account" class="sr-only peer" onchange="update_settings(this)">
@@ -21,10 +30,10 @@
                 </div>
               </label>
             </div>
-            <div class="flex flex-row justify-between w-[30rem] mt-10">
+            <div class="flex flex-row justify-between mt-10">
               <div class="flex flex-col justify-start">
                 <p class="text-[grey]">Private Album</p>
-                <p class="text-sm text-[grey]">This will make all albums private</p>
+                <p class="text-sm text-[grey] md:w-full w-[10rem] line-clamp-1">Check to make all of albums private</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" value="" <%= @settings.private_albums == true ? 'checked' : '' %> name="private_albums" class="sr-only peer" onchange="update_settings(this)">
@@ -32,11 +41,11 @@
                 </div>
               </label>
             </div>
-            <p class="text-white font-bold text-2xl mt-6 mb-3">Others</p>
-            <div class="flex flex-row justify-between w-[30rem]">
+            <p class="text-white font-bold text-2xl mt-6 mb-3 lg:text-start text-center">Others</p>
+            <div class="flex flex-row justify-between">
               <div class="flex flex-col justify-start">
                 <p class="text-[grey]">Adult Content</p>
-                <p class="text-sm text-[grey]">Will hide adult movies and tv shows</p>
+                <p class="text-sm text-[grey] md:w-full w-[10rem] line-clamp-1">Will hide adult movies and tv shows</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" value="" <%= @settings.adult_content == true ? 'checked' : '' %> name="adult_content" class="sr-only peer" onchange="update_settings(this)">
@@ -44,8 +53,8 @@
                 </div>
               </label>
             </div>
-            <p class="text-white font-bold text-2xl mt-6 mb-3">Account Control</p>
-            <div class="flex flex-row justify-between w-[30rem] mb-10">
+            <p class="text-white font-bold text-2xl mt-6 mb-3 lg:text-start text-center">Account Control</p>
+            <div class="flex flex-row justify-between">
               <div class="flex flex-col justify-start">
                 <p class="text-[grey]">Delete Account</p>
                 <p class="text-sm text-[grey]">This action cannot be reversed</p>
@@ -63,6 +72,7 @@
   </div>
 </main>
 <%= render "profile/confirmation_modal" %>
+<%= javascript_include_tag('home/sidebar') %>
 
 <script>
     function update_settings(input) {
