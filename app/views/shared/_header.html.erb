@@ -27,9 +27,9 @@
       <li>
         <%= link_to "TV Shows", '/tv_shows', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'tv_shows' || params[:page] == "tv_show" ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
-      <li>
-        <%= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
-      </li>
+<!--      <li>-->
+        <%#= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+<!--      </li>-->
       <li>
         <%= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'advance_search' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
       </li>
@@ -69,14 +69,14 @@
               <div><%= current_user.username %></div>
               <div class="font-medium truncate"><%= current_user.email %></div>
             </div>
-            <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="dropdownUserAvatarButton">
-              <li class="hover:text-[gray]">
-                <%= link_to "Profile", profile_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
-              </li>
-              <li class="hover:text-[gray] mt-2">
-                <%= link_to "Settings", settings_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
-              </li>
-            </ul>
+<!--            <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="dropdownUserAvatarButton">-->
+<!--              <li class="hover:text-[gray]">-->
+                <%#= link_to "Profile", profile_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+<!--              </li>-->
+<!--              <li class="hover:text-[gray] mt-2">-->
+                <%#= link_to "Settings", settings_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+<!--              </li>-->
+<!--            </ul>-->
             <div class="py-2">
               <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 g_id_signout' do %>
                 Sign Out
@@ -87,9 +87,9 @@
       </div>
     <%  else  %>
       <div class="md:flex hidden flex-row justify-end">
-        <a class="bg-[white] w-[6rem] h-[3rem] rounded-lg text-center" href="/users/sign_in">
-          <p class="text-center text-[black] md:mt-[0.5rem] mt-[0.8rem]">Sign In</p>
-        </a>
+<!--        <a class="bg-[white] w-[6rem] h-[3rem] rounded-lg text-center" href="/users/sign_in">-->
+<!--          <p class="text-center text-[black] md:mt-[0.5rem] mt-[0.8rem]">Sign In</p>-->
+<!--        </a>-->
       </div>
     <%  end %>
   </div>

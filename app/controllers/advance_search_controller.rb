@@ -1,6 +1,5 @@
 class AdvanceSearchController < ApplicationController
-  before_action :authenticate_user!
-
+  # before_action :authenticate_user!
   def index
     if params[:type].present?
       @results = JSON.parse(Home::AdvanceSearchService.get_search_result(params))
