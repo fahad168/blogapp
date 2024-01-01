@@ -1,6 +1,8 @@
-<% content_for :meta_tags do %>
-  <meta name="description" content="All genres movies to watch and explore">
-  <meta name="keywords" content="movies, genres, explore, search">
+<% content_for :keywords, "seasons, genres, explore, search, tv_shows, episodes, movies, browse, search, season, movie, moviescorn, watch, streaming, stream, free" %>
+<% content_for :title, "Explore And Watch Movies Online" %>
+<% content_for :meta_description, "All genres movies to watch and explore" %>
+<% if @popular_movie['results'].present? %>
+  <% content_for :images, "#{ENV['TMBD_IMAGE_URL']}/original/#{@popular_movie['results'].first['backdrop_path'].present? ? @popular_movie['results'].first['backdrop_path'] : @popular_movie['results'].first['poster_path']}" %>
 <% end %>
 
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data" data-action="scroll@window->modal-data#movies_scroll" onload="init()">
@@ -36,7 +38,7 @@
   </div>
   <div class="genre flex flex-col lg:-mb-[15rem] mb-[2rem] bottom-0 w-full absolute">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <p class="genre-title font-bold text-3xl cursor-pointer">Today Trending Movies</p>
+      <h1 class="genre-title font-bold text-3xl cursor-pointer text-white">Today Trending Movies</h1>
     </div>
     <div class="flex flex-row overflow-x-auto">
       <% @trending['results']&.first(10)&.each_with_index do |playing, index| %>
@@ -46,7 +48,7 @@
   </div>
   <div class="genre flex flex-col bottom-0 w-full lg:mt-[17rem] mt-0">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <p class="genre-title font-bold text-3xl cursor-pointer">Upcoming</p>
+      <h1 class="genre-title font-bold text-3xl cursor-pointer text-white">Upcoming Movies</h1>
       <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= Genre.where(genre_name: 'Horror').pluck(:genre_id) %>)">View All</button>
     </div>
     <div class="flex flex-row overflow-x-auto">
@@ -57,7 +59,7 @@
   </div>
   <div class="genre flex flex-col bottom-0 w-full mt-[2rem]">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <p class="genre-title font-bold text-3xl cursor-pointer">Action & Adventure</p>
+      <h1 class="genre-title font-bold text-3xl cursor-pointer text-white">Action & Adventure</h1>
       <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= Genre.where(genre_name: %w[Action Adventure]).pluck(:genre_id) %>)">View All</button>
     </div>
     <div class="flex flex-row overflow-x-auto">
@@ -68,7 +70,7 @@
   </div>
   <div class="genre flex flex-col bottom-0 w-full mt-[2rem]">
     <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <p class="genre-title font-bold text-3xl cursor-pointer">Fantasy</p>
+      <h1 class="genre-title font-bold text-3xl cursor-pointer text-white">Fantasy</h1>
       <button class="text-[red] place-self-center mr-6" onclick="openViewModal(<%= Genre.where(genre_name: 'Fantasy').pluck(:genre_id) %>)">View All</button>
     </div>
     <div class="flex flex-row overflow-x-auto">

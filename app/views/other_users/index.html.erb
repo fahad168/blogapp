@@ -1,7 +1,6 @@
-<% content_for :meta_tags do %>
-  <meta name="albums" content="Albums created by other users to watch and explore">
-  <meta name="keywords" content="seasons, genres, explore, search, tv_shows, episodes, movies, albums, collections">
-<% end %>
+<% content_for :keywords, "seasons, genres, explore, search, tv_shows, episodes, movies, albums, collections" %>
+<% content_for :meta_description, "Albums created by other users to watch and explore" %>
+<% content_for :title, "Explore Albums And Follow Other Users" %>
 
 <main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
   <%= render "shared/header" %>
