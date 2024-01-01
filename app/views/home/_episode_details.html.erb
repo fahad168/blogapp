@@ -1,5 +1,5 @@
 <% @episode_details['episodes'].each do |episode| %>
-   <div class="episode_card cursor-pointer flex flex-row justify-start" onclick="openModal('<%= episode['show_id'] %>', '<%= episode['season_number'] %>', '<%= episode['episode_number'] %>')">
+   <div class="episode_card cursor-pointer flex flex-row justify-start hover:opacity-75" onclick="openModal('<%= episode['show_id'] %>', '<%= episode['season_number'] %>', '<%= episode['episode_number'] %>')">
      <% if episode['still_path'].present? %>
        <img src="<%= ENV['TMBD_IMAGE_URL'] %>/w780/<%= episode['still_path'] %>" class="object-contain" alt="poster">
      <% else %>
@@ -28,6 +28,9 @@
       // var tmdbId = tmdb_id;
       // var seasonNumber = season_number;
       // var episodeNumber = episode_number;
+      var youtubeIframe = document.getElementById('iframe')
+      var iframeSrc = youtubeIframe.src
+      youtubeIframe.src = iframeSrc
       var dynamicUrl = `https://moviesapi.club/tv/${tmdb_id}-${season_number}-${episode_number}`;
       var iframe = document.getElementById('episodeIframe');
       iframe.src = dynamicUrl;

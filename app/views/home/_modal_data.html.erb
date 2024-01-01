@@ -13,7 +13,7 @@
         <iframe
           id="iframe"
           width="100%"
-          src="https://www.youtube.com/embed/<%= @trailer['key'] %>?controls=0&autoplay=1"
+          src="https://www.youtube.com/embed/<%= @trailer['key'] %>?controls=1&autoplay=0"
           frameborder="0"
           allowfullscreen
           class="w-full h-[30rem] object-cover rounded-t-lg rounded-b-lg"
@@ -98,6 +98,9 @@
 
 <script>
     function open_movie(tmdb_id) {
+        var youtubeIframe = document.getElementById('iframe')
+        var iframeSrc = youtubeIframe.src
+        youtubeIframe.src = iframeSrc
         var dynamicUrl = `https://moviesapi.club/movie/${tmdb_id}`;
         var iframe = document.getElementById('movieIframe');
         iframe.src = dynamicUrl;

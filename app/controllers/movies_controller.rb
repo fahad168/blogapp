@@ -62,11 +62,26 @@ class MoviesController < ApplicationController
   end
 
   def without_scroll
-    @trending = JSON.parse(Home::MovieService.trending)
-    @action_adventure = JSON.parse(Home::MovieService.action_adventure)
-    @fantasy = JSON.parse(Home::MovieService.fantasy)
-    @upcoming = JSON.parse(Home::MovieService.upcoming)
-    @popular_movie = JSON.parse(Home::HomeService.popular(nil))
+    @trending = Rails.cache.fetch("movies_trending", expires_in: 12.hours) do
+      JSON.parse(Home::MovieService.trending)
+    end
+    @action_adventure = Rails.cache.fetch("movies_action_adventure", expires_in: 12.hours) do
+      JSON.parse(Home::MovieService.action_adventure)
+    end
+    @fantasy = Rails.cache.fetch("movies_fantasy", expires_in: 12.hours) do
+      JSON.parse(Home::MovieService.fantasy)
+    end
+    @upcoming = Rails.cache.fetch("movies_upcoming", expires_in: 12.hours) do
+      JSON.parse(Home::MovieService.upcoming)
+    end
+    @popular_movie = Rails.cache.fetch("movies_popular", expires_in: 12.hours) do
+      JSON.parse(Home::HomeService.popular(nil))
+    end
+    # @trending = JSON.parse(Home::MovieService.trending)
+    # @action_adventure = JSON.parse(Home::MovieService.action_adventure)
+    # @fantasy = JSON.parse(Home::MovieService.fantasy)
+    # @upcoming = JSON.parse(Home::MovieService.upcoming)
+    # @popular_movie = JSON.parse(Home::HomeService.popular(nil))
   end
 
   def specific_genre_movies

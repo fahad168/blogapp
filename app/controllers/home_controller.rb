@@ -9,9 +9,18 @@ class HomeController < ApplicationController
         format.json { render json: { entries: render_to_string(partial: 'home/home_data', formats: [:html]) } }
       end
     else
-      @trending_all = JSON.parse(Home::HomeService.trending_all)
-      @playing_now = JSON.parse(Home::HomeService.now_playing(nil))
-      @popular = JSON.parse(Home::HomeService.popular(nil))
+      @trending_all = Rails.cache.fetch("home_trending_all", expires_in: 12.hours) do
+        JSON.parse(Home::HomeService.trending_all)
+      end
+      @playing_now = Rails.cache.fetch("home_playing_now", expires_in: 12.hours) do
+        JSON.parse(Home::HomeService.now_playing(nil))
+      end
+      @popular = Rails.cache.fetch("home_popular", expires_in: 12.hours) do
+        JSON.parse(Home::HomeService.popular(nil))
+      end
+      # @trending_all = JSON.parse(Home::HomeService.trending_all)
+      # @playing_now = JSON.parse(Home::HomeService.now_playing(nil))
+      # @popular = JSON.parse(Home::HomeService.popular(nil))
     end
   end
 

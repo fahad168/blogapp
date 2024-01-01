@@ -12,11 +12,26 @@ class TvShowsController < ApplicationController
   end
 
   def without_scroll
-    @popular_seasons = JSON.parse(Home::TvShowService.popular_shows)
-    @trending = JSON.parse(Home::TvShowService.trending_shows)
-    @action_adventure = JSON.parse(Home::TvShowService.action_adventure)
-    @sci_fi_fantasy = JSON.parse(Home::TvShowService.sci_fi_fantasy)
-    @comedy = JSON.parse(Home::TvShowService.comedy)
+    @popular_seasons = Rails.cache.fetch("seasons_popular", expires_in: 12.hours) do
+      JSON.parse(Home::TvShowService.popular_shows)
+    end
+    @trending = Rails.cache.fetch("seasons_trending", expires_in: 12.hours) do
+      JSON.parse(Home::TvShowService.trending_shows)
+    end
+    @action_adventure = Rails.cache.fetch("seasons_action_adventure", expires_in: 12.hours) do
+      JSON.parse(Home::TvShowService.action_adventure)
+    end
+    @sci_fi_fantasy = Rails.cache.fetch("seasons_sci_fi_fantasy", expires_in: 12.hours) do
+      JSON.parse(Home::TvShowService.sci_fi_fantasy)
+    end
+    @comedy = Rails.cache.fetch("seasons_comedy", expires_in: 12.hours) do
+      JSON.parse(Home::TvShowService.comedy)
+    end
+    # @popular_seasons = JSON.parse(Home::TvShowService.popular_shows)
+    # @trending = JSON.parse(Home::TvShowService.trending_shows)
+    # @action_adventure = JSON.parse(Home::TvShowService.action_adventure)
+    # @sci_fi_fantasy = JSON.parse(Home::TvShowService.sci_fi_fantasy)
+    # @comedy = JSON.parse(Home::TvShowService.comedy)
   end
 
   def get_scroll_1

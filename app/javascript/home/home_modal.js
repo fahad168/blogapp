@@ -13,12 +13,14 @@ $(document).ready(function () {
 
 function hideModal() {
     $('#movieModal').hide()
+    document.getElementById('iframe').src = ""
     document.getElementById('indexFile').style.overflow = ''
     $('#overlay').hide();
 }
 
 function hideSeasonModal() {
     $('#seasonModal').hide()
+    document.getElementById('iframe').src = ""
     document.getElementById('indexFile').style.overflow = ''
     $('#overlay').hide();
 }
