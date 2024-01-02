@@ -1,6 +1,6 @@
-<% content_for :keywords, "seasons, genres, explore, search, tv_shows, episodes, movies, browse, search, season, movie, moviescorn, watch, streaming, stream, free" %>
-<% content_for :meta_description, "All genres seasons to watch and explore" %>
-<% content_for :title, "Explore And Watch Tv Shows Online" %>
+<% content_for :keywords, "best movies, actors, seasons, genres, explore, search, tv_shows, episodes, movies, stream, watch, movie, season, shows, seasons, movies, streaming, world wrestling entertainment, entertainment, pakistani drama, drama. korean drama, chinese drama, turkish drama, hollywood, bollywood, lollywood, corn, netflix, prime, tmdb, imbd, youtube" %>
+<% content_for :meta_description, "Embark on a cinematic adventure with MoviesCorn - your go-to destination for an extensive collection of tv shows. From the latest releases to timeless classics, immerse yourself in a world of storytelling excellence. Stream, discover, and experience tv shows magic like never before, exclusively at MoviesCorn." %>
+<% content_for :title, "MoviesCorn: Unleashing Cinematic Magic - Stream, Discover, and Delight in a World of TV Shows" %>
 <% if @popular_seasons['results'].present? %>
   <% content_for :images, "#{ENV['TMBD_IMAGE_URL']}/original/#{@popular_seasons['results'].first['backdrop_path'].present? ? @popular_seasons['results'].first['backdrop_path'] : @popular_seasons['results'].first['poster_path']}" %>
 <% end %>
