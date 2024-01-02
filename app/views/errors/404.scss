@@ -1,21 +1,21 @@
-$p: 12px;
-$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-$easeOutExpo: cubic-bezier(0.190, 1.000, 0.220, 1.000);
-
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
-//* {
-//  -webkit-tap-highlight-color: rgba(0,0,0,0);
-//  transform-style: preserve-3d;
-//}
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  transform-style: preserve-3d;
+}
 
 *:focus {
   outline: none!important;
 }
 
-#404-error {
+$p: 12px;
+$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeOutExpo: cubic-bezier(0.190, 1.000, 0.220, 1.000);
+
+main {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
