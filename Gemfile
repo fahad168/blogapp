@@ -85,3 +85,4 @@ end
 gem "devise", "~> 4.9"
 
 gem "sitemap_generator", "~> 6.3"
+gem 'sassc', '~> 2.0'
