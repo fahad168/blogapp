@@ -99,8 +99,10 @@
 <script>
     function open_movie(tmdb_id) {
         var youtubeIframe = document.getElementById('iframe')
-        var iframeSrc = youtubeIframe.src
-        youtubeIframe.src = iframeSrc
+        if(youtubeIframe) {
+            var iframeSrc = youtubeIframe.src
+            youtubeIframe.src = iframeSrc
+        }
         var dynamicUrl = `https://moviesapi.club/movie/${tmdb_id}`;
         var iframe = document.getElementById('movieIframe');
         iframe.src = dynamicUrl;

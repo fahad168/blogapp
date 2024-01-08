@@ -13,14 +13,20 @@ $(document).ready(function () {
 
 function hideModal() {
     $('#movieModal').hide()
-    document.getElementById('iframe').src = ""
+    var iframeModal = document.getElementById('iframe')
+    if(iframeModal) {
+        document.getElementById('iframe').src = ""
+    }
     document.getElementById('indexFile').style.overflow = ''
     $('#overlay').hide();
 }
 
 function hideSeasonModal() {
     $('#seasonModal').hide()
-    document.getElementById('iframe').src = ""
+    var iframeModal = document.getElementById('iframe')
+    if(iframeModal) {
+        document.getElementById('iframe').src = ""
+    }
     document.getElementById('indexFile').style.overflow = ''
     $('#overlay').hide();
 }
