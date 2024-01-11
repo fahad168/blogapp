@@ -41,7 +41,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       resource
     else
       # name = response[:info][:name].present? ? response[:info][:name] : ""
-      @user = User.new(email: email, username: response['name'], password: PASSWORD_DIGEST, password_confirmation: PASSWORD_DIGEST, provider: 'Google')
+      @user = User.new(email: email, username: response['info']['name'], password: PASSWORD_DIGEST, password_confirmation: PASSWORD_DIGEST, provider: 'Google')
       @user.save(validate: false)
       @user
     end
