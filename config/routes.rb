@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get 'ads.txt', to: proc { [200, {}, [File.read(Rails.root.join('ads.txt'))]] }
   get 'privacy_policy', to: proc { [200, {}, [File.read(Rails.root.join('public', 'policy', 'moviescorn_policy.pdf'))]] }
   get 'terms_and_conditions', to: proc { [200, {}, [File.read(Rails.root.join('public', 'conditions', 'moviescorn_conditions.pdf'))]] }
   root 'home#index'
