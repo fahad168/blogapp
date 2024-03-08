@@ -8,18 +8,18 @@ class RegistrationsController < Devise::RegistrationsController
       redirect_to new_user_session_path
     else
       flash[:alert] = @user.errors.full_messages.first
-      redirect_to new_user_registration_path
+      redirect_to new_user_session_path
     end
   end
 
   private
 
   def sign_up_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+    params.permit(:username, :email, :password, :password_confirmation)
   end
 
   def check_email_present
-    @user = User.find_by(email: params[:user][:email])
+    @user = User.find_by(email: params[:email])
 
     if @user.present?
       flash[:alert] = 'Email Already Taken'

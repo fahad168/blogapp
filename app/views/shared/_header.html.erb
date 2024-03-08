@@ -1,96 +1,120 @@
-<section class="px-5 lg:px-16 fixed top-0 left-0 w-full z-10 bg-black opacity-60 rounded-br-xl rounded-bl-xl">
+<section class="px-5 lg:px-20 top-0 left-0 w-full z-10 rounded-br-xl rounded-bl-xl">
   <div class="py-4 flex justify-between items-center gap-2 sm:gap-4 relative">
     <div class="flex gap-3 sm:gap-5 items-center">
-      <%= link_to '/', class: "font-bold block w-28 md:w-36 text-[white] text-4xl" do %>
-        <h1 class="flex flex-row">
-          <p>M</p>
-          <div class="mt-[0.6rem]">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="red" width="28">
-              <polygon class="play-btn__svg" points="9.33 6.69 9.33 19.39 19.3 13.04 9.33 6.69"/>
-              <path class="play-btn__svg" d="M26,13A13,13,0,1,1,13,0,13,13,0,0,1,26,13ZM13,2.18A10.89,10.89,0,1,0,23.84,13.06,10.89,10.89,0,0,0,13,2.18Z"/>
-            </svg>
-          </div>
-          <p>vie</p>
-          <div class="bg-[red] flex flex-row rounded-lg ml-1 mt-1">
-            <p class="text-[black] pl-1 pr-1">Corn</p>
-          </div>
-        </h1>
-      <% end %>
+      <%#= link_to '/', class: "font-bold block w-28 md:w-36 text-[white] text-4xl" do %>
+<!--        <h1 class="flex flex-row">-->
+<!--          <p>M</p>-->
+<!--          <div class="mt-[0.6rem]">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="red" width="28">-->
+<!--              <polygon class="play-btn__svg" points="9.33 6.69 9.33 19.39 19.3 13.04 9.33 6.69"/>-->
+<!--              <path class="play-btn__svg" d="M26,13A13,13,0,1,1,13,0,13,13,0,0,1,26,13ZM13,2.18A10.89,10.89,0,1,0,23.84,13.06,10.89,10.89,0,0,0,13,2.18Z"/>-->
+<!--            </svg>-->
+<!--          </div>-->
+<!--          <p>vie</p>-->
+<!--          <div class="bg-[red] flex flex-row rounded-lg ml-1 mt-1">-->
+<!--            <p class="text-[black] pl-1 pr-1">Corn</p>-->
+<!--          </div>-->
+<!--        </h1>-->
+      <%# end %>
+      <p class="text-3xl font-bold">Blog</p>
     </div>
     <ul class="absolute md:static shadow md:shadow-none z-50 md:z-30 p-5 md:p-0 hidden md:flex gap-8 items-center">
       <li>
-        <%= link_to "Home", '/', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'home' && params[:page] != "movies" && params[:page] != "tv_show" ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+        <%= link_to "Home", '/', data: { turbo: false }, class: "block hover:bg-[#3B42A2] hover:text-white px-3 hover:rounded-lg py-2 robo-font text-base #{params[:controller] == 'home'  ? 'text-base font-medium bg-[#3B42A2] p-3 text-lg text-white rounded-lg' : 'text-[black]'}" %>
       </li>
       <li>
-        <%= link_to "Movies", '/movies', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'movies' || params[:page] == "movies" ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+        <%= link_to "Movies", '/movies', data: { turbo: false }, class: "block hover:bg-blue-700 hover:text-white px-3 hover:rounded-lg py-2 robo-font text-base #{params[:controller] == 'movies' || params[:page] == "movies" ? 'text-base font-medium bg-blue-700 p-3 text-lg text-white rounded-lg' : 'text-[black]'}" %>
       </li>
       <li>
-        <%= link_to "TV Shows", '/tv_shows', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'tv_shows' || params[:page] == "tv_show" ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+        <%= link_to "TV Shows", '/tv_shows', data: { turbo: false }, class: "block hover:bg-blue-700 hover:text-white px-3 hover:rounded-lg py-2 robo-font text-base #{params[:controller] == 'tv_shows' || params[:page] == "tv_show" ? 'text-base font-medium bg-blue-700 p-3 text-lg text-white rounded-lg' : 'text-[black]'}" %>
       </li>
       <li>
-        <%= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+        <%= link_to "Albums", '/other_albums', data: { turbo: false }, class: "block hover:bg-blue-700 hover:text-white px-3 hover:rounded-lg py-2 robo-font text-base #{params[:controller] == 'other_users' ? 'text-base font-medium bg-blue-700 p-3 text-lg text-white rounded-lg' : 'text-[black]'}" %>
       </li>
       <li>
-        <%= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:text-[red] py-2 robo-font text-base #{params[:controller] == 'advance_search' ? 'text-base font-medium text-[red] text-xl' : 'text-[white]'}" %>
+        <%= link_to "Browse", '/browse', data: { turbo: false }, class: "block hover:bg-blue-700 hover:text-white px-3 hover:rounded-lg py-2 robo-font text-base #{params[:controller] == 'advance_search' ? 'text-base font-medium bg-blue-700 p-3 text-lg text-white rounded-lg' : 'text-[black]'}" %>
       </li>
-    </ul>
-    <% if user_signed_in? %>
-      <div class="md:flex hidden flex-row justify-end">
-        <div class="input-wrapper">
-          <%= form_with(url: "/search_results", method: :get, data: { turbo: false }) do |f| %>
-          <button class="icon" type="button" aria-label="search_button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="25px" width="25px">
-              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"></path>
-              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#fff" d="M22 22L20 20"></path>
-            </svg>
-          </button>
-            <% if params[:controller] == 'tv_shows' %>
-              <%= f.hidden_field :page, value: 'tv_show' %>
-            <% elsif params[:controller] == 'movies' %>
-              <%= f.hidden_field :page, value: 'movies' %>
-            <% else %>
-              <%= f.hidden_field :page, value: 'home' %>
-            <% end %>
-            <input value="<%= params[:q].present? ? params[:q] : '' %>" placeholder="<%= if params[:controller] == 'movies'
-                                      'Search movies'
-                                    else
-                                      params[:controller] == 'tv_shows' ? 'Search tv shows' : 'Movies, Tv Shows, People'
-                                    end %>" class="input" name="q" type="text">
-            <%#= f.submit "" %>
-          <% end %>
-        </div>
-        <div class="">
-          <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex mx-3 bg-gray-400 rounded-full" type="button">
-            <img src="<%= current_user.profile_image.present? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover" alt="profile image">
-            <%#= image_tag current_user.profile_image.present? ? current_user.profile_image.blob.url : 'user.svg', alt: '', class: "lazyload w-10 h-10 rounded-full object-cover" %>
-          </button>
-          <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-            <div class="px-4 py-3 text-sm text-gray-900">
-              <div><%= current_user.username %></div>
-              <div class="font-medium truncate"><%= current_user.email %></div>
-            </div>
-            <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="dropdownUserAvatarButton">
-              <li class="hover:text-[gray]">
-                <%= link_to "Profile", profile_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
-              </li>
-              <li class="hover:text-[gray] mt-2">
-                <%= link_to "Settings", settings_path, data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
-              </li>
-            </ul>
-            <div class="py-2">
-              <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 g_id_signout' do %>
-                Sign Out
-              <% end %>
+      <% if user_signed_in? %>
+        <li class="md:flex hidden flex-row justify-end">
+          <div class="">
+            <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex mx-3 bg-gray-400 rounded-full" type="button">
+              <img src="<%= current_user.profile_image.present? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover" alt="profile image">
+              <%#= image_tag current_user.profile_image.present? ? current_user.profile_image.blob.url : 'user.svg', alt: '', class: "lazyload w-10 h-10 rounded-full object-cover" %>
+            </button>
+            <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+              <div class="px-4 py-3 text-sm text-gray-900">
+                <div><%= current_user.username %></div>
+                <div class="font-medium truncate"><%= current_user.email %></div>
+              </div>
+              <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="dropdownUserAvatarButton">
+                <li class="hover:text-[gray]">
+                  <%= link_to "Profile", data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+                </li>
+                <li class="hover:text-[gray] mt-2">
+                  <%= link_to "Settings", data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+                </li>
+              </ul>
+              <div class="py-2">
+                <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 g_id_signout' do %>
+                  Sign Out
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    <%  else  %>
-      <div class="md:flex hidden flex-row justify-end">
-        <a class="bg-[white] w-[6rem] h-[3rem] rounded-lg text-center" href="/users/sign_in">
-          <p class="text-center text-[black] md:mt-[0.5rem] mt-[0.8rem]">Sign In</p>
-        </a>
-      </div>
-    <%  end %>
+        </li>
+        <li>
+          <div tabindex="0" class="plusButton shadow-xl" data-popover-target="popover-bottom" data-popover-placement="bottom">
+            <svg class="plusIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+              <g mask="url(#mask0_21_345)">
+                <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+              </g>
+            </svg>
+          </div>
+          <div data-popover id="popover-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-white rounded-lg shadow-lg opacity-0 tooltip">
+            <ul class="grid w-full gap-6 grid-cols-1">
+              <li>
+                <a href="/blogs/new">
+                  <label class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                    <div class="block">
+                      <div class="w-full text-lg font-semibold">Write Blog</div>
+                      <div class="w-full">Blogs, Articles etc</div>
+                    </div>
+                    <svg class="w-5 h-5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                  </label>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <label class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                    <div class="block">
+                      <div class="w-full text-lg font-semibold">Add Product</div>
+                      <div class="w-full">Different Products to sell</div>
+                    </div>
+                    <svg class="w-5 h-5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                  </label>
+                </a>
+              </li>
+            </ul>
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </li>
+      <%  else  %>
+        <li class="md:flex hidden flex-row justify-end">
+          <a class="bg-[white] w-[6rem] h-[3rem] rounded-xl text-center hover:opacity-75" href="/users/sign_in">
+            <p class="text-center text-[black] md:mt-[0.7rem] mt-[0.8rem]">Sign In</p>
+          </a>
+        </li>
+      <%  end %>
+    </ul>
   </div>
 </section>
+
+<script>
+    function openModal() {
+        document.getElementById('test').classList.remove('hidden')
+    }
+</script>

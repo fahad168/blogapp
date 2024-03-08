@@ -1,98 +1,140 @@
-<% content_for :keywords, "best movies, actors, seasons, genres, explore, search, tv_shows, episodes, movies, stream, watch, movie, season, shows, seasons, movies, streaming, world wrestling entertainment, entertainment, pakistani drama, drama. korean drama, chinese drama, turkish drama, hollywood, bollywood, lollywood, corn, netflix, prime, tmdb, imbd, youtube" %>
-<% content_for :meta_description, "Discover a world of cinematic wonders at Moviescorn. Immerse yourself in the latest blockbuster hits, timeless classics, and binge-worthy TV shows. From heart-pounding action to gripping dramas, our extensive collection caters to every movie and TV enthusiast. Elevate your entertainment experience with us, where every click unlocks a realm of storytelling magic. Join us for a cinematic journey like no other – because great stories deserve an extraordinary stage" %>
-<% content_for :title, "MoviesCorn: Unleashing Cinematic Magic - Stream, Discover, and Delight in a World of Movies and TV Shows" %>
-<% if @trending_all['results'].present? %>
-  <% content_for :images, "#{ENV['TMBD_IMAGE_URL']}/original/#{@trending_all['results'].first['backdrop_path'].present? ? @trending_all['results'].first['backdrop_path'] : @trending_all['results'].first['poster_path']}" %>
-<% end %>
-
-<main class="max-w-[1920px] mx-auto relative h-screen container" id="indexFile" data-controller="modal-data">
-  <%= render "shared/header" %>
-  <div class="single-item -mt-[88px]">
-    <% @trending_all['results']&.each_with_index do |trending, index| %>
-      <div class="relative h-screen">
-        <div class="absolute flex flex-col justify-center lg:ml-[5rem] md:ml-[3rem] ml-10 w-[80%]" style="height: 100vh" id="popular_movies_responsive">
-          <h1 class="texting lg:text-[6.25rem] md:text-[3rem] text-[2rem] w-full focus:outline-none line-clamp-1" id="texting" contenteditable data-heading="<%= trending['original_title'] %>">
-            <% if trending['media_type'] == 'movie' %>
-              <%= trending['original_title'] %>
-            <% elsif trending['media_type'] == 'tv' %>
-              <%= trending['name'] %>
-            <% end %>
-          </h1>
-        </div>
-        <div class="flex flex-col justify-center absolute lg:mt-[6rem] md:mt-[1rem] mt-[2rem] lg:ml-[5rem] ml-10 h-screen z-10" id="popular_play_responsive">
-          <% if trending['media_type'] == 'movie' %>
-            <div class="flex flex-row">
-              <button aria-label="play_button" class="play mr-5 items-center" onclick="open_movie('<%= trending['id'] %>')">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="md:w-[26px] w-[20px]">
-                  <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
-                </svg>
-              </button>
-              <button aria-label="view_details_button" class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_movie_data" data-movie-id="<%= trending['id'] %>">View
-                Details
-              </button>
-            </div>
-          <% elsif trending['media_type'] == 'tv' %>
-            <div class="flex flex-row">
-              <button aria-label="play_button" class="play mr-5 items-center" onclick="openModal('<%= trending['id'] %>', '1', '1')">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="md:w-[26px] w-[20px]">
-                  <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" fill="currentColor"></path>
-                </svg>
-              </button>
-              <button aria-label="view_details_button" class="btn_details mr-3" data-controller="modal-data" data-action="click->modal-data#get_season_data" data-season-id="<%= trending['id'] %>">View
-                Details
-              </button>
-            </div>
-          <% end %>
-        </div>
-        <% if trending['backdrop_path'].present? %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['backdrop_path'] %>" class="h-full w-full" id="popular_image" alt="backdrop" loading="lazy">
-        <% else %>
-          <img src="<%= ENV['TMBD_IMAGE_URL'] %>/original/<%= trending['poster_path'] %>" class="h-full w-full" id="popular_image" alt="poster" loading="lazy">
-        <% end %>
-        <div class="absolute inset-x-0 h-[25rem] bottom-0 bg-gradient-to-t from-black to-transparent"></div>
-      </div>
+<%= render 'shared/header' %>
+<div class="px-20 mt-5">
+  <div role="status" class="flex items-center justify-center h-[50rem] w-[100%] bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700" id="skeleton_loader" >
+    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
+      <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+  </div>
+  <section class="multiple-items hidden" id="multiple_items">
+    <% [1, 2, 3, 4, 5, 6, 7, 8].each do |i| %>
+        <%= render "home/slick_slider" , i: i %>
     <% end %>
-  </div>
-  <div class="genre flex flex-col lg:-mb-[15rem] mb-[2rem] bottom-0 w-full absolute">
-    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <p class="genre-title font-bold text-3xl cursor-pointer">Now Playing In Cinemas</p>
-      <a href="/view_all?key=playing_now" class="text-[red] place-self-center mr-6">View All</a>
+  </section>
+
+  <section class="mt-20">
+    <div class="flex flex-row justify-center px-20">
+      <div class="flex flex-col justify-start w-full">
+        <% [1, 2, 3].each_with_index do |i, index| %>
+          <div style="background-image: url(<%= asset_path("background_image#{i}") %>)" class="w-[90%] h-[30rem] object-cover rounded-lg flex flex-row justify-center <%= index > 0 ? 'mt-80' : '' %>">
+            <div class="bg-white w-[70%] h-[20rem] mt-[25rem] rounded-lg shadow-2xl p-10">
+              <p class="text-[#8C98A2] font-normal text-md">
+                Food, Travel - NOV 17, 2020
+              </p>
+              <p class="font-bold mt-3 text-2xl line-clamp-2 text-[#1E215A]">There are many variations of passages of Lorem Ipsum available.</p>
+              <p class="font-medium mt-4 text-md line-clamp-4 text-[#7E8A96]">There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.</p>
+              <button class="cta">
+                <span class="italic">Read more</span>
+                <svg width="15px" height="10px" viewBox="0 0 13 10">
+                  <path d="M1,5 L11,5"></path>
+                  <polyline points="8 1 12 5 8 9"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="flex flex-col justify-start">
+        <div class="flex flex-row justify-between rounded-full p-5 bg-white shadow-lg peer-focus:border-2">
+          <input placeholder="Search..." class="search-header__input w-[80%] bg-transparent focus:outline-none pl-3" type="text" />
+          <button>
+            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="1.5em" width="1.5em">
+              <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="black"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="h-[30rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-10 shadow-sm">
+          <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Categories</p>
+          <ul class="pl-5 pt-8">
+            <li class="font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+            <li class="mt-3 font-semibold font-lg text-[#1E215A] hover:opacity-75 hover:underline cursor-pointer">
+              Culture
+            </li>
+          </ul>
+        </div>
+        <div class="h-[40rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-20 shadow-sm">
+          <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Top Posts</p>
+          <ul class="pl-5 pt-8">
+            <% [1,2,3,4,5].each_with_index do |post, index| %>
+              <li class="font-semibold font-lg text-[#1E215A] <%= index > 0 ? 'mt-5' : '' %>">
+                <div class="flex flex-row justify-start">
+                  <p class="text-[2.5rem] font-bold text-[#1E215A]"><%= index + 1%></p>
+                  <div class="flex flex-col justify-start ml-5">
+                    <p class="text-[#1E215A] mt-2 leading-7 hover:opacity-75 hover:underline cursor-pointer">There are many variations of passages of Lorem Ipsum available.</p>
+                    <p class="text-[#8C98A2] font-normal text-sm mt-1">Food, Travel - NOV 17, 2020</p>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="mt-10 w-full">
+          <p class="text-[#1E215A] text-2xl font-bold pt-6">Top Writers</p>
+          <div class="mt-6 flex flex-row justify-start flex-wrap w-[24rem]">
+            <% [1,2,3,4,5,6].each_with_index do |i, index| %>
+                <img src="<%= asset_path("author#{index + 1}") %>" class="w-[7rem] h-[7rem] mr-4 rounded-lg mt-4 cursor-pointer hover:opacity-75">
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-row overflow-x-auto">
-      <% @playing_now['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing, page: 'mt-0' %>
-      <% end %>
-    </div>
-  </div>
-  <div class="genre flex flex-col lg:mt-[17rem] mt-0 w-full">
-    <div class="genre-content flex flex-row justify-between pl-8 pb-5">
-      <h1 class="genre-title font-bold text-3xl text-white">Popular Movies</h1>
-      <a href="/view_all?key=popular_movies" class="text-[red] place-self-center mr-6">View All</a>
-    </div>
-    <div class="flex flex-row overflow-x-auto">
-      <% @popular['results']&.each do |playing| %>
-        <%= render 'home/card', playing: playing, page: 'mt-0' %>
-      <% end %>
-    </div>
-  </div>
-  <%= render 'home/movie_modal' %>
-  <%= render 'home/season_modal' %>
-  <%= render "home/movie_play_modal" %>
-  <%= render "tv_shows/watch_season_episodes" %>
-  <%= render "home/one_touch_sign_in" %>
-</main>
+  </section>
+</div>
+
 <%= javascript_include_tag('slick') %>
-<%= javascript_include_tag('home/home_modal') %>
-<%= javascript_include_tag('home/slick_play_modal') %>
 
 <script>
-  $(document).ready(function () {
-      $.ajax({
-          type: 'GET',
-          url: "/?type=js",
-          success: function (res) {
-              $('#indexFile').append(res.entries)
-          }
-      })
-  })
+   $(document).ready(function () {
+       document.getElementById('multiple_items').classList.remove('hidden')
+       $('.multiple-items').slick({
+           autoplay: false,
+           arrows: true,
+           adaptiveHeight: true,
+           fade: true,
+           cssEase: 'linear',
+           infinite: true,
+           speed: 2000,
+       }).on('beforeChange', function(event, slick, currentSlide, nextSlide){
+           var testDiv = $('#test')[0];
+           if(testDiv.classList.contains('from_left')) {
+               testDiv.classList.remove('from_left');
+           } else if (testDiv.classList.contains('from_right')) {
+               testDiv.classList.remove('from_right');
+           }
+           var direction = ""
+           if (Math.abs(nextSlide - currentSlide) === 1) {
+               direction = (nextSlide - currentSlide > 0) ? "left" : "right";
+           }
+           else {
+               direction = (nextSlide - currentSlide > 0) ? "right" : "left";
+           }
+           if (direction === 'left') {
+               testDiv.classList.add('from_left')
+           } else if (direction === 'right') {
+               testDiv.classList.add('from_right')
+           }
+       });
+       document.getElementById('skeleton_loader').classList.add('hidden')
+   })
 </script>

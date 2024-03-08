@@ -9,53 +9,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  get 'ads.txt', to: proc { [200, {}, [File.read(Rails.root.join('ads.txt'))]] }
-  get 'privacy_policy', to: proc { [200, {}, [File.read(Rails.root.join('public', 'policy', 'moviescorn_policy.pdf'))]] }
-  get 'terms_and_conditions', to: proc { [200, {}, [File.read(Rails.root.join('public', 'conditions', 'moviescorn_conditions.pdf'))]] }
   root 'home#index'
-  get '/search_results', to: 'home#search_results'
-  get '/person_detail', to: 'home#person_detail'
-  get '/get_modal_data', to: 'home#get_modal_data'
-  get '/get_season_details', to: 'home#get_season_data'
-  post '/episodes_details', to: 'home#episodes_details'
-  get '/view_all', to: 'home#view_all'
-  get '/movies', to: 'movies#index'
-  post '/specific_genre_movies', to: 'movies#specific_genre_movies'
-  get '/tv_shows', to: 'tv_shows#index'
-  post '/specific_genre_shows', to: 'tv_shows#specific_genre_shows'
-  get '/watch_season_episodes', to: 'tv_shows#watch_season_episodes'
-  get '/profile', to: 'profile#index'
-  post '/profile/update', to: 'profile#update'
-  get '/albums', to: 'profile#albums'
-  post '/create_album', to: 'profile#create_album'
-  get '/album/:username/:album_title/:album_id/:user_id', to: 'profile#show_album'
-  get '/album', to: 'profile#show_album_data'
-  delete '/album/:id', to: 'profile#destroy'
-  get '/movies_dropdown_data', to: 'profile#movies_dropdown_data'
-  get '/show_dropdown_data', to: 'profile#show_dropdown_data'
-  post '/cover_photo', to: 'profile#cover_photo'
-  post '/profile_image', to: 'profile#profile_image'
-  post '/add_movie', to: 'profile#add_movie'
-  post '/add_series', to: 'profile#add_series'
-  get '/followers', to: 'profile#followers'
-  get '/followings', to: 'profile#followings'
-  get '/explore', to: 'profile#explore'
-  get '/pending_requests', to: 'profile#pending_requests'
-  post '/unfollow', to: 'profile#unfollow'
-  post '/unfriend', to: 'profile#unfriend'
-  get '/settings', to: 'profile#settings'
-  delete '/user/:id', to: 'profile#destroy_user'
-  get '/update_settings', to: 'profile#update_settings'
-  get '/other_albums', to: 'other_users#index'
-  get '/other_user_profile', to: 'other_users#other_user_profile'
-  get '/other_user_albums', to: 'other_users#other_user_albums'
-  get '/other_user_followers', to: 'other_users#other_user_followers'
-  get '/other_user_followings', to: 'other_users#other_user_followings'
-  post '/create_following', to: 'followings#create'
-  post '/cancel_following', to: 'followings#cancel'
-  post '/update_request', to: 'followings#update_request'
-  get '/browse', to: 'advance_search#index'
-  match "/404", to: "errors#not_found", via: :all
-  match "/422", to: "errors#unacceptable", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
+  resource :blogs do
+    collection do
+      post :blog_details
+    end
+  end
 end

@@ -1,0 +1,8 @@
+json.blog do
+  json.id @blog.id
+  if @blog.details_images.present?
+    @blog.details_images.blobs.each do |image|
+      json.url image.url
+    end
+  end
+end

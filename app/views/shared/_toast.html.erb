@@ -1,0 +1,28 @@
+<% if flash[:notice].present? %>
+  <script>
+      $.toast({
+          heading: 'Success',
+          text: '<%= flash[:notice] %>',
+          showHideTransition: 'slide',
+          position: 'top-right',
+          icon: 'success',
+          hideAfter: 5000,
+          bgColor: '#5995fd',
+          textColor: 'white'
+      })
+  </script>
+<% end %>
+<% if flash[:alert].present? %>
+  <script>
+      $.toast({
+          heading: 'Error',
+          text: '<%= flash[:alert] %>',
+          showHideTransition: 'slide',
+          position: 'top-right',
+          icon: 'error',
+          hideAfter: 5000,
+          bgColor: 'red',
+          textColor: 'white'
+      })
+  </script>
+<% end %>
