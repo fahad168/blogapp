@@ -1,3 +1,0 @@
-<% @dropdown_data['results']&.each do |content| %>
-  <li data-value="<%= content['id'] %>" class="option pl-5 pr-5 hover:bg-gray-100"><%= content['original_title'].present? ? content['original_title'] : content['original_name'] %></li>
-<% end %>

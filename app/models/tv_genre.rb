@@ -1,2 +1,0 @@
-class TvGenre < ApplicationRecord
-end

@@ -1,7 +1,0 @@
-<% @combined_data.each do |playing| %>
-  <% if playing['original_title'].present? %>
-    <%= render 'home/card', playing: playing, page: 'mt-5' %>
-  <% else %>
-    <%= render 'home/tv_card', playing: playing, page: 'mt-5' %>
-  <% end %>
-<% end %>
