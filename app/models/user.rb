@@ -4,4 +4,5 @@ class User < ApplicationRecord
   has_one_attached :cover_image, dependent: :destroy
   has_one_attached :profile_image, dependent: :destroy
   has_many :blogs
+  has_many :drafts, dependent: :destroy
 end

@@ -1,0 +1,104 @@
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    h1 {
+        font-size: 2.125rem;
+        font-weight: bold;
+    }
+
+    h2 {
+        font-size: 1.875rem;
+        font-weight: bold;
+    }
+
+    #show_content img {
+        max-width: 50rem;
+        border-radius: 20px;
+        align-self: center;
+    }
+
+    .ql-code-block {
+        background-color: black;
+        color: white;
+    }
+
+    select {
+        display: none;
+    }
+
+    .ql-video {
+        max-width: 50rem;
+        width: 50rem;
+        height: 25rem;
+        border-radius: 10px;
+    }
+
+    blockquote {
+        font-style: italic;
+        margin: 0;
+        padding: 1em;
+        /*border-left: 4px solid #ccc;*/
+        /*background-color: #f9f9f9;*/
+        position: relative;
+    }
+
+    /* Quotation marks */
+    blockquote::before,
+    blockquote::after {
+        content: '"';
+        font-size: 2em;
+        color: #ccc;
+        position: absolute;
+    }
+
+    blockquote::before {
+        top: -0.4em;
+        left: -0.6em;
+    }
+
+    blockquote::after {
+        bottom: -0.6em;
+        right: -0.4em;
+    }
+
+    .ql-code-block-container {
+        border-radius: 10px;
+        padding-top: 2rem;
+    }
+
+    .ql-code-block {
+        padding-left: 1rem;
+    }
+</style>
+
+<%= render 'shared/header' %>
+<div class="px-20 mt-5">
+<!--  <div role="status" class="w-[100%] h-[50rem] flex items-center justify-center bg-gray-300 rounded-xl animate-pulse dark:bg-gray-700" id="showSkeletonLoader_<%#= @blog.id %>">-->
+<!--    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">-->
+<!--      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>-->
+<!--      <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z"/>-->
+<!--    </svg>-->
+<!--    <span class="sr-only">Loading...</span>-->
+<!--  </div>-->
+  <img src="<%= @blog.thumbnail.blob.url %>" class="w-[100%] h-[50rem] object-cover rounded-lg flex flex-col justify-end items-center relative" id="showImageBlog_<%= @blog.id %>" loading="lazy" alt="blog image">
+  <div class="bg-white rounded-xl shadow-xl w-[80%] -mt-[8rem] absolute ml-[7rem] pl-40 pr-40 pt-20 pb-10" id="show_content">
+    <p class="text-[#8C98A2] font-normal text-md mb-3 text-center"><%= JSON.parse(@blog.categories).join(', ') %> - <%= @blog.created_at.strftime('%b %d, %Y') %></p>
+    <p class="text-[2.8rem] text-[#1E215A] font-bold text-center"><%= @blog.title.capitalize %></p>
+    <div class="mt-10 flex flex-col">
+      <%= @blog.details.html_safe %>
+    </div>
+  </div>
+</div>

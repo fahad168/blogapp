@@ -1,39 +1,30 @@
 <%= render 'shared/header' %>
 <div class="px-20 mt-5">
-  <div role="status" class="flex items-center justify-center h-[50rem] w-[100%] bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700" id="skeleton_loader" >
-    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
-      <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z"/>
-    </svg>
-    <span class="sr-only">Loading...</span>
-  </div>
-  <section class="multiple-items hidden" id="multiple_items">
-    <% [1, 2, 3, 4, 5, 6, 7, 8].each do |i| %>
-        <%= render "home/slick_slider" , i: i %>
-    <% end %>
-  </section>
+    <section class="multiple-items hidden section" id="multiple_items">
+      <% @slider.each do |slider, index| %>
+          <%= render "home/slick_slider" , i: index, slider: slider %>
+      <% end %>
+    </section>
 
-  <section class="mt-20">
+  <section class="mt-20 section">
     <div class="flex flex-row justify-center px-20">
-      <div class="flex flex-col justify-start w-full">
-        <% [1, 2, 3].each_with_index do |i, index| %>
-          <div style="background-image: url(<%= asset_path("background_image#{i}") %>)" class="w-[90%] h-[30rem] object-cover rounded-lg flex flex-row justify-center <%= index > 0 ? 'mt-80' : '' %>">
-            <div class="bg-white w-[70%] h-[20rem] mt-[25rem] rounded-lg shadow-2xl p-10">
-              <p class="text-[#8C98A2] font-normal text-md">
-                Food, Travel - NOV 17, 2020
-              </p>
-              <p class="font-bold mt-3 text-2xl line-clamp-2 text-[#1E215A]">There are many variations of passages of Lorem Ipsum available.</p>
-              <p class="font-medium mt-4 text-md line-clamp-4 text-[#7E8A96]">There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.</p>
-              <button class="cta">
-                <span class="italic">Read more</span>
-                <svg width="15px" height="10px" viewBox="0 0 13 10">
-                  <path d="M1,5 L11,5"></path>
-                  <polyline points="8 1 12 5 8 9"></polyline>
-                </svg>
-              </button>
+      <div class="flex flex-col justify-center w-full" id="blogsLoader" style="display: none">
+        <div class="spinner-container">
+          <div class="spinner">
+            <div class="spinner">
+              <div class="spinner">
+                <div class="spinner">
+                  <div class="spinner">
+                    <div class="spinner"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        <% end %>
+        </div>
+      </div>
+      <div class="flex flex-col justify-start w-full" id="replaceBlogs">
+          <%= render 'home/index_blogs' %>
       </div>
       <div class="flex flex-col justify-start">
         <div class="flex flex-row justify-between rounded-full p-5 bg-white shadow-lg peer-focus:border-2">
@@ -100,12 +91,29 @@
       </div>
     </div>
   </section>
+
+  <section class="mt-20 px-20">
+    <p class="text-[#1E215A] text-2xl font-bold">Most Selling Items</p>
+    <div class="flex flex-row flex-wrap justify-between mt-5">
+      <% [1, 2, 3, 4, 5, 6, 7, 8].each do |i| %>
+        <%= render 'home/product_card', i: i %>
+      <% end %>
+    </div>
+  </section>
 </div>
 
 <%= javascript_include_tag('slick') %>
 
 <script>
    $(document).ready(function () {
+       var prevPage = $('.previous_page')
+       if (prevPage && prevPage[0]?.classList?.contains('disabled')) {
+           prevPage[0].style.display = "none"
+       }
+       var nextPage = $('.next_page')
+       if (nextPage && nextPage[0]?.classList?.contains('disabled')) {
+           nextPage[0].style.display = "none"
+       }
        document.getElementById('multiple_items').classList.remove('hidden')
        $('.multiple-items').slick({
            autoplay: false,
@@ -115,26 +123,74 @@
            cssEase: 'linear',
            infinite: true,
            speed: 2000,
-       }).on('beforeChange', function(event, slick, currentSlide, nextSlide){
-           var testDiv = $('#test')[0];
-           if(testDiv.classList.contains('from_left')) {
-               testDiv.classList.remove('from_left');
-           } else if (testDiv.classList.contains('from_right')) {
-               testDiv.classList.remove('from_right');
+       })
+       if ($('#multiple_items .slick-prev').length !== 0) {
+           $('#multiple_items .slick-prev')[0].style.display = 'none'
+           $('#multiple_items .slick-next')[0].style.display = 'none'
+       }
+   })
+
+   document.addEventListener('click', function(event) {
+       if (event.target.closest('.pagination a')) {
+           document.getElementById('blogsLoader').style.display = 'flex'
+           document.getElementById('replaceBlogs').style.display = 'none'
+           event.preventDefault();
+           var page = event.target.closest('.pagination a').getAttribute('aria-label').split(' ')[1];
+           $.ajax({
+               url: `/?page=${page}`,
+               type: 'GET',
+               success: function (res) {
+                   $('#replaceBlogs').html(res?.entries);
+               }
+           });
+       }
+   });
+
+   document.addEventListener('click', function(event) {
+       if (event.target.closest('.pagination a')) {
+           document.getElementById('blogsLoader').style.display = 'flex'
+           document.getElementById('replaceBlogs').style.display = 'none'
+           event.preventDefault();
+           var page = event.target.closest('.pagination a').getAttribute('aria-label').split(' ')[1];
+           ajaxCall(page)
+       }
+   });
+
+   document.addEventListener('click', function(event) {
+       if (event.target.matches('.previous_page') || event.target.matches('.next_page')) {
+           document.getElementById('blogsLoader').style.display = 'flex'
+           document.getElementById('replaceBlogs').style.display = 'none'
+           event.preventDefault();
+           var page = parseInt(document.querySelector('.current').getAttribute('aria-label').split(' ')[1]);
+           if (event.target.matches('.previous_page')) {
+               page -= 1;
+           } else if (event.target.matches('.next_page')) {
+               page += 1;
            }
-           var direction = ""
-           if (Math.abs(nextSlide - currentSlide) === 1) {
-               direction = (nextSlide - currentSlide > 0) ? "left" : "right";
-           }
-           else {
-               direction = (nextSlide - currentSlide > 0) ? "right" : "left";
-           }
-           if (direction === 'left') {
-               testDiv.classList.add('from_left')
-           } else if (direction === 'right') {
-               testDiv.classList.add('from_right')
+           ajaxCall(page);
+       }
+   });
+
+   function ajaxCall(page) {
+       $.ajax({
+           url: `/?page=${page}`,
+           type: 'GET',
+           success: function (res) {
+               $('#replaceBlogs').html(res?.entries);
+               document.getElementById('blogsLoader').style.display = 'none'
+               document.getElementById('replaceBlogs').style.display = 'flex'
            }
        });
-       document.getElementById('skeleton_loader').classList.add('hidden')
-   })
+   }
+
+   function show_slider_image(id) {
+       document.getElementById(`skeletonLoader_${id}`).style.display = 'none'
+       document.getElementById(`slider_${id}`).classList.remove('hidden')
+       if ($('#multiple_items .slick-prev').length !== 0) {
+           setTimeout(function () {
+               $('#multiple_items .slick-prev')[0].style.display = 'flex'
+               $('#multiple_items .slick-next')[0].style.display = 'flex'
+           }, 1000)
+       }
+   }
 </script>

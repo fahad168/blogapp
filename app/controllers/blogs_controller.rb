@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: :create
 
   def index; end
 
@@ -10,16 +10,25 @@ class BlogsController < ApplicationController
     end
   end
 
+  def show
+    @blog = Blog.friendly.find(params[:id])
+  end
+
   def blog_details
     @blog = Blog.find_by(id: params[:id])
-    if @blog.update(description: params[:description])
-      render json: { message: 'blog created successfully' }
+    if @blog.update(details: params[:details])
+      render json: { message: 'Blog created successfully' }
     end
+  end
+
+  def suggestions
+    @suggestions = GoogleSuggest.suggest_for params[:word]
+    render json: { entries: render_to_string(partial: 'blogs/suggestions', formats: [:html]) }
   end
 
   private
 
   def blog_params
-    params.permit(:title, :categories, details_images: []).merge(user_id: current_user.id)
+    params.permit(:title, :categories, :thumbnail, :description, details_images: []).merge(user_id: current_user.id)
   end
 end

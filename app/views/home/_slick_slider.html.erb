@@ -1,10 +1,18 @@
-<div style="background-image: url(<%= asset_path("background_image#{i}") %>)" class="w-[100%] h-[50rem] object-cover rounded-lg">
-  <div class="bg-white h-[20rem] w-[35rem] mt-[28rem] ml-[2rem] rounded-lg shadow-lg" id="test">
-    <p class="bg-[#E7BC91] absolute w-auto rounded-md pl-5 font-bold shadow-xl pr-5 pt-2 pb-2 -mt-5 ml-10 text-white">photography</p>
+<div class="w-[100%] h-[50rem] object-cover rounded-lg">
+  <div role="status" class="w-full h-full flex items-center justify-center bg-gray-300 rounded-xl animate-pulse dark:bg-gray-700" id="skeletonLoader_<%= slider.id %>">
+    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
+      <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+  </div>
+  <img id="slider_<%= slider.id %>" src="<%= slider.thumbnail.blob.url %>" class="w-full h-full object-cover rounded-lg hidden" style="background-repeat: no-repeat; background-position: center" loading="lazy" onload="show_slider_image('<%= slider.id %>')">
+  <div class="bg-white h-[20rem] w-[35rem] ml-[2rem] rounded-lg shadow-lg relative" id="test" style="margin-top: -21rem">
+    <p class="bg-[#E7BC91] absolute w-auto rounded-md pl-5 font-bold shadow-xl pr-5 pt-2 pb-2 -mt-5 ml-10 text-white"><%= JSON.parse(slider.categories).first %></p>
     <div class="pt-10 w-full">
-      <p class="font-bold pl-9 pr-9 text-2xl line-clamp-2 text-[#1E215A]">There are many variations of passages of Lorem Ipsum available.</p>
-      <p class="font-medium pl-9 pr-9 pt-4 text-md line-clamp-4 text-[#7E8A96]">There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.There are many variations of passages of Lorem Ipsum available.</p>
-      <button class="readmore-btn ml-9 mt-5">
+      <p class="font-bold pl-9 pr-9 text-2xl line-clamp-2 text-[#1E215A]"><%= slider.title %></p>
+      <p class="font-medium pl-9 pr-9 pt-4 text-md line-clamp-4 text-[#7E8A96]"><%= slider.description %></p>
+      <button class="readmore-btn ml-9 mt-5" onclick="window.location.href = '/blogs/<%= slider.title.split(' ').join('-').downcase %>'">
               <span class="book-wrapper">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="rgb(86, 69, 117)" viewBox="0 0 126 75" class="book">
                   <rect stroke-width="3" stroke="#fff" rx="7.5" height="70" width="121" y="2.5" x="2.5"></rect>

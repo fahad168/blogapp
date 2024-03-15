@@ -18,8 +18,10 @@ gem "puma", "~> 4.1"
 gem 'dotenv-rails'
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
-
+gem 'friendly_id', '~> 5.5.0'
+gem 'will_paginate'
 gem 'meta-tags'
+gem 'google_suggest', '~> 1.1'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 

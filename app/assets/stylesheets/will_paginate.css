@@ -1,0 +1,130 @@
+.pagination {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: transparent;
+	border-radius: 1.5rem;
+	height: 4rem;
+	padding: 0 1rem;
+}
+
+.pagination em,
+.pagination a {
+	font-style: normal !important;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 2.1rem;
+	color: white;
+}
+
+.pagination em.current,
+.pagination a.current {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #1E215A;
+	width: 2.5rem;
+	min-width: 2.5rem;
+	height: 2.5rem;
+	box-shadow: 0 0.6rem 1.3rem rgba(0, 0, 0, 0.14);
+	/*border-radius: 15.835px;*/
+	color: white !important;
+}
+
+.pagination > * {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	box-shadow: 0 0.6rem 1.3rem rgba(0, 0, 0, 0.14);
+	width: 2.5rem;
+	min-width: 2.5rem;
+	height: 2.5rem;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	line-height: 21px !important;
+	color: #19236c !important;
+}
+
+.pagination > * > img {
+	width: 1.9rem;
+	min-width: 1.9rem;
+	height: 1.9rem;
+}
+
+.pagination .previous_page,
+.pagination .next_page {
+	font-size: 0px !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+	background-size: 0.5rem !important;
+}
+
+.pagination .previous_page {
+	background: url("backward.svg");
+}
+
+.pagination .next_page {
+	background: url("forward.svg");
+}
+
+.current_active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fff;
+	width: 4rem;
+	min-width: 4rem;
+	height: 4rem;
+	box-shadow: 0 0.6rem 1.3rem rgba(0, 0, 0, 0.14);
+	border-radius: 15.835px;
+	color: black;
+}
+
+@media (max-width: 768px) {
+	.pagination {
+		border-radius: 1rem;
+		height: 2rem;
+		padding: 0 0.5rem;
+	}
+	.pagination em,
+	.pagination a {
+		font-size: 1rem;
+		line-height: 1.6rem;
+	}
+	.pagination em.current,
+	.pagination a.current {
+		width: 2rem;
+		min-width: 2rem;
+		height: 2rem;
+	}
+	.pagination > * {
+		width: 1.8rem;
+		min-width: 1.8rem;
+		height: 1.8rem;
+		font-size: 12px;
+		line-height: 12px;
+	}
+  .pagination > * > img {
+    width: 1rem;
+    min-width: 1rem;
+    height: 1rem;
+  }
+  .pagination .previous_page,
+  .pagination .next_page {
+    background-size: 0.5rem !important;
+  }
+  .current_active {
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+  }
+}
+
+.pagination .gap {
+	display: none;
+}
+
+.pagination .page.last {
+	display: none;
+}
