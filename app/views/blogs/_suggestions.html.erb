@@ -1,0 +1,7 @@
+<ul>
+  <% @suggestions&.each do |suggest| %>
+    <li class="pt-3 pl-5 pb-3 hover:bg-gray-300 cursor-pointer" onclick="categories(this, 'from_search')">
+      <%= suggest %>
+    </li>
+  <% end %>
+</ul>

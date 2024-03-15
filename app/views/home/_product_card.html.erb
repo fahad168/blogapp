@@ -1,0 +1,63 @@
+<div class="cursor-pointer w-[20rem] max-w-sm bg-white h-[30rem] border border-gray-200 rounded-lg shadow-xl mt-5 mr-4" onmouseover="showCartButton('<%= i %>')" onmouseleave="hideCartButton('<%= i %>')">
+  <a href="#">
+    <div style="background-image: url(<%= asset_path('background_image1') %>); background-position: center" class="rounded-t-lg w-full h-[70%] object-cover flex flex-col justify-end">
+      <a class="CartBtn w-full hidden" id="cartBtn<%= i %>">
+              <span class="IconContainer">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="white" class="cart"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
+              </span>
+        <p class="text">Add to Cart</p>
+      </a>
+    </div>
+<!--    <img class="rounded-t-lg w-full h-[70%] object-cover" src="<%#= asset_path('background_image1') %>" alt="product image" />-->
+  </a>
+  <div class="px-5 pb-5 mt-4">
+    <a href="#">
+      <h5 class="text-xl font-semibold tracking-tight text-[#1E215A] line-clamp-1">Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport</h5>
+    </a>
+    <div class="flex items-center mt-2.5">
+      <div class="flex items-center space-x-1 rtl:space-x-reverse">
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+        <svg class="w-4 h-4 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+      </div>
+      <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
+    </div>
+    <div class="flex items-center justify-between mt-4">
+      <span class="text-3xl font-bold text-[#637282]">$599</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showCartButton(i) {
+      var cartBtn = document.getElementById(`cartBtn${i}`)
+      cartBtn.classList.remove('leave')
+      cartBtn.classList.add('enter')
+      cartBtn.classList.remove('hidden')
+  }
+
+  function hideCartButton(i) {
+      var cartBtn = document.getElementById(`cartBtn${i}`);
+      cartBtn.classList.remove('enter');
+      cartBtn.classList.add('leave');
+      setTimeout(function () {
+          cartBtn.classList.remove('leave');
+          cartBtn.classList.add('hidden');
+      }, 500);
+      setTimeout(function () {
+          cartBtn.classList.add('hidden');
+      }, 400);
+  }
+</script>
