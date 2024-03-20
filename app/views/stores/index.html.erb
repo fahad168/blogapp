@@ -1,0 +1,53 @@
+<nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200">
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <%= render "shared/header", padding: 'py-2' %>
+  </div>
+</nav>
+<%= render "shared/profile_sidebar" %>
+<div class="p-[3rem] sm:ml-64 mt-20 sm:pl-40 sm:pr-40">
+  <div class="w-full flex flex-row justify-end">
+    <a href="/stores/new" data-turbo="false" title="Add" class="cssbuttons-io-button">
+      <svg height="25" width="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"></path><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path></svg>
+      <span>Add</span>
+    </a>
+  </div>
+  <div class="bg-white rounded-lg shadow-2xl h-[40rem] mt-7">
+    <div class="overflow-auto relative" id="scrollbar">
+      <table class="w-full text-left">
+        <thead class="border-b border-[#EBEBEB]">
+        <th class="min-w-[8rem] py-6 px-4 text-sm font-bold text-[#333333]">
+          Store Icon
+        </th>
+        <th class="min-w-[12rem] py-6 text-sm font-bold text-[#333333]">
+          Name
+        </th>
+        <th class="min-w-[10rem] py-6 text-sm font-bold text-[#333333]">
+          Product Categories
+        </th>
+        <th class="min-w-[10rem] py-6 text-sm font-bold text-[#333333]">
+          Status
+        </th>
+        <th class="min-w-[4rem] py-6 text-sm font-bold text-[#333333]">
+          Actions
+        </th>
+        </thead>
+        <tbody>
+          <tr>
+          <td class="py-4 px-4 font-xs/5 font-semibold text-[#333333]">
+          </td>
+          <td class="py-4 font-xs/5 text-[#333333]">
+          </td>
+          <td class="py-4">
+          </td>
+          <td class="py-4 font-xs/5 font-semibold text-[#333333]">
+          </td>
+          <td class="py-4 font-xs/5 text-[#333333]">
+          </td>
+          <td class="py-4">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

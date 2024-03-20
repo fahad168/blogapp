@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210">
+  <!-- Card body -->
+  <rect x="10" y="10" width="340" height="190" fill="#808080" rx="20" />
+
+  <!-- Card details background -->
+  <rect x="30" y="80" width="300" height="50" fill="#34495e" rx="10" />
+
+  <!-- Chip -->
+  <rect x="40" y="86" width="60" height="40" fill="#bdc3c7" rx="8" />
+
+  <!-- Magnetic stripe -->
+  <rect x="20" y="150" width="320" height="30" fill="#bdc3c7" />
+
+  <!-- Card number -->
+  <text x="40" y="125" font-family="Arial" font-size="18" fill="#ecf0f1"></text>
+
+  <!-- Expiry date -->
+  <text x="260" y="185" font-family="Arial" font-size="16" fill="#ecf0f1"></text>
+
+  <!-- Card brand logo (dummy) -->
+  <text x="280" y="112" font-family="Arial" font-size="16" fill="#ecf0f1"></text>
+</svg>

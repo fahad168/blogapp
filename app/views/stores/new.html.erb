@@ -1,0 +1,46 @@
+<nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200">
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <%= render "shared/header", padding: 'py-2' %>
+  </div>
+</nav>
+<%= render "shared/profile_sidebar" %>
+<div class="p-[3rem] sm:ml-64 mt-20 sm:pl-40 sm:pr-40">
+  <div class="bg-white rounded-lg shadow-2xl h-auto mt-7">
+    <div class="pt-5">
+      <%= form_with(model: @store, method: :post) do |f| %>
+        <div class="flex flex-row justify-center">
+          <div class="mx-auto w-64 text-center ">
+            <div class="relative w-64">
+              <img class="w-[12rem] h-[12rem] rounded-full absolute border" src="<%= current_user.profile.profile_image.present? ? current_user.profile.profile_image.blob.url : asset_path('store.svg') %>" alt="profile_image" loading="lazy" id="user-image"/>
+              <label for="store_icon" class="w-[12rem] h-[12rem] group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+                <img class="hidden group-hover:block w-12" src="https://www.svgrepo.com/show/33565/upload.svg" alt=""/>
+              </label>
+              <%= f.file_field :profile_image, class: 'hidden', id: 'store_icon', accept: 'image/jpeg, image/jpg, image/png' %>
+            </div>
+          </div>
+        </div>
+        <div class="grid gap-6 mb-6 md:grid-cols-1 mt-60 pl-10 pr-10">
+          <div>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+            <input value="" type="text" id="name" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter store name">
+          </div>
+          <div>
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+            <textarea rows="5" value="" id="description" name="description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe"></textarea>
+          </div>
+          <div>
+            <label for="product_categories" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+            <textarea rows="5" value="" id="product_categories" name="product_categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe"></textarea>
+          </div>
+          <div>
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
+            <input value="<%= current_user.profile.phone_number %>" name="phone_number" type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="123-45-678">
+          </div>
+        </div>
+        <div class="flex flex-row justify-end">
+          <button type="submit" class="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Save Changes</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

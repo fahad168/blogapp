@@ -21,4 +21,12 @@ Rails.application.routes.draw do
       post :draft_details
     end
   end
+
+  resources :stores
+
+  get "/profile", to: "profile#index"
+  patch "/profile", to: "profile#update"
+  get "/states", to: "profile#states"
+  get "/cities", to: "profile#cities"
+  get "/country_select", to: "profile#country_select"
 end

@@ -22,6 +22,11 @@ gem 'friendly_id', '~> 5.5.0'
 gem 'will_paginate'
 gem 'meta-tags'
 gem 'google_suggest', '~> 1.1'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'country_select', '~> 8.0'
+gem 'city-state'
+gem 'geocoder'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
