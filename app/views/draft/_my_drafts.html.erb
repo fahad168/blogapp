@@ -1,0 +1,69 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 shadow-lg">
+  <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+  <tr>
+    <th scope="col" class="p-4">
+      <div class="flex items-center">
+        <input id="checkbox-draft-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" onchange="checkAllOfThem(this)">
+        <label for="checkbox-draft-search" class="sr-only">checkbox</label>
+      </div>
+    </th>
+    <th scope="col" class="px-6 py-3">
+      Title
+    </th>
+    <th scope="col" class="px-6 py-3">
+      Description
+    </th>
+    <th scope="col" class="px-10 py-3">
+      Created
+    </th>
+    <th scope="col" class="px-6 py-3">
+      Categories
+    </th>
+    <th scope="col" class="px-6 py-3">
+      Action
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @drafts&.each do |draft| %>
+    <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer">
+      <td class="w-4 p-4">
+        <div class="flex items-center">
+          <input value="<%= draft.id %>" id="checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" onchange="checkedRow('<%= draft.id %>', 'fromCode')">
+          <label for="checkbox" class="sr-only">checkbox</label>
+        </div>
+      </td>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+        <%= draft.title %>
+      </th>
+      <td class="px-6 py-4">
+        <%= draft.description %>
+      </td>
+      <td class="px-10 py-4">
+        <%= time_ago_in_words(draft.created_at) %>
+      </td>
+      <td class="px-10 py-4">
+        <% categories = draft.categories.present? ? JSON.parse(draft.categories) : [] %>
+        <ul class="marker:text-[#1E215A] list-disc flex gap-3 lg:gap-5 flex-wrap ">
+          <% categories&.each do |category| %>
+            <li><%= category %></li>
+          <% end %>
+        </ul>
+      </td>
+      <td class="px-6 py-4">
+        <div class="flex flex-row justify-between">
+          <a data-turbo="false" href="/blogs/<%= draft.id %>/edit?key=draft" class="text-blue-600 hover:-translate-y-1 hover:scale-110"><img src="<%= asset_path('edit.png') %>" class="w-5"></a>
+          <button class="text-blue-600 hover:underline hover:-translate-y-1 hover:scale-110" onclick="drawer('<%= draft.id %>')" data-drawer-target="drawer-top-delete" data-drawer-show="drawer-top-delete" data-drawer-placement="top" aria-controls="drawer-top-delete">
+            <img src="<%= asset_path('delete.png') %>" class="w-5" alt="Delete">
+          </button>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<div class="mt-5 w-[35%]">
+  <%= will_paginate(@drafts) %>
+</div>
+
+<%= javascript_include_tag('my_drafts') %>

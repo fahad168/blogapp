@@ -1,0 +1,254 @@
+<div>
+  <label for="school" class="block mb-2 text-sm font-medium text-gray-900">School <span class="text-[red]">*</span></label>
+  <input type="text" name="school" id="school" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: Oxford University" oninput="search_schools(this)">
+  <div class="w-full h-[15rem] overflow-scroll rounded-lg  border border-gray-200 shadow-lg hidden" id="search_div">
+    <ul class="" id="results_list">
+    </ul>
+  </div>
+</div>
+<div class="mt-4">
+  <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Degree <span class="text-[red]">*</span></label>
+  <input type="text" name="degree" id="degree" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: Computer Science" oninput="search_degrees(this, 'degree')">
+  <div class="w-full overflow-scroll rounded-lg  border border-gray-200 shadow-lg hidden" id="search_div1">
+    <ul class="" id="results_list1">
+    </ul>
+  </div>
+</div>
+<div class="mt-4">
+  <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Field of study <span class="text-[red]">*</span></label>
+  <input type="text" name="field" id="field" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: Arts" oninput="search_degrees(this, 'field')">
+  <div class="w-full overflow-scroll rounded-lg  border border-gray-200 shadow-lg hidden" id="search_div2">
+    <ul class="" id="results_list2">
+    </ul>
+  </div>
+</div>
+<div class="mt-4">
+  <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Skills</label>
+  <%#= select_tag("skills", options_for_select([], include_blank: 'Select Skills', selected: "Ruby"), { class: 'languages bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5', id: 'language_select', multiple: true ,placeholder: 'Select Skills'}) %>
+  <select multiple id="language_select" class="languages bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+  </select>
+</div>
+<div class="mt-4 flex flex-row justify-between">
+  <div>
+    <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900">Start Date <span class="text-[red]">*</span></label>
+    <input type="text" name="start_date" id="start_date" class="flatpicker w-[15rem] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Start Date">
+  </div>
+  <div>
+    <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">End Date (or expected) <span class="text-[red]">*</span></label>
+    <input type="text" name="end_date" id="end_date" class="flatpicker w-[15rem] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="End Date">
+  </div>
+</div>
+<div class="mt-4">
+  <label for="grades" class="block mb-2 text-sm font-medium text-gray-900">Grade</label>
+  <input type="text" name="grades" id="grades" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Ex: A+">
+</div>
+
+<script>
+  $(document).ready(function () {
+      $('.flatpicker').flatpickr({
+          shorthandCurrentMonth: true,
+          monthSelectorType: "dropdown"
+      })
+      var select = document.getElementById('language_select')
+      var count = 0
+      fetch('/languages')
+          .then(response => response.text())
+          .then(csvData => {
+              var rows = csvData.split('\n');
+              var headers = rows[0].split(',');
+              var nameIndex = headers.indexOf('ProgrammingLanguage');
+              rows = rows.slice(1)
+              for (let i = 0; i < rows.length; i++) {
+                  let columns = rows[i].split(',');
+                  let languageName = columns[nameIndex];
+                  const option = document.createElement('option')
+                  option.innerText = languageName
+                  select.appendChild(option)
+                  count += 1
+              }
+              console.log("count =>>>>", count)
+              $('.languages').chosen({
+                  disable_search_threshold: 10,
+                  placeholder_text_multiple: 'Select Skills (Maximum 5)',
+                  no_results_text: 'No Skill found',
+                  width: '100%',
+                  max_selected_options: 5,
+              })
+          }).catch(error => console.error('Error fetching CSV file:', error));
+  })
+    function search_schools(input) {
+        if (input.value !== "") {
+            fetch(`http://universities.hipolabs.com/search?name=${input.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsList = document.getElementById('results_list');
+                    resultsList.innerHTML = '';
+
+                    if (data.length < 2) {
+                        document.getElementById('search_div').classList.remove('h-[10rem]')
+                        document.getElementById('search_div').classList.add('h-fit')
+                    } else {
+                        document.getElementById('search_div').classList.add('h-[10rem]')
+                        document.getElementById('search_div').classList.remove('h-fit')
+                    }
+                    data.forEach(university => {
+                        const li = document.createElement('li');
+                        li.classList.add('p-3', 'cursor-pointer', 'hover:bg-gray-300', 'border-b', 'border-gray-400');
+                        li.setAttribute('onclick', `setMajorInputValue("${university.name}", 'school', 'search_div')`)
+
+                        const universityName = document.createElement('p');
+                        universityName.classList.add('text-gray-600', 'text-sm', 'font-sans');
+                        universityName.textContent = university.name;
+
+                        const universityCountry = document.createElement('p');
+                        universityCountry.classList.add('text-[gray]', 'text-sm', 'font-sans', 'mt-1');
+                        universityCountry.textContent = university.country;
+
+                        li.appendChild(universityName);
+                        li.appendChild(universityCountry);
+                        resultsList.appendChild(li);
+                        document.getElementById('search_div').classList.remove('hidden')
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        } else {
+            document.getElementById('search_div').classList.add('hidden')
+        }
+    }
+
+    // function search_schools(input) {
+    //     var searchInput = input.value.toLowerCase();
+    //     var resultsContainer = document.getElementById('results_list');
+    //     var searchDiv = document.getElementById("search_div")
+    //     resultsContainer.innerHTML = '';
+    //
+    //     fetch('/education_dataset')
+    //         .then(response => response.text())
+    //         .then(csvData => {
+    //             var rows = csvData.split('\n');
+    //             var headers = rows[0].split(',');
+    //             var nameIndex = headers.indexOf('NAME');
+    //             var country = headers.indexOf('COUNTRY');
+    //
+    //             if (nameIndex === -1) {
+    //                 resultsContainer.innerHTML = '<p>Error: "name" column not found</p>';
+    //                 return;
+    //             }
+    //
+    //             // Process rows in small batches to keep the UI responsive
+    //             function processBatch(startIndex) {
+    //                 const batchSize = 100;
+    //                 for (let i = startIndex; i < startIndex + batchSize && i < rows.length; i++) {
+    //                     let columns = rows[i].split(',');
+    //                     let schoolName = columns[nameIndex].toLowerCase();
+    //                     let countryName = columns[country].toLowerCase();
+    //                     if (schoolName.includes(searchInput)) {
+    //                         const li = document.createElement('li');
+    //                         li.classList.add('p-3', 'cursor-pointer', 'hover:bg-gray-300', 'border-b', 'border-gray-400');
+    //                         li.setAttribute('onclick', `setMajorInputValue("${schoolName}", 'school', 'search_div')`)
+    //
+    //                         const universityName = document.createElement('p');
+    //                         universityName.classList.add('text-gray-600', 'text-sm', 'font-sans');
+    //                         universityName.textContent = schoolName;
+    //
+    //                         const universityCountry = document.createElement('p');
+    //                         universityCountry.classList.add('text-[gray]', 'text-sm', 'font-sans', 'mt-1');
+    //                         universityCountry.textContent = countryName;
+    //                         li.setAttribute('onclick', `setMajorInputValue("${schoolName}", 'school', 'search_div')`)
+    //
+    //                         li.appendChild(universityName);
+    //                         li.appendChild(universityCountry);
+    //                         resultsContainer.appendChild(li);
+    //                         document.getElementById('search_div').classList.remove('hidden')                        }
+    //                 }
+    //
+    //                 if (startIndex + batchSize < rows.length) {
+    //                     setTimeout(() => processBatch(startIndex + batchSize), 0);
+    //                 }
+    //                 if (resultsContainer.childNodes.length === 0) {
+    //                     searchDiv.classList.add('hidden')
+    //                 } else if (resultsContainer.childNodes.length >= 3) {
+    //                     searchDiv.classList.add('h-[10rem]')
+    //                     searchDiv.classList.remove('h-fit')
+    //                     searchDiv.classList.remove('hidden')
+    //                 } else {
+    //                     searchDiv.classList.remove('h-[10rem]')
+    //                     searchDiv.classList.add('h-fit')
+    //                     searchDiv.classList.remove('hidden')
+    //                 }
+    //
+    //                 if (startIndex + batchSize < rows.length) {
+    //                     setTimeout(() => processBatch(startIndex + batchSize), 0);
+    //                 }
+    //             }
+    //
+    //             processBatch(1);
+    //         })
+    //         .catch(error => console.error('Error fetching CSV file:', error));
+    // }
+
+    function search_degrees(input, key) {
+        var searchInput = input.value.toLowerCase();
+        var resultsContainer = document.getElementById(`results_list${key === 'degree' ? '1' : '2'}`);
+        var searchDiv = document.getElementById(`search_div${key === 'degree' ? '1' : '2'}`)
+        resultsContainer.innerHTML = '';
+
+        fetch('/majors_degrees')
+            .then(response => response.text())
+            .then(csvData => {
+                var rows = csvData.split('\n');
+                var headers = rows[0].split(',');
+                var nameIndex = headers.indexOf(key === 'degree' ?'Major' : 'Major_Category');
+                let addedMajorNames = new Set();
+
+                if (nameIndex === -1) {
+                    resultsContainer.innerHTML = '<p>Error: "name" column not found</p>';
+                    return;
+                }
+
+                function processBatch(startIndex) {
+                    const batchSize = 100;
+                    // for_loop(startIndex, batchSize, rows, resultsContainer, nameIndex, searchInput)
+                    for (let i = startIndex; i < startIndex + batchSize && i < rows.length; i++) {
+                        let columns = rows[i].split(',');
+                        let majorName = columns[nameIndex].toLowerCase();
+                        if (majorName.includes(searchInput) && !addedMajorNames.has(majorName)) {
+                            const li = document.createElement('li');
+                            li.classList.add('p-3', 'cursor-pointer', 'hover:bg-gray-300', 'border-b', 'border-gray-400');
+                            li.setAttribute('onclick', `setMajorInputValue("${majorName.charAt(0).toUpperCase() + majorName.slice(1)}", '${key === 'degree' ? 'degree' : 'field'}', 'search_div${key === 'degree' ? '1' : '2'}')`)
+                            const degreeName = document.createElement('p');
+                            degreeName.classList.add('text-gray-600', 'text-sm', 'font-sans');
+                            degreeName.textContent = majorName.charAt(0).toUpperCase() + majorName.slice(1);
+
+                            li.appendChild(degreeName);
+                            resultsContainer.appendChild(li);
+                            addedMajorNames.add(majorName);
+                        }
+                    }
+                    if (resultsContainer.childNodes.length === 0) {
+                        searchDiv.classList.add('hidden')
+                    } else if (resultsContainer.childNodes.length >= 3) {
+                        searchDiv.classList.add('h-[10rem]')
+                        searchDiv.classList.remove('h-fit')
+                        searchDiv.classList.remove('hidden')
+                    } else {
+                        searchDiv.classList.remove('h-[10rem]')
+                        searchDiv.classList.add('h-fit')
+                        searchDiv.classList.remove('hidden')
+                    }
+
+                    if (startIndex + batchSize < rows.length) {
+                        setTimeout(() => processBatch(startIndex + batchSize), 0);
+                    }
+                }
+
+                processBatch(1);
+            })
+            .catch(error => console.error('Error fetching CSV file:', error));
+    }
+
+  function setMajorInputValue(value, id, div_id) {
+      document.getElementById(id).value = value
+      document.getElementById(div_id).classList.add('hidden')
+  }
+</script>

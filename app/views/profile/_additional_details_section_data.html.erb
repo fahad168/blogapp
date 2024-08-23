@@ -1,0 +1,35 @@
+<div class="mt-6 flex flex-row">
+  <img src="<%= asset_path('email.svg') %>" alt="email" class="w-6 h-6" style="align-self: center">
+  <div class="ml-3">
+    <p class="font-normal text-sm text-[#A9ADBF]">EMAIL</p>
+    <p class="font-normal text-md text-[#2ECF32] mt-2"><%= current_user.email %></p>
+  </div>
+</div>
+<div class="mt-5 flex flex-row">
+  <img src="<%= asset_path('language.svg') %>" alt="languages" class="w-6 h-6" style="align-self: center">
+  <div class="ml-3">
+    <p class="font-normal text-sm text-[#A9ADBF]">LANGUAGES</p>
+    <p class="font-normal text-md text-[#2ECF32] mt-2"><%= current_user.blogger_profile.languages.join(', ') %></p>
+  </div>
+</div>
+<div class="mt-5 flex flex-row">
+  <img src="<%= asset_path('gender.svg') %>" alt="gender" class="w-7 h-7" style="align-self: center">
+  <div class="ml-3">
+    <p class="font-normal text-sm text-[#A9ADBF]">PREFERRED GENDER PRONOUNCE</p>
+    <p class="font-medium text-md mt-2"><%= current_user.profile.gender.capitalize %></p>
+  </div>
+</div>
+<div class="mt-5 flex flex-row">
+  <img src="<%= asset_path('blogger_user.svg') %>" alt="nickname" class="w-6 h-6" style="align-self: center">
+  <div class="ml-3">
+    <p class="font-normal text-sm text-[#A9ADBF]">NICKNAME</p>
+    <p class="font-medium text-md mt-2"><%= current_user.blogger_profile.nickname %></p>
+  </div>
+</div>
+<div class="mt-5 flex flex-row mb-5">
+  <img src="<%= asset_path('calender.svg') %>" alt="calender" class="w-6 h-6" style="align-self: center">
+  <div class="ml-3">
+    <p class="font-normal text-sm text-[#A9ADBF]">JOIN DATE</p>
+    <p class="font-medium text-md mt-2"><%= time_ago_in_words(current_user.created_at).capitalize %>, on <%= current_user.created_at.strftime("%d/%m/%Y") %></p>
+  </div>
+</div>

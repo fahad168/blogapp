@@ -1,0 +1,109 @@
+<div>
+  <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900">Project name <span class="text-[red]">*</span></label>
+  <input type="text" name="project_name" id="project_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+</div>
+<div class="mt-4">
+  <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+  <textarea type="text" name="description" id="description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></textarea>
+</div>
+<div class="mt-4">
+  <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Skills</label>
+  <div class="flex flex-row justify-center border border-blue-500 hover:border-2 rounded-full w-[8rem] h-[2.2rem] items-center cursor-pointer" onclick="show_skills_dropdown()" id="skills_button">
+    <img src="<%= asset_path('plus_blue_icon.svg') %>" class="h-4 w-4">
+    <p class="ml-3 text-md text-blue-500">Add Skills</p>
+  </div>
+  <select multiple id="skill_select" class="languages bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+  </select>
+</div>
+<div class="mt-4">
+  <label for="media_button" class="block mb-2 text-sm font-medium text-gray-900">Media</label>
+  <input type="file" id="media_input" class="hidden">
+  <button data-dropdown-toggle="mediaDropdown" class="flex flex-row justify-center border border-blue-500 hover:border-2 rounded-full w-[8rem] h-[2.2rem] items-center cursor-pointer" id="media_button" type="button">
+    <img src="<%= asset_path('plus_blue_icon.svg') %>" class="h-4 w-4">
+    <p class="ml-3 text-md text-blue-500">Add Media</p>
+  </button>
+  <div id="mediaDropdown" class="z-100 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+    <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="media_button">
+      <li class="hover:text-[gray]">
+        <label for="media_input">
+          Upload Media
+        </label>
+      </li>
+      <li class="hover:text-[gray] mt-2">
+        <button type="button">
+          Add Link
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="mt-6">
+  <label class="block mb-2 text-lg font-medium text-gray-900">Additional Details</label>
+  <div class="flex flex-row justify-start">
+    <input type="checkbox" id="project_checkbox" onclick="project_checked(this)">
+    <p class="text-sm ml-2">Currently working on this project</p>
+  </div>
+</div>
+<div class="mt-4 flex flex-row justify-between">
+  <div class="w-[47%]">
+    <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900">Start Date</label>
+    <input type="text" name="start_date" id="start_date" class="flatpicker bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Start Date">
+  </div>
+  <div class="w-[47%]">
+    <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">End Date</label>
+    <input type="text" name="end_date" id="end_date" class="flatpicker bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="End Date">
+  </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.flatpicker').flatpickr({
+            shorthandCurrentMonth: true,
+            monthSelectorType: "dropdown"
+        })
+        var select = document.getElementById('skill_select')
+        var count = 0
+        fetch('/languages')
+            .then(response => response.text())
+            .then(csvData => {
+                var rows = csvData.split('\n');
+                var headers = rows[0].split(',');
+                var nameIndex = headers.indexOf('ProgrammingLanguage');
+                rows = rows.slice(1)
+                for (let i = 0; i < rows.length; i++) {
+                    let columns = rows[i].split(',');
+                    let languageName = columns[nameIndex];
+                    const option = document.createElement('option')
+                    option.innerText = languageName
+                    select.appendChild(option)
+                    count += 1
+                }
+                console.log("count =>>>>", count)
+                $('.languages').chosen({
+                    disable_search_threshold: 10,
+                    placeholder_text_multiple: 'Select Skills (Maximum 5)',
+                    no_results_text: 'No Skill found',
+                    width: '100%',
+                    max_selected_options: 5,
+                })
+                $('#skill_select_chosen').addClass('hidden')
+            }).catch(error => console.error('Error fetching CSV file:', error));
+    })
+
+    function show_skills_dropdown() {
+        $('#skills_button').addClass('hidden')
+        $('#skill_select_chosen').removeClass('hidden')
+    }
+
+    function project_checked(checkbox) {
+        var end_date = document.getElementById('end_date')
+        if(checkbox.checked === true) {
+            end_date.setAttribute('disabled', 'true')
+            end_date.style.cursor = 'no-drop'
+            document.getElementById('end_date').value = ""
+        } else {
+            end_date.removeAttribute('disabled')
+            end_date.style.cursor = 'pointer'
+        }
+    }
+</script>

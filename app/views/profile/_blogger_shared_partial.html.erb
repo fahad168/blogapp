@@ -1,0 +1,114 @@
+<section class="top_section px-20 mt-10 1-full h-full">
+  <div class="flex flex-row justify-between">
+    <div id="left_div" class="w-[68%]">
+      <div class="rounded-lg bg-white border border-gray-300" id="top_profile_section">
+        <%= render 'profile/profile_top_section_data' %>
+      </div>
+      <div class="rounded-lg bg-white border border-gray-300 p-5 mt-5">
+        <div class="flex flex-row justify-between">
+          <p class="font-semibold text-xl">Summary</p>
+          <div class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75">
+            <img src="<%= asset_path('blogger_edit.svg') %>" class="h-[1.2rem] w-[1.2rem]" onclick="edit_summary()">
+          </div>
+        </div>
+        <% if current_user.blogger_profile.summary.present? %>
+          <p class="w-full mt-4" id="summary_content"><%= current_user.blogger_profile.summary %></p>
+        <% else %>
+          <p class="w-full mt-4 text-center mb-4" id="summary_content">Summary not added</p>
+        <% end %>
+        <textarea id="summary" class="w-full mt-4 h-[15rem] hidden border border-gray-300 rounded-lg p-3"></textarea>
+        <div class="flex flex-row w-full justify-end">
+          <img src="<%= asset_path('tick.svg') %>" class="w-[2rem] cursor-pointer hover:opacity-50 hidden" id="tick" onclick="save_summary()">
+          <img src="<%= asset_path('close_red.svg') %>" class="w-[2rem] ml-5 cursor-pointer hover:opacity-50 hidden" id="cross" onclick="restore_default('Ruby')">
+        </div>
+      </div>
+      <div class="rounded-lg bg-white border border-gray-300 p-5 mt-5">
+        <div class="flex flex-row justify-between">
+          <p class="font-semibold text-xl">Education</p>
+          <div>
+            <button type="button" data-modal-target="education-details-modal" data-modal-toggle="education-details-modal" class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75" onclick="new_education()">
+              <img src="<%= asset_path('plus_blogger.svg') %>" class="h-[1.2rem] w-[1.2rem]">
+            </button>
+            <button type="button" data-modal-target="education-details-modal" data-modal-toggle="education-details-modal" id="edit_education" class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75">
+              <img src="<%= asset_path('blogger_edit.svg') %>" class="h-[1.2rem] w-[1.2rem]">
+            </button>
+          </div>
+        </div>
+        <div class="mt-2" id="education_main">
+          <%= render 'profile/educations_content' %>
+        </div>
+        <%= render 'profile/education_section_modal' %>
+      </div>
+      <div class="rounded-lg bg-white border border-gray-300 p-5 mt-5">
+        <div class="flex flex-row justify-between">
+          <p class="font-semibold text-xl">Projects</p>
+          <div>
+            <button type="button" data-modal-target="project-details-modal" data-modal-toggle="project-details-modal" class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75" onclick="new_project()">
+              <img src="<%= asset_path('plus_blogger.svg') %>" class="h-[1.2rem] w-[1.2rem]">
+            </button>
+            <button type="button" data-modal-target="project-details-modal" data-modal-toggle="project-details-modal" id="edit_project" class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75">
+              <img src="<%= asset_path('blogger_edit.svg') %>" class="h-[1.2rem] w-[1.2rem]">
+            </button>
+          </div>
+        </div>
+        <div class="mt-2" id="project_main">
+          <%= render 'profile/projects_content' %>
+        </div>
+        <%= render 'profile/project_section_modal' %>
+      </div>
+    </div>
+    <div id="right_div" class="w-[30%]">
+      <div class="h-fit rounded-lg bg-white border border-gray-300">
+        <p class="font-semibold text-xl ml-4 pt-2">Chats</p>
+        <div class="mt-2">
+          <div class="flex flex-row pl-4 pr-4 pt-2 pb-2 hover:bg-gray-200 cursor-pointer">
+            <img alt="cover photo" src="<%= asset_path('background_image6.jpg') %>" class="h-12 w-12 rounded-full object-cover">
+            <div class="ml-4">
+              <p class="text-md font-semibold">Hamza Shahid</p>
+              <p class="text-sm text-[#70738B]">Hello how are you</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2">
+          <div class="flex flex-row pl-4 pr-4 pt-2 pb-2 hover:bg-gray-200 cursor-pointer">
+            <img alt="cover photo" src="<%= asset_path('background_image6.jpg') %>" class="h-12 w-12 rounded-full object-cover">
+            <div class="ml-4">
+              <p class="text-md font-semibold">Hamza Shahid</p>
+              <p class="text-sm text-[#70738B]">Hello how are you</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2">
+          <div class="flex flex-row pl-4 pr-4 pt-2 pb-2 hover:bg-gray-200 cursor-pointer">
+            <img alt="cover photo" src="<%= asset_path('background_image6.jpg') %>" class="h-12 w-12 rounded-full object-cover">
+            <div class="ml-4">
+              <p class="text-md font-semibold">Hamza Shahid</p>
+              <p class="text-sm text-[#70738B]">Hello how are you</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 mb-2">
+          <div class="flex flex-row pl-4 pr-4 pt-2 pb-2 hover:bg-gray-200 cursor-pointer">
+            <img alt="cover photo" src="<%= asset_path('background_image6.jpg') %>" class="h-12 w-12 rounded-full object-cover">
+            <div class="ml-4">
+              <p class="text-md font-semibold">Hamza Shahid</p>
+              <p class="text-sm text-[#70738B]">Hello how are you</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-fit rounded-lg bg-white border border-gray-300 mt-4 p-6">
+        <div class="flex flex-row justify-between">
+          <p class="font-semibold text-xl">Additional Details</p>
+          <button type="button" data-modal-target="additional-details-modal" data-modal-toggle="additional-details-modal" class="border border-gray-200 w-fit h-fit p-1 rounded-md shadow cursor-pointer hover:opacity-75">
+            <img src="<%= asset_path('blogger_edit.svg') %>" class="h-[1.2rem] w-[1.2rem]">
+          </button>
+        </div>
+        <div id="additional_details_div">
+          <%= render 'profile/additional_details_section_data' %>
+        </div>
+        <%= render 'profile/profile_additional_details_modal' %>
+      </div>
+    </div>
+  </div>
+</section>

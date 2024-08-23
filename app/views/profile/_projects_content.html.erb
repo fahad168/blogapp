@@ -1,0 +1,16 @@
+<% if current_user.blogger_profile.projects.present? %>
+  <% current_user.blogger_profile.projects.each do |project| %>
+    <div class="border border-gray-200 flex flex-row justify-between p-4 rounded-lg mt-4" id="project_<%= project.id %>">
+      <div>
+        <p class="font-medium text-[#2ECF32] text-bold text-lg ml-4 mt-2"><%= project.name.capitalize %></p>
+        <p class="font-normal text-black text-sm ml-4 mt-1"><%= project.start_date&.strftime('%b %Y') %> - <%= project.end_date.present? ? project.end_date.strftime('%b %Y') : project.checked == true ? 'present' : '' %></p>
+        <p class="font-normal text-black text-md ml-4 mt-3"><%= project.description.capitalize %></p>
+        <p class="font-normal text-black text-sm ml-4 mt-1"><%= project.skills&.map(&:capitalize)&.join(", ") %></p>
+      </div>
+      <div class="flex flex-row mt-2">
+        <img src="<%= asset_path('edit.svg') %>" class="w-5 h-5 mr-5 cursor-pointer hover:opacity-75" onclick="edit_project('<%= project.id %>', '<%= project.name %>', '<%= project.description %>', '<%= project.skills %>', '<%= project.start_date %>', '<%= project.end_date %>', '<%= project.checked %>')">
+        <img src="<%= asset_path('delete.png') %>" class="w-5 h-5 cursor-pointer hover:opacity-75" onclick="delete_project('<%= project.id %>')">
+      </div>
+    </div>
+  <% end %>
+<% end %>

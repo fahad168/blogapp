@@ -1,0 +1,168 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.js"></script>
+
+<% comment = @comment || comment %>
+
+<div class="mt-4 p-4 rounded-lg" id="dropdownEmojis<%= comment.id %>" data-dropdown-placement="top" data-dropdown-toggle="dropdownEmojiDelay<%= comment.id %>" data-dropdown-delay="500" data-dropdown-trigger="hover" style="box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);">
+  <div class="flex flex-row justify-start">
+    <img src="<%= comment.user.profile.profile_image.attached? ? url_for(comment.user.profile.profile_image) : asset_path('user.svg') %>" class="w-9 h-9 border border-gray-500 rounded-full">
+    <div class="flex flex-row justify-between items-center">
+      <p class="font-medium text-lg text-center ml-3 text-gray-500"><%= comment.user.username.capitalize %></p>
+    </div>
+  </div>
+  <div class="p-2">
+    <p class="text-[#696868]"><%= comment&.comment_details&.html_safe %></p>
+  </div>
+  <div class="mt-2 flex flex-row justify-start">
+    <div class="flex flex-row justify-start mb-4" id="emojiDropdown<%= comment.id %>">
+<!--      <button title="Add Reaction" id="dropdownEmojis<%#= comment.id %>" data-dropdown-placement="top" data-dropdown-toggle="dropdownEmojiDelay<%#= comment.id %>" data-dropdown-delay="500" data-dropdown-trigger="click" class="" type="button">-->
+<!--        <img src="<%#= asset_path('emoji_placeholder.svg') %>" class="w-5 h-5">-->
+<!--      </button>-->
+      <!-- Dropdown menu -->
+      <div id="dropdownEmojiDelay<%= comment.id %>" class="z-10 hidden bg-white rounded-lg" style="box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);">
+        <div class="flex flex-row justify-start p-3" aria-labelledby="dropdownEmojis<%= comment.id %>">
+          <% current_user.favrt_emojis&.each do |emoji| %>
+            <p class="w-7 cursor-pointer transform hover:-translate-y-1 hover:scale-110" onclick="add_delete_reaction(this, '<%= comment.id %>', '<%= emoji.emoji_name %>', 'notOnReaction')"><%= emoji.emoji %></p>
+          <% end %>
+<!--          <button title="Emojis" id="allEmojis<%#= comment.id %>" data-dropdown-placement="top" data-dropdown-toggle="allEmojisDelay<%#= comment.id %>" data-dropdown-delay="500" data-dropdown-trigger="click" class="" type="button"><img src="<%#= asset_path('add_emoji.svg') %>" class="w-7 cursor-pointer transform hover:-translate-y-1 hover:scale-110"></button>-->
+        </div>
+      </div>
+      <div id="allEmojisDelay<%= comment.id %>" class="z-10 hidden bg-white rounded-lg shadow">
+        <div class="flex flex-row justify-start p-3" aria-labelledby="allEmojis<%= comment.id %>">
+          <% current_user.favrt_emojis&.each do |emoji| %>
+            <p class="border text-center bg-gray-300 shadow-lg cursor-pointer rounded-lg p-2 ml-2"><%= emoji.emoji %></p>
+          <% end %>
+          <button title="Add Emoji In Favourites" type="button" data-drawer-target="drawer-right-emoji" data-drawer-show="drawer-right-emoji" data-drawer-placement="right" aria-controls="drawer-right-emoji"><img src="<%= asset_path('plus_icon.svg') %>" class="border text-center bg-gray-200 shadow-lg cursor-pointer rounded-lg p-2 w-8 h-8 ml-2"></button>
+        </div>
+      </div>
+      <% reactions = comment.reactions.group(:emoji_name).count %>
+      <% reactions.each do |reaction| %>
+        <% if reaction.second != 0 %>
+          <div title="<%= reaction.first %>" class="bg-[#F1F1F1] pt-[5px] pb-[5px] pl-[10px] pr-[10px] flex flex-row justify-start rounded-2xl mr-4 cursor-pointer hover:opacity-75" id="<%= reaction.first %><%= comment.id %>" onclick="add_delete_reaction(this, '<%= comment.id %>', '<%= reaction.first %>', 'onReaction')">
+            <p class="<%= reaction.first %>_emoji_and_count_<%= comment.id %>"><%= Emoji.find_by_alias(reaction.first).raw %>&nbsp;<span class="text-gray-500" id="<%= reaction.first %>_count_<%= comment.id %>"><%= reaction.second %></span></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <% if comment.parent_comment_id == nil %>
+        <div class="flex flex-row mb-4">
+          <span class="border-r border-gray-400 ml-5"></span>
+          <div class="items-center flex">
+            <button class="text-gray-500 cursor-pointer hover:text-gray-600 text-md ml-3 text-center" onclick="replying('<%= comment.user.username %>', '<%= comment.id %>')">Reply</button>
+          </div>
+          <%# if comment.child_comments.count > 0 %>
+              <div class="items-center flex">
+                <button class="text-gray-500 cursor-pointer hover:text-gray-600 text-md ml-3 text-center" id="view_comments_<%= comment.id %>" onclick="view_child_comments('<%= comment.id %>', '<%= comment.child_comments.count %>')">View (<%= comment.child_comments.count %>)</button>
+              </div>
+          <%# end %>
+        </div>
+    <% end %>
+    <div class="flex flex-row mb-4">
+      <span class="border-r border-gray-400 ml-3 flex flex-col justify-center"></span>
+      <p class="text-gray-300 ml-3"><%= time_ago_in_words(comment.created_at) %></p>
+    </div>
+  </div>
+</div>
+<div id="child_comments_inner_<%= comment.id %>" class="mt-3 ml-10" style="display: none">
+</div>
+
+<script>
+    function add_delete_reaction(emoji, comment_id, emoji_name, key) {
+        if (key === 'onReaction') {
+            emoji = emoji.childNodes[1].innerHTML.split('&nbsp;')[0]
+        }else if (key === 'notOnReaction') {
+            emoji = emoji.innerHTML
+        }
+
+        var emojiRaw = emoji
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var formData = new FormData()
+        formData.append('comment_id', comment_id)
+        formData.append('emoji', emojiRaw)
+        formData.append('emoji_name', emoji_name)
+        formData.append('authenticity_token', csrfToken);
+        $.ajax({
+            url: '/comments/reactions',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                reactions(`${emoji_name}${comment_id}`, `${emoji_name}_count_${comment_id}` ,comment_id, emoji, emoji_name, res )
+                // if (emoji === '👍') {
+                //     reactions(`thumbs_up${comment_id}`, `thumbs_up_count_${comment_id}` ,comment_id, emoji, res )
+                // } else if (emoji === '❤️') {
+                //     reactions(`heart${comment_id}`, `heart_count_${comment_id}`, comment_id, emoji, res )
+                // } else if (emoji === '✅') {
+                //     reactions(`checkmark${comment_id}`, `check_count_${comment_id}`, comment_id, emoji, res )
+                // } else if (emoji === '😂') {
+                //     reactions(`joy${comment_id}`, `joy_count_${comment_id}`, comment_id, emoji, res )
+                // } else if (emoji === '❌') {
+                //     reactions(`cross${comment_id}`, `cross_count_${comment_id}`, comment_id, emoji, res )
+                // }
+            }
+        })
+    }
+
+    function reactions(elementId, count_id, comment_id, emoji, emoji_name, res) {
+        if(res?.destroy === true) {
+            var element = document.getElementById(elementId)
+            if(element) {
+                var count = document.getElementById(count_id)
+                if(parseInt(count.innerText) === 1) {
+                    element.remove()
+                } else {
+                    count.innerText = parseInt(count.innerText) - 1
+                }
+            }
+        } else {
+            var element = document.getElementById(elementId)
+            if (element) {
+                element.childNodes[1].innerHTML = `${emoji}&nbsp;<span class="text-gray-500" id="${count_id}">${parseInt(document.getElementById(count_id).innerText) + 1}</span>`
+            } else {
+                const outerDiv = document.createElement('div');
+                outerDiv.classList.add('bg-[#F1F1F1]', 'pl-[10px]', 'pr-[10px]', 'pt-[5px]', 'pb-[5px]', 'flex', 'flex-row', 'justify-start', 'rounded-2xl', 'ml-4', 'cursor-pointer', 'hover:opacity-75');
+                outerDiv.id = elementId;
+                const reactionParagraph = document.createElement('p');
+                reactionParagraph.innerHTML = `${emoji}&nbsp;`;
+                const reactionCountParagraph = document.createElement('span');
+                reactionCountParagraph.classList.add('text-gray-500');
+                reactionCountParagraph.id = count_id;
+                reactionCountParagraph.innerHTML = 1;
+                reactionParagraph.appendChild(reactionCountParagraph);
+                outerDiv.appendChild(reactionParagraph);
+                outerDiv.setAttribute('onclick', `add_delete_reaction("${outerDiv.childNodes[0].innerHTML.split('&nbsp;')[0]}", ${comment_id}, "${emoji_name}", 'fromJS')`)
+                document.getElementById(`emojiDropdown${comment_id}`).appendChild(outerDiv);
+            }
+        }
+    }
+
+    function replying(username, id) {
+        document.getElementById('quill_editor').scrollIntoView({behavior: 'smooth'})
+        document.getElementById('replying_to_name').innerText = username
+        document.getElementById('replying_div').style.display = 'flex'
+        document.getElementById('parent_comment_id').value = id
+        $('.ql-editor').focus();
+    }
+
+    function close_replying() {
+        document.getElementById('replying_div').style.display = 'none'
+        document.getElementById('parent_comment_id').value = ""
+    }
+
+    function view_child_comments(id, count) {
+        var childCommentDiv = document.getElementById(`child_comments_${id}`)
+        if (childCommentDiv.style.display === "none") {
+            childCommentDiv.style.display = 'block'
+            document.getElementById(`view_comments_${id}`).innerText = `Hide (${count})`
+        } else {
+            childCommentDiv.style.display = 'none'
+            document.getElementById(`view_comments_${id}`).innerText = `View (${count})`
+        }
+    }
+
+    function openEmojiSheet() {
+        const bottomSheet = document.getElementById('bottomSheetEmoji');
+        bottomSheet.classList.remove('hidden')
+        bottomSheet.style.bottom = '0';
+    }
+</script>

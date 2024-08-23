@@ -5,4 +5,6 @@ class Blog < ApplicationRecord
   belongs_to :user
   has_one_attached :thumbnail
   has_many_attached :details_images
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 end

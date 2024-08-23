@@ -5,161 +5,67 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.bubble.css" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+<script src="https://unpkg.com/quill-better-table@1.2.8/dist/quill-better-table.min.js"></script>
+<link type="text/css" href="https://unpkg.com/quill-better-table@1.2.7/dist/quill-better-table.css" rel="stylesheet" />
+<style>
+    .ql-snow .ql-Table-Input .ql-picker-options {
+        padding: 3px 5px;
+        width: 212px;
+    }
 
-<%= render 'shared/header' %>
+    .ql-snow .ql-Table-Input .ql-picker-item {
+        border: 1px solid transparent;
+        float: left;
+        height: 16px;
+        margin: 2px;
+        padding: 0px;
+        width: 16px;
+        background: lightsteelblue;
+    }
+
+    .ql-snow .ql-Table-Input .ql-picker-item:hover, .ql-snow .ql-Table-Input .ql-picker-item.ql-picker-item-highlight {
+        border-color: #000;
+        background: steelblue;
+        left: 781.5px !important;
+    }
+
+    .ql-snow .ql-Table-Input.ql-picker {
+        width: 28px;
+    }
+
+    .ql-snow .ql-Table-Input.ql-picker .ql-picker-label {
+        padding: 2px 4px;
+    }
+
+    /*.qlbt-selection-line.qlbt-selection-line-right {*/
+    /*    left: 36.4rem !important;*/
+    /*}*/
+
+    /*.qlbt-selection-line.qlbt-selection-line-top {*/
+    /*    left: 30.2rem !important;*/
+    /*}*/
+
+    /*.qlbt-selection-line.qlbt-selection-line-bottom {*/
+    /*    left: 30.2rem !important;*/
+    /*}*/
+
+    /*.qlbt-selection-line.qlbt-selection-line-left {*/
+    /*    left: 30.1rem !important;*/
+    /*}*/
+
+    .ql-ui {
+        padding: 0 !important;
+    }
+</style>
+
+<%= render 'shared/header', padding: 'py-4' %>
 <div class="px-20 mt-5 mb-10" data-controller="quill">
   <img src="<%= asset_path('close.svg') %>" id="remove-categories-img" class="hidden">
   <div class="bg-white rounded-xl shadow-xl h-auto">
     <p class="font-bold robo-font text-[2.5rem] pt-5 text-black text-center">Add Blog</p>
-    <div class="grid grid-col-2 gap-4 px-60 pt-20">
-      <div class="flex flex-col justify-start">
-        <label class="text-xl font-semibold">Title:</label>
-        <input id="title" class="border border-[grey] w-auto p-3 rounded-xl mt-2 focus:ring-[#3B42A2] focus:border-2 focus:border-[#3B42A2] focus:outline-none" placeholder="Enter Your Title Here...">
-        <p id="title_error" class="text-[red] text-lg"></p>
-      </div>
-      <div class="flex flex-col justify-start mt-5">
-        <label class="text-xl font-semibold">Description:</label>
-        <textarea id="description" rows="5"  class="border border-[grey] w-auto p-3 rounded-xl mt-2 focus:ring-[#3B42A2] focus:border-2 focus:border-[red] focus:outline-none" placeholder="Short description about blog ..."></textarea>
-        <div class="flex flex-row justify-between">
-          <p id="description_error" class="text-[red] text-lg"></p>
-          <p id="words_count" class="text-[red] text-md">0/300</p>
-        </div>
-      </div>
-      <div class="flex flex-col justify-start mt-5">
-        <div>
-          <div class="flex flex-col">
-            <label class="text-xl font-semibold ">Categories:</label>
-            <div id="categories_show" class="pb-3">
-              <%# @categories&.each do |categories| %>
-<!--                <div class="inline-block" id='<%#= "categories-" + categories.id.to_s %>'>-->
-<!--                  <div class="flex flex-row bg-[#3FB7CB] rounded-lg p-2 ml-2 mt-2">-->
-<!--                    <p class="text-white"><%#= categories.title.split('_').join(' ') %></p>-->
-                    <%#= image_tag "trash.svg", class: "w-5 h-5 pt-1 cursor-pointer", onclick: "delete_categories('categories-#{categories.id}')" %>
-<!--                  </div>-->
-<!--                </div>-->
-              <%# end %>
-            </div>
-            <input id="categories" name="categories" class="hidden">
-            <div class="flex flex-row justify-start bg-gray-50 border border-[grey] text-gray-900 text-base rounded-lg outline-none block w-full py-3 px-3">
-              <input type="text" id="input_categories" class="focus:outline-none bg-transparent w-[90% w-[90%]" placeholder="Type in your categories here.." oninput="get_suggestions(this); show_add_button(this)">
-              <button class="text-[#3FB7CB] underline ml-20" onclick="categories(this, 'from_input')" type="button" style="display: none" id="add_button">Add</button>
-            </div>
-            <div class="border rounded-lg border-gray-300 h-auto max-h-[15rem] overflow-y-scroll hidden" id="suggested_results">
-
-            </div>
-            <p id="categories_error" class="text-[red]"></p>
-          </div>
-        </div>
-      </div>
-      <label class="text-xl font-semibold mt-5">Thumbnail:</label>
-      <div class="flex items-center justify-center w-full">
-        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-100" id="dropzone">
-          <div class="flex flex-col items-center justify-center pt-5 pb-6" id="dropzone-file-show">
-            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-            </svg>
-            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, or JPG (minimum 500x800)</p>
-          </div>
-          <input id="dropzone-file" name="thumbnail" type="file" class="hidden" accept="image/jpg, image/png, image/jpeg" />
-        </label>
-      </div>
-      <p id="thumbnail_error" class="text-[red]"></p>
-      <div class="flex flex-col justify-start">
-        <label class="text-xl font-semibold">Details:</label>
-        <div id="standalone-container" style="margin-top: 15px;">
-          <input type="text" class="hidden" data-quill-target="input">
-          <div id="toolbar-container">
-            <span class="ql-formats">
-              <select class="ql-font border border-gray-400 rounded-md"></select>
-              <select class="ql-size border border-gray-400 rounded-md ml-2"></select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-bold" title="Text bold"></button>
-              <button class="ql-italic" title="Text italic"></button>
-              <button class="ql-underline" title="Underline text"></button>
-              <button class="ql-strike" title="Strike text"></button>
-            </span>
-            <span class="ql-formats">
-              <select class="ql-color" title="Text color"></select>
-              <select class="ql-background" title="Text background color"></select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-script" value="sub"></button>
-              <button class="ql-script" value="super"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-header" value="1" title="Heading1"></button>
-              <button class="ql-header" value="2" title="Heading2"></button>
-              <button class="ql-blockquote" title="Quote text"></button>
-              <button class="ql-code-block" id="Add code"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-list" value="ordered" title="Ordered list"></button>
-              <button class="ql-list" value="bullet"></button>
-              <button class="ql-indent" value="-1"></button>
-              <button class="ql-indent" value="+1"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-table" id="add-table-button"></button>
-              <button class="ql-column-left"></button>
-              <button class="ql-column-right"></button>
-              <button class="ql-row-above"></button>
-              <button class="ql-row-below"></button>
-              <button class="ql-row-remove"></button>
-              <button class="ql-column-remove"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-direction" value="rtl"></button>
-              <select class="ql-align"></select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-link" title="Add link"></button>
-              <button class="ql-image" title="Add image"></button>
-              <button class="ql-video" title="Add video link"></button>
-              <button class="ql-formula" title="Add formula"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-clean"></button>
-            </span>
-          </div>
-          <div id="editor" style="height: 20rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px" data-quill-target="editor" data-action="click->quill#focus">
-          </div>
-<!--          <button id="insert-table">Insert Table</button>-->
-          <p id="details-error" class="text-[red] mb-[5rem]"></p>
-          <%= render 'blogs/add_table_modal' %>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-5 -mt-10 pb-10">
-          <button class="border border-gray-400 rounded-lg h-[3rem] text-gray-500 hover:text-gray-400" onclick="openSheet()">
-            Cancel
-          </button>
-          <button class="rounded-lg bg-[#3B42A2] h-[3rem] text-white hover:opacity-90" onclick="addBlog('create')">
-            Create
-          </button>
-        </div>
-      </div>
-    </div>
+    <%= render "blogs/form" %>
   </div>
 </div>
 
 <%= render 'shared/bottom_sheet' %>
 <%= javascript_include_tag('new_blog') %>
-
-<script>
-  function get_suggestions(input) {
-      if (input.value !== '') {
-          $.ajax({
-              url: `/blogs/suggestions?word=${input.value}`,
-              type: 'GET',
-              success: function (res) {
-                  var suggest = $('#suggested_results')
-                  suggest.html(res?.entries)
-                  suggest[0].classList.remove('hidden')
-              }
-          })
-      } else {
-          var suggest = $('#suggested_results')
-          suggest[0].classList.add('hidden')
-      }
-  }
-</script>

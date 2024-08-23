@@ -1,0 +1,173 @@
+<div id="education-details-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-2xl max-h-full">
+    <div class="relative bg-white rounded-lg shadow">
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Education Details
+        </h3>
+        <div class="flex flex-row justify-end ml-3">
+          <button id="add_new_education" title="Add New" class="group cursor-pointer outline-none hover:rotate-90 duration-300" onclick="new_education()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" class="stroke-lime-400 fill-none group-hover:fill-lime-800 group-active:stroke-lime-200 group-active:fill-lime-600 group-active:duration-0 duration-300">
+              <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke-width="1.5"></path>
+              <path d="M8 12H16" stroke-width="1.5"></path>
+              <path d="M12 16V8" stroke-width="1.5"></path>
+            </svg>
+          </button>
+<!--          <button id="add_new_education" type="button" class="inline-flex items-center focus:ring-4 focus:outline-none border border-black hover:opacity-75 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" onclick="new_education()">-->
+<!--            Add New-->
+<!--          </button>-->
+        </div>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="education-details-modal" id="education-details-modal-close" onclick="close_modal()">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <div class="p-4 md:p-5">
+        <p class="text-[red] text-md mb-2" id="education_error"></p>
+        <div id="education-modal-content">
+          <%= render 'profile/educations_content' %>
+        </div>
+        <div class="flex flex-row justify-end mt-5">
+          <button data-modal-toggle="education-details-modal" type="button" class="inline-flex mr-3 items-center focus:ring-4 focus:outline-none border border-black hover:opacity-75 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" onclick="close_modal()">
+            Cancel
+          </button>
+          <button id="submit_button_education" type="button" class="hidden text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" onclick="submit_education()">
+            Add
+          </button>
+          <button id="submit_update_education" type="button" class="hidden text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function new_education() {
+      $('#education-modal-content').html('<%= j render(partial: "profile/add_new_education_form") %>');
+      $('.nice-select').niceSelect()
+      $('#add_new_education').addClass('hidden')
+      document.getElementById('submit_button_education').classList.remove('hidden')
+  }
+
+  function update_education(id) {
+      education(id)
+  }
+
+  function submit_education() {
+      education(null)
+  }
+
+  function education(id) {
+      var mainLoader = document.getElementById('main_loader')
+      var overlay = document.getElementById('overlay')
+      mainLoader.style.display = 'flex'
+      overlay.style.display = 'block'
+      overlay.style.zIndex = 100
+      var formData = new FormData()
+      var school = document.getElementById('school')
+      var degree = document.getElementById('degree')
+      var field_of_study = document.getElementById('field')
+      var skillsNodes = $('#language_select_chosen .chosen-choices')[0].childNodes
+      if (skillsNodes.length > 0) {
+          var nodeArray = Array.from(skillsNodes).slice(1, -2);
+          var skills = [];
+          nodeArray.forEach(node => {
+              const span = node.querySelector('span');
+              if (span) {
+                  skills.push(span.textContent);
+              }
+          });
+          formData.append('skills', JSON.stringify(skills))
+      }
+      var start_date = document.getElementById('start_date')
+      var end_date = document.getElementById('end_date')
+      var grade = document.getElementById('grades')
+      var csrfToken = $('meta[name="csrf-token"]').attr('content');
+      if (school.value && degree.value && field_of_study.value && start_date.value && end_date.value) {
+          if (id !== null) {
+              formData.append('educational_id', id)
+          }
+          formData.append('school', school.value)
+          formData.append('degree', degree.value)
+          formData.append('field_of_study', field_of_study.value)
+          formData.append('start_date', start_date.value)
+          formData.append('end_date', end_date.value)
+          formData.append('grade', grade.value)
+          formData.append('authenticity_token', csrfToken)
+          $.ajax({
+              type: 'POST',
+              url: '/profile/add_education',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (res) {
+                  $('#education-modal-content').html(res?.entries);
+                  $('#education_main').html(res?.entries);
+                  $('#add_new_education').removeClass('hidden')
+                  document.getElementById('education_error').innerText = ""
+              }
+          })
+      } else {
+          document.getElementById('education_error').innerText = 'Please fill all required fields'
+      }
+      mainLoader.style.display = 'none'
+      overlay.style.display = 'none'
+  }
+
+  function edit_education(id, school, degree, field_of_study, start_date, end_date, skills, grade) {
+      var modal = document.getElementById('education-details-modal')
+      if(modal.classList.contains('hidden')) {
+          $('#edit_education').click()
+      }
+      $('#education-modal-content').html('<%= j render(partial: "profile/add_new_education_form") %>');
+      document.getElementById('school').value = school
+      document.getElementById('degree').value = degree
+      document.getElementById('field').value = field_of_study
+      document.getElementById('start_date').value = start_date
+      document.getElementById('end_date').value = end_date
+      document.getElementById('grades').value = grade
+      $('.nice-select').niceSelect()
+      $('#add_new_education').addClass('hidden')
+      var updateButton = document.getElementById('submit_update_education')
+      updateButton.classList.remove('hidden')
+      updateButton.setAttribute('onclick', `update_education('${id}')`)
+      if (skills) {
+          var skillsArray = JSON.parse(skills)
+          setTimeout(function() {
+              $('#language_select').val(skillsArray).trigger('chosen:updated')
+          }, 65);
+      }
+  }
+
+  function delete_education(id) {
+      var mainLoader = document.getElementById('main_loader')
+      var overlay = document.getElementById('overlay')
+      mainLoader.style.display = 'flex'
+      overlay.style.display = 'block'
+      overlay.style.zIndex = 100
+      var csrfToken = $('meta[name="csrf-token"]').attr('content');
+      $.ajax({
+          type: 'POST',
+          url: '/profile/delete_education',
+          data: { id: id, authenticity_token: csrfToken },
+          success: function (res) {
+              $('#education-modal-content').html(res?.entries);
+              $('#education_main').html(res?.entries);
+              $('#add_new_education').removeClass('hidden')
+              mainLoader.style.display = 'none'
+              overlay.style.display = 'none'
+          }
+      })
+  }
+
+  function close_modal() {
+      $('#education-modal-content').html('<%= j render(partial: "profile/educations_content") %>');
+      $('#add_new_education').removeClass('hidden')
+      document.getElementById('submit_button_education').classList.add('hidden')
+      document.getElementById('submit_update_education').classList.add('hidden')
+  }
+</script>

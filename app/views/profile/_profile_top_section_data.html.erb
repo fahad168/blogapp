@@ -1,0 +1,18 @@
+<img alt="cover photo" src="<%= current_user.blogger_profile.cover_image.present? ? url_for(current_user.blogger_profile.cover_image) : asset_path('user.png') %>" class="w-full rounded-tl-lg rounded-tr-lg h-[15rem] object-cover">
+<div class="flex flex-row mb-10">
+  <img alt="Profile photo" src="<%= current_user.profile.profile_image.present? ? url_for(current_user.profile.profile_image) : asset_path('user.png') %>" loading="lazy" class="h-[12rem] w-[12rem] relative rounded-full object-cover -mt-20 ml-20 border-8 border-white z-10">
+  <div class="flex flex-row justify-between w-full">
+    <div class="ml-5 mt-5">
+      <p class="text-3xl font-semibold"><%= current_user.username %></p>
+      <p class="text-md mt-2 font-normal text-[#696C85]"><%= current_user.blogger_profile.job_title %></p>
+      <div class="bg-gray-100 px-4 py-1 rounded-lg w-fit mt-2">
+        <span class="text-black text-sm font-medium"><%= current_user.blogger_profile.location.present? ? ISO3166::Country[current_user.blogger_profile.location.to_sym] : '' %></span>
+      </div>
+    </div>
+    <button type="button" data-modal-target="profile-edit-modal" data-modal-toggle="profile-edit-modal" class="h-[2rem] flex items-center px-2 py-2 border rounded-lg border-gray-200 hover:border-gray-300 mr-5 mt-5 cursor-pointer">
+      <img src="<%= asset_path('blogger_edit.svg') %>" class="h-[1.2rem] w-[1.2rem] mr-2 green-filter">
+      <span class="text-black text-md font-medium">Edit Profile</span>
+    </button>
+  </div>
+  <%= render 'profile/edit_profile_modal' %>
+</div>

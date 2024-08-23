@@ -48,7 +48,7 @@ function categories(category_input_field, key) {
     var img = document.createElement('img')
     img.src = close_img.src
     img.setAttribute('class', 'w-5 h-5 pt-1 cursor-pointer mt-[2px]')
-    img.setAttribute('onclick', `delete_categories(${push_value})`)
+    img.setAttribute('onclick', `delete_categories(${push_value}, 'fromJS')`)
 
     categoriesInnerDiv.append(p)
     categoriesInnerDiv.append(img)
@@ -57,12 +57,16 @@ function categories(category_input_field, key) {
     document.getElementById('add_button').style.display = 'none'
 }
 
-function delete_categories(value) {
-    var element = document.getElementById(value.id)
+function delete_categories(value, key) {
+    var element = ""
+    if(key === 'fromJS'){
+        value = value.id
+    }
+    element = document.getElementById(value)
     element.remove()
     var categoriesField = document.getElementById('categories');
     var categories_values = JSON.parse(categoriesField.value || '[]');
-    var index = categories_values.indexOf(element.innerText.split(' ').join('_').trim());
+    var index = categories_values.indexOf(value.split(' ').join('_'));
     if (index !== -1) {
         categories_values.splice(index, 1);
         categoriesField.value = JSON.stringify(categories_values);
@@ -103,7 +107,14 @@ async function addBlog(key) {
     var overlay = document.getElementById('overlay')
     loader.style.display = 'flex'
     overlay.style.display = 'block'
-    var response = key === 'create' ? check_validations() : draft_check_validations()
+    var response = ""
+    if(key === 'create') {
+        response = check_validations()
+    } else if (key === 'update') {
+        response = check_validations()
+    } else {
+        response = draft_check_validations()
+    }
     if (response) {
         var title = document.getElementById('title').value
         var description = document.getElementById('description').value
@@ -136,6 +147,9 @@ async function addBlog(key) {
         if ($('#dropzone-file')[0].files.length !== 0) {
             formData.append('thumbnail', $('#dropzone-file')[0].files[0])
         }
+        if (key === 'update') {
+            formData.append('blog_id', document.getElementById('blog_id').value)
+        }
         await sendFormData(formData, imgTags, editor, overlay, loader, key)
     } else {
         loader.style.display = 'none'
@@ -157,7 +171,7 @@ async function addBlog(key) {
 
 async function sendFormData(formData, imgTage, editor, overlay, loader, key) {
     $.ajax({
-        url: `${key === 'create' ? "/blogs" : '/draft'}`,
+        url: `${key === 'create' || key === "update" ? "/blogs" : '/draft'}`,
         type: 'POST',
         data: formData,
         processData: false,
@@ -184,7 +198,7 @@ async function updateBlog(editor, blog_id, overlay, loader, key) {
     formData.append('id', blog_id)
     formData.append('authenticity_token', csrfToken);
     $.ajax({
-        url: `${key === 'create' ? "/blogs/blog_details" : "/draft/draft_details"}`,
+        url: `${key === 'create' || key === 'update' ? "/blogs/blog_details" : "/draft/draft_details"}`,
         type: 'POST',
         data: formData,
         processData: false,
@@ -365,3 +379,20 @@ $('#dropzone-file').on('change', function (event) {
     }
     reader.readAsDataURL(image);
 });
+
+function get_suggestions(input) {
+    if (input.value !== '') {
+        $.ajax({
+            url: `/blogs/suggestions?word=${input.value}`,
+            type: 'GET',
+            success: function (res) {
+                var suggest = $('#suggested_results')
+                suggest.html(res?.entries)
+                suggest[0].classList.remove('hidden')
+            }
+        })
+    } else {
+        var suggest = $('#suggested_results')
+        suggest[0].classList.add('hidden')
+    }
+}

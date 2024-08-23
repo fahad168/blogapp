@@ -1,0 +1,19 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.bubble.css" />
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+
+<%= render 'shared/header', padding: 'py-4' %>
+<div class="px-20 mt-5 mb-10" data-controller="quill">
+  <img src="<%= asset_path('close.svg') %>" id="remove-categories-img" class="hidden">
+  <div class="bg-white rounded-xl shadow-xl h-auto">
+    <p class="font-bold robo-font text-[2.5rem] pt-5 text-black text-center">Edit Blog</p>
+    <%= render "blogs/form" %>
+  </div>
+</div>
+
+<%= render 'shared/bottom_sheet' %>
+<%= javascript_include_tag('new_blog') %>

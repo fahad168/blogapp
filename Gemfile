@@ -22,6 +22,8 @@ gem 'friendly_id', '~> 5.5.0'
 gem 'will_paginate'
 gem 'meta-tags'
 gem 'google_suggest', '~> 1.1'
+gem 'gemoji'
+gem 'web-push'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
@@ -58,7 +60,7 @@ gem "bootsnap", require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -87,3 +89,5 @@ gem "devise", "~> 4.9"
 
 gem "sitemap_generator", "~> 6.3"
 gem 'sassc', '~> 2.0'
+gem 'country_select', '~> 8.0'
+gem 'language_list', '~> 1.2', '>= 1.2.1'

@@ -1,0 +1,40 @@
+<div class="mt-10" data-controller="comment-quill" id="quill_editor">
+  <p class="text-[#1E205A] text-lg font-bold">Leave a comment</p>
+  <div id="standalone-container" style="margin-top: 15px;">
+    <input type="text" class="hidden" data-comment-quill-target="input">
+    <div id="toolbar-container">
+                <span class="ql-formats relative z-20">
+                  <button class="ql-bold" title="Text bold"></button>
+                  <button class="ql-italic" title="Text italic"></button>
+                  <button class="ql-underline" title="Underline text"></button>
+                  <button class="ql-strike" title="Strike text"></button>
+                </span>
+      <span class="ql-formats relative z-20">
+                  <button class="ql-link" title="Add link"></button>
+                </span>
+      <span class="ql-formats w-[100%] relative" title="Add Comment" style="display: flex;justify-content: flex-end;margin-top: -26px;">
+                  <button class="flex" type="submit">
+                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="lightgray" viewBox="0 0 664 663" class="cursor-pointer transform hover:scale-150">
+                      <path
+                        fill="none"
+                        d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                      ></path>
+                      <path
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke-width="33.67"
+                        stroke="#1E215A"
+                        d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                      ></path>
+                  </svg>
+                  </button>
+                </span>
+    </div>
+    <div id="editor" style="height: 5rem; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;" data-comment-quill-target="editor" data-action="click->comment_quill#focus">
+    </div>
+    <div class="h-[3rem] border border-t-0 border-gray-300 -mt-3 flex-row justify-between" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;  display: none" id="replying_div">
+      <p class="font-semibold text-md p-4">Replying to: <span id="replying_to_name" class="text-gray-400 ml-3"></span></p>
+      <img src="<%= asset_path('red_close.svg') %>" class="mt-[10px] mr-[10px] cursor-pointer hover:opacity-75" onclick="close_replying()">
+    </div>
+  </div>
+</div>

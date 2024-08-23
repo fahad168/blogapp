@@ -1,5 +1,5 @@
 <section class="px-5 lg:px-20 top-0 left-0 w-full z-10 rounded-br-xl rounded-bl-xl">
-  <div class="py-4 flex justify-between items-center gap-2 sm:gap-4 relative">
+  <div class="<%= padding %> flex justify-between items-center gap-2 sm:gap-4 relative">
     <div class="flex gap-3 sm:gap-5 items-center">
       <%#= link_to '/', class: "font-bold block w-28 md:w-36 text-[white] text-4xl" do %>
 <!--        <h1 class="flex flex-row">-->
@@ -38,20 +38,25 @@
         <li class="md:flex hidden flex-row justify-end">
           <div class="">
             <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex mx-3 bg-gray-400 rounded-full" type="button">
-              <img src="<%= current_user.profile_image.present? ? current_user.profile_image.blob.url : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover" alt="profile image">
+              <img src="<%= current_user.profile.profile_image.present? ? url_for(current_user.profile.profile_image) : asset_path('user.svg') %>" loading="lazy" class="w-10 h-10 rounded-full object-cover" alt="profile image">
               <%#= image_tag current_user.profile_image.present? ? current_user.profile_image.blob.url : 'user.svg', alt: '', class: "lazyload w-10 h-10 rounded-full object-cover" %>
             </button>
             <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
               <div class="px-4 py-3 text-sm text-gray-900">
+                <div class="flex flex-row justify-end">
+                  <img src="<%= asset_path('switch_account.png') %>" title="Profile Switch" alt="profile switch" class="w-10 h-10 cursor-pointer hover:opacity-75" onclick="blogger_Profile()">
+                </div>
                 <div><%= current_user.username %></div>
                 <div class="font-medium truncate"><%= current_user.email %></div>
               </div>
               <ul class="py-2 text-sm text-gray-700 px-4" aria-labelledby="dropdownUserAvatarButton">
                 <li class="hover:text-[gray]">
-                  <%= link_to "Profile", data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+                  <%= link_to profile_index_path , data: { turbo: false }, class: 'block py-2 px-2 hover:bg-gray-100 rounded-lg' do %>
+                    Profile
+                  <% end %>
                 </li>
                 <li class="hover:text-[gray] mt-2">
-                  <%= link_to "Settings", data: { turbo: false }, class: "block py-2 hover:bg-gray-100 rounded-lg" %>
+                  <%= link_to "Settings", data: { turbo: false }, class: "block py-2 px-2 hover:bg-gray-100 rounded-lg" %>
                 </li>
               </ul>
               <div class="py-2">
@@ -116,5 +121,19 @@
 <script>
     function openModal() {
         document.getElementById('test').classList.remove('hidden')
+    }
+
+    function blogger_Profile() {
+        document.getElementById('main_loader').style.display = 'flex'
+        document.getElementById('overlay').style.display = 'block'
+        $.ajax({
+            type: 'GET',
+            url: 'profile/blogger_profile?type=JS',
+            success: function (res) {
+                $('#body').html(res?.entries)
+                history.replaceState(null, '', '/profile/blogger_profile');
+                window.location.reload()
+            }
+        })
     }
 </script>

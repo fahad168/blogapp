@@ -1,0 +1,183 @@
+<div id="project-details-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-3xl max-h-full">
+    <div class="relative bg-white rounded-lg shadow">
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+        <h3 class="text-lg font-semibold text-gray-900" id="project_modal_header">
+          Project Details
+        </h3>
+        <div class="flex flex-row justify-end ml-3">
+          <button id="add_new_project" title="Add New" class="group cursor-pointer outline-none hover:rotate-90 duration-300" onclick="new_project()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" class="stroke-lime-400 fill-none group-hover:fill-lime-800 group-active:stroke-lime-200 group-active:fill-lime-600 group-active:duration-0 duration-300">
+              <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke-width="1.5"></path>
+              <path d="M8 12H16" stroke-width="1.5"></path>
+              <path d="M12 16V8" stroke-width="1.5"></path>
+            </svg>
+          </button>
+          <!--          <button id="add_new_education" type="button" class="inline-flex items-center focus:ring-4 focus:outline-none border border-black hover:opacity-75 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" onclick="new_education()">-->
+          <!--            Add New-->
+          <!--          </button>-->
+        </div>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="project-details-modal" id="project-details-modal-close" onclick="close_project_modal()">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <div class="p-4 md:p-5">
+        <p class="text-[red] text-md mb-2" id="project_error"></p>
+        <div id="project-modal-content">
+          <%= render 'profile/projects_content' %>
+        </div>
+        <div class="flex flex-row justify-end mt-5">
+          <button data-modal-toggle="project-details-modal" type="button" class="inline-flex mr-3 items-center focus:ring-4 focus:outline-none border border-black hover:opacity-75 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-black" onclick="close_project_modal()">
+            Cancel
+          </button>
+          <button id="submit_button_project" type="button" class="hidden text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" onclick="submit_education()">
+            Add
+          </button>
+          <button id="submit_update_project" type="button" class="hidden text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function new_project() {
+        $('#project-modal-content').html('<%= j render(partial: "profile/add_new_project_form") %>');
+        $('#add_new_project').addClass('hidden')
+        document.getElementById('submit_button_project').classList.remove('hidden')
+        $('#project_modal_header')[0].innerText = 'Add Project'
+    }
+
+    function update_project(id) {
+        project(id)
+    }
+
+    function submit_education() {
+        project(null)
+    }
+
+    function project(id) {
+        var mainLoader = document.getElementById('main_loader')
+        var overlay = document.getElementById('overlay')
+        mainLoader.style.display = 'flex'
+        overlay.style.display = 'block'
+        overlay.style.zIndex = 100
+        var formData = new FormData()
+        var name = document.getElementById('project_name')
+        var description = document.getElementById('description')
+        var skillsNodes = $('#skill_select_chosen .chosen-choices')[0].childNodes
+        if (skillsNodes.length > 0) {
+            var nodeArray = Array.from(skillsNodes).slice(1, -2);
+            var skills = [];
+            nodeArray.forEach(node => {
+                const span = node.querySelector('span');
+                if (span) {
+                    skills.push(span.textContent);
+                }
+            });
+            formData.append('skills', JSON.stringify(skills))
+        }
+        var start_date = document.getElementById('start_date')
+        var end_date = document.getElementById('end_date')
+        var checkbox = document.getElementById('project_checkbox')
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        if (name.value) {
+            if (id !== null) {
+                formData.append('project_id', id)
+            }
+            formData.append('name', name.value)
+            formData.append('description', description.value)
+            formData.append('start_date', start_date.value)
+            formData.append('end_date', end_date.value)
+            formData.append('checked', checkbox.checked)
+            formData.append('authenticity_token', csrfToken)
+            $.ajax({
+                type: 'POST',
+                url: '/profile/add_project',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    $('#project-modal-content').html(res?.entries);
+                    $('#project_main').html(res?.entries);
+                    $('#add_new_project').removeClass('hidden')
+                    document.getElementById('project_error').innerText = ""
+                }
+            })
+        } else {
+            document.getElementById('project_error').innerText = 'Please fill all required fields'
+        }
+        document.getElementById('submit_update_project').classList.add('hidden')
+        document.getElementById('submit_button_project').classList.add('hidden')
+        mainLoader.style.display = 'none'
+        overlay.style.display = 'none'
+    }
+
+    function edit_project(id, name, description, skills, start_date, end_date, checked) {
+        $('#project_modal_header')[0].innerText = 'Edit Project'
+        var modal = document.getElementById('project-details-modal')
+        if(modal.classList.contains('hidden')) {
+            $('#edit_project').click()
+        }
+        $('#project-modal-content').html('<%= j render(partial: "profile/add_new_project_form") %>');
+        var check_end_date = document.getElementById('end_date')
+        var checkbox = document.getElementById('project_checkbox')
+        document.getElementById('project_name').value = name
+        document.getElementById('description').value = description
+        document.getElementById('start_date').value = start_date
+        check_end_date.value = end_date
+        document.getElementById('project_checkbox').checked = checked !== "false"
+        if(checkbox.checked === true){
+            check_end_date.setAttribute('disabled', 'true')
+            check_end_date.style.cursor = 'no-drop'
+        }
+        $('#add_new_project').addClass('hidden')
+        var updateButton = document.getElementById('submit_update_project')
+        updateButton.classList.remove('hidden')
+        updateButton.setAttribute('onclick', `update_project('${id}')`)
+        if (skills) {
+            $('#skills_button').addClass('hidden')
+            var skillsArray = JSON.parse(skills)
+            setTimeout(function() {
+                $('#skill_select').val(skillsArray).trigger('chosen:updated')
+            }, 65);
+            setTimeout(function() {
+                $('#skill_select_chosen').removeClass('hidden')
+            }, 200);
+        }
+    }
+
+    function delete_project(id) {
+        var mainLoader = document.getElementById('main_loader')
+        var overlay = document.getElementById('overlay')
+        mainLoader.style.display = 'flex'
+        overlay.style.display = 'block'
+        overlay.style.zIndex = 100
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type: 'POST',
+            url: '/profile/delete_project',
+            data: { id: id, authenticity_token: csrfToken },
+            success: function (res) {
+                $('#project-modal-content').html(res?.entries);
+                $('#project_main').html(res?.entries);
+                $('#add_new_project').removeClass('hidden')
+                mainLoader.style.display = 'none'
+                overlay.style.display = 'none'
+            }
+        })
+    }
+
+    function close_project_modal() {
+        $('#project-modal-content').html('<%= j render(partial: "profile/projects_content") %>');
+        $('#project_modal_header')[0].innerText = 'Project Details'
+        $('#add_new_project').removeClass('hidden')
+        document.getElementById('submit_button_project').classList.add('hidden')
+        document.getElementById('submit_update_project').classList.add('hidden')
+    }
+</script>

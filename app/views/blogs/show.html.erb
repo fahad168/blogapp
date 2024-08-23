@@ -83,8 +83,15 @@
         padding-left: 1rem;
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.bubble.css" />
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
 
-<%= render 'shared/header' %>
+<%= render 'shared/header', padding: 'py-4' %>
 <div class="px-20 mt-5">
 <!--  <div role="status" class="w-[100%] h-[50rem] flex items-center justify-center bg-gray-300 rounded-xl animate-pulse dark:bg-gray-700" id="showSkeletonLoader_<%#= @blog.id %>">-->
 <!--    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">-->
@@ -94,11 +101,175 @@
 <!--    <span class="sr-only">Loading...</span>-->
 <!--  </div>-->
   <img src="<%= @blog.thumbnail.blob.url %>" class="w-[100%] h-[50rem] object-cover rounded-lg flex flex-col justify-end items-center relative" id="showImageBlog_<%= @blog.id %>" loading="lazy" alt="blog image">
-  <div class="bg-white rounded-xl shadow-xl w-[80%] -mt-[8rem] absolute ml-[7rem] pl-40 pr-40 pt-20 pb-10" id="show_content">
-    <p class="text-[#8C98A2] font-normal text-md mb-3 text-center"><%= JSON.parse(@blog.categories).join(', ') %> - <%= @blog.created_at.strftime('%b %d, %Y') %></p>
-    <p class="text-[2.8rem] text-[#1E215A] font-bold text-center"><%= @blog.title.capitalize %></p>
-    <div class="mt-10 flex flex-col">
-      <%= @blog.details.html_safe %>
+  <div class="w-[100%] flex flex-row justify-center">
+    <div class="bg-white rounded-xl shadow-xl w-[80%] -mt-[8rem] absolute pl-40 pr-40 pt-20 pb-10" id="show_content">
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-row justify-start">
+          <img src="<%= @blog.user.profile.profile_image.attached? ? url_for(@blog.user.profile.profile_image) : asset_path('user.svg') %>" class="w-9 h-9 border border-gray-500 rounded-full">
+          <p class="text-lg text-gray-500 ml-4 text-center mt-1"><%= @blog.user.username %></p>
+        </div>
+        <div class="flex flex-row justify-start">
+          <div class="flex flex-row justify-start">
+            <label class="ui-like">
+              <input type="checkbox" <%= @blog.likes.find_by(user_id: current_user.id, blog_id: @blog.id).present? ? 'checked' : '' %> onclick="reactOnBlog('<%= @blog.id %>')">
+              <div class="like">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill=""><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"><path d="M20.808,11.079C19.829,16.132,12,20.5,12,20.5s-7.829-4.368-8.808-9.421C2.227,6.1,5.066,3.5,8,3.5a4.444,4.444,0,0,1,4,2,4.444,4.444,0,0,1,4-2C18.934,3.5,21.773,6.1,20.808,11.079Z"></path></g></svg>
+              </div>
+            </label>
+            <p class="text-lg text-black font-bold" id="likes_count"><%= @blog.likes.count %></p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 134 134" class="svg">
+            <circle stroke-width="13" stroke="gray" r="20.5" cy="27" cx="107"></circle>
+            <circle stroke-width="13" stroke="gray" r="20.5" cy="107" cx="107"></circle>
+            <circle stroke-width="13" stroke="gray" r="20.5" cy="67" cx="27"></circle>
+            <line stroke-width="13" stroke="gray" y2="36.1862" x2="88.0931" y1="56.1862" x1="48.0931"></line>
+            <line stroke-width="13" stroke="gray" y2="97.6221" x2="89.0893" y1="78.1486" x1="48.8304"></line>
+          </svg>
+        </div>
+      </div>
+      <p class="text-[#8C98A2] font-normal text-md mb-3 text-center"><%= JSON.parse(@blog.categories).first(2).map(&:capitalize).join(', ') %> - <%= @blog.created_at.strftime('%b %d, %Y') %></p>
+      <p class="text-[2.8rem] text-[#1E215A] font-bold text-center"><%= @blog.title.capitalize %></p>
+      <div class="mt-10 flex flex-col">
+        <%= @blog.details.html_safe %>
+      </div>
+      <div class="flex flex-row flex-wrap mt-10 mb-10">
+        <% JSON.parse(@blog.categories).each do |category|  %>
+            <div class="pl-3 pr-3 pt-2 pb-2 bg-white rounded-2xl shadow">
+              <p class="text-center text-[#6E7C8A]"><%= category.capitalize %></p>
+            </div>
+        <% end %>
+      </div>
+<!--      <div class="like-dislike-container" style="z-index: 100">-->
+<!--        <div class="icons-box">-->
+<!--          <div class="icons">-->
+<!--            <label class="btn-label" for="like-checkbox">-->
+<!--              <span class="like-text-content">123</span>-->
+<!--              <input class="input-box" id="like-checkbox" type="checkbox">-->
+<!--              <svg class="svgs" id="icon-like-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"></path></svg>-->
+<!--              <svg class="svgs" id="icon-like-regular" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"></path></svg>-->
+<!--              <div class="fireworks">-->
+<!--                <div class="checked-like-fx"></div>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--          <div class="icons">-->
+<!--            <label class="btn-label" for="dislike-checkbox">-->
+<!--              <input class="input-box" id="dislike-checkbox" type="checkbox">-->
+<!--              <div class="fireworks">-->
+<!--                <div class="checked-dislike-fx"></div>-->
+<!--              </div>-->
+<!--              <svg class="svgs" id="icon-dislike-solid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"></path></svg>-->
+<!--              <svg class="svgs" id="icon-dislike-regular" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"></path></svg>-->
+<!--              <span class="dislike-text-content">4</span>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <hr>
+      <% prev_blog = Blog.find_by(id: @blog.id - 1) %>
+      <% next_blog = Blog.find_by(id: @blog.id + 1) %>
+      <div class="w-full flex flex-row justify-between mt-5 mb-5">
+        <% if prev_blog.present? %>
+        <a href="/blogs/<%= prev_blog.title.split(' ').map(&:downcase).join('-') %>" class="flex flex-col justify-start">
+          <p class="font-semibold text-[10px] text-[#73808E]">PREVIOUS BLOG</p>
+          <div class="flex flex-row justify-start mt-2">
+            <svg class="w-4 h-4 text-gray-800 dark:text-white mt-[4px] mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="#1E205A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+            </svg>
+            <p class="text-[#1E205A] text-md font-semibold mr-3"><%= prev_blog.title.capitalize %></p>
+          </div>
+        </a>
+        <% else %>
+        <div></div>
+        <% end %>
+        <% if next_blog.present? %>
+        <a href="/blogs/<%= next_blog.title.split(' ').map(&:downcase).join('-') %>" class="flex flex-col justify-start">
+          <p class="font-semibold text-[10px] text-[#73808E] text-end">NEXT BLOG</p>
+          <div class="flex flex-row justify-start mt-2">
+            <p class="text-[#1E205A] text-md font-semibold">Testing Blog</p>
+            <svg class="w-4 h-4 text-gray-800 dark:text-white mt-[4px] ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="#1E205A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </div>
+        </a>
+        <% else %>
+          <div></div>
+        <% end %>
+      </div>
+      <hr>
+      <% if current_user.present? %>
+        <%= form_with(url: comments_path, method: :create, html: { id: 'comment_form' }) do |form| %>
+          <%= form.hidden_field :parent_comment_id, id: 'parent_comment_id' %>
+          <%= render 'blogs/comment_form' %>
+        <% end %>
+        <div id="comments" class="mt-7">
+        <% @blog.comments.where(parent_comment_id: nil).order('created_at DESC')&.each do |comment| %>
+          <%= render 'blogs/comment', comment: comment %>
+          <div id="child_comments_<%= comment.id %>" class="mt-3 ml-10" style="display: none">
+            <% comment.child_comments&.each do |child_comment| %>
+              <%= render 'blogs/comment', comment: child_comment %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <% else %>
+        <div class="flex flex-col mt-10">
+          <p class="text-center text-gray-400">Sign in to access full functionality, including viewing comments, commenting, and reacting on our blog posts.</p>
+          <div class="flex flex-row justify-center mt-3">
+            <a href="/users/sign_in" class="bg-gray-400 pl-10 pr-20 pt-2 pb-2 rounded-lg w-[20rem] hover:opacity-75">
+              <p class="text-lg text-white text-center ml-7">Sign In</p>
+            </a>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
+<%= render 'blogs/emoji_bottom_drawer' %>
+
+<script>
+  $('#comment_form').on('submit', function (e) {
+      e.preventDefault()
+      var csrfToken = $('meta[name="csrf-token"]').attr('content');
+      var formData = new FormData()
+      var parent_comment_id = document.getElementById('parent_comment_id').value
+      if (parent_comment_id !== "" || parent_comment_id !== null) {
+          formData.append('parent_comment_id', parent_comment_id)
+      }
+      formData.append('comment_details', $('#editor .ql-editor').html())
+      formData.append('blog_id', "<%= @blog.id %>")
+      formData.append('authenticity_token', csrfToken);
+      $.ajax({
+          url: '/comments',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (res) {
+              if (res?.child_comment === true) {
+                  var childCommentDiv = document.getElementById(`child_comments_inner_${res?.parent_comment_id}`)
+                  childCommentDiv.insertAdjacentHTML('afterbegin', res?.entries);
+                  childCommentDiv.style.display = 'block'
+                  childCommentDiv.scrollIntoView({ behavior: 'smooth' })
+                  document.getElementById(`view_comments_${res?.parent_comment_id}`).innerText = `Hide (${res?.child_comment_count})`
+                  document.getElementById('replying_div').style.display = 'none'
+                  document.getElementById('parent_comment_id').value = ""
+              } else {
+                  document.getElementById('comments').insertAdjacentHTML('afterbegin', res?.entries);
+              }
+              $('#editor .ql-editor').empty()
+          }
+      })
+
+  })
+
+  function reactOnBlog(id) {
+      $.ajax({
+          type: 'GET',
+          url: `/blogs/${id}/like`,
+          success: function (res) {
+              document.getElementById('likes_count').innerText = res?.likes_count
+          }
+      })
+  }
+</script>

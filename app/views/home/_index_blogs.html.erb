@@ -1,5 +1,5 @@
 <% @blogs&.each_with_index do |blog, index| %>
-  <div class="w-[90%] h-[30rem] object-cover rounded-lg flex flex-row justify-center <%= index > 0 ? 'mt-80' : '' %>">
+  <div class="w-full h-[30rem] object-cover rounded-lg flex flex-row justify-center <%= index > 0 ? 'mt-80' : '' %>">
     <div role="status" class="w-full h-full flex items-center justify-center bg-gray-300 rounded-xl animate-pulse dark:bg-gray-700" id="skeletonLoaderBlog_<%= blog.id %>">
       <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
         <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
@@ -11,19 +11,19 @@
     <!--            <div style="background-image: url(<%#= blog.thumbnail.blob.url %>); background-repeat: no-repeat; object-fit: cover" class="w-full h-full object-cover rounded-lg flex flex-row justify-center">-->
 
     <!--            </div>-->
-    <div class="bg-white w-[45%] h-[20rem] mt-[25rem] rounded-lg shadow-2xl p-10 absolute">
-      <p class="text-[#8C98A2] font-normal text-md">
-        <%= JSON.parse(blog.categories).first(2).map! { |category| category.split('_').join(' ').capitalize }.join(', ') %> - <%= blog.created_at.strftime('%b %d, %Y') %>
-      </p>
-      <p class="font-bold mt-3 text-2xl line-clamp-2 text-[#1E215A]"><%= blog.title.capitalize %></p>
-      <p class="font-medium mt-4 text-md line-clamp-4 text-[#7E8A96]"><%= blog.description %></p>
-      <button class="cta mt-5" onclick="window.location.href = '/blogs/<%= blog.title.split(' ').join('-').downcase %>'">
-        <span class="italic">Read more</span>
-        <svg width="15px" height="10px" viewBox="0 0 13 10">
-          <path d="M1,5 L11,5"></path>
-          <polyline points="8 1 12 5 8 9"></polyline>
-        </svg>
-      </button>
+    <div class="bg-white md:w-[40%] h-[20rem] mt-[25rem] rounded-lg shadow-2xl p-10 absolute">
+        <p class="text-[#8C98A2] font-normal text-md">
+          <%= JSON.parse(blog.categories).first(2).map! { |category| category.split('_').join(' ').capitalize }.join(', ') %> - <%= blog.created_at.strftime('%b %d, %Y') %>
+        </p>
+        <p class="font-bold mt-3 text-2xl line-clamp-2 text-[#1E215A]"><%= blog.title.capitalize %></p>
+        <p class="font-medium mt-4 text-md line-clamp-4 text-[#7E8A96]"><%= blog.description %></p>
+        <button class="cta mt-5" onclick="window.location.href = '/blogs/<%= blog.title.split(' ').join('-').downcase %>'">
+          <span class="italic">Read more</span>
+          <svg width="15px" height="10px" viewBox="0 0 13 10">
+            <path d="M1,5 L11,5"></path>
+            <polyline points="8 1 12 5 8 9"></polyline>
+          </svg>
+        </button>
     </div>
   </div>
 <% end %>

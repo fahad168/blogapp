@@ -1,0 +1,103 @@
+<nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200">
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <%= render "shared/header", padding: 'py-1' %>
+  </div>
+</nav>
+<%= render "shared/profile_sidebar" %>
+<div class="p-4 sm:ml-64 mt-20 sm:pl-40 sm:pr-40">
+  <%= form_with(url: "/profile/#{current_user.profile.id}", method: :put) do |f| %>
+    <div class="flex flex-row justify-center">
+      <div class="mx-auto w-64 text-center ">
+        <div class="relative w-64">
+          <img class="w-[12rem] h-[12rem] rounded-full absolute border" src="<%= current_user.profile.profile_image.present? ? url_for(current_user.profile.profile_image) : asset_path('user.png') %>" alt="profile_image" loading="lazy" id="user-image"/>
+          <label for="profile_image" class="w-[12rem] h-[12rem] group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+            <img class="hidden group-hover:block w-12" src="https://www.svgrepo.com/show/33565/upload.svg" alt=""/>
+          </label>
+          <%= f.file_field :profile_image, class: 'hidden', id: 'profile_image', accept: 'image/jpeg, image/jpg, image/png' %>
+        </div>
+      </div>
+    </div>
+    <div class="border-2 border-grey-300 mt-60 rounded-xl bg-white">
+      <div class="flex flex-row justify-between mb-1 pl-10 pr-10 mt-5 cursor-pointer" id="personalInformationClose" onclick="rotate_svg('personalDownArrow', 'personalInformation', 'personalInformationClose')">
+        <p class="text-2xl text-[grey]">Personal Information</p>
+        <svg id="personalDownArrow" class="w-3 h-3 ms-3 hover:opacity-50 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </div>
+      <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5 pl-10 pr-10" id="personalInformation">
+        <div>
+          <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">First name</label>
+          <input value="<%= current_user.profile.first_name %>" type="text" id="first_name" name="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John">
+        </div>
+        <div>
+          <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Last name</label>
+          <input value="<%= current_user.profile.last_name %>" type="text" id="last_name" name="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe">
+        </div>
+        <div>
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email address</label>
+          <input type="text" id="disabled-input" aria-label="disabled input" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="<%= current_user.email %>" disabled>
+        </div>
+        <% genders = [%w[Male male], %w[Female female], %w[Transgender transgender]] %>
+        <div>
+          <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">Gender</label>
+          <select name="gender" id="gender" class="nice-select wide bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option>Select Gender</option>
+            <% genders.each do |text, value| %>
+              <option <%= current_user.profile.gender == value ? 'selected' : '' %> value="<%= value %>"><%= text %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
+          <input value="<%= current_user.profile.number %>" name="number" type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="123-45-678">
+        </div>
+      </div>
+<!--      <div class="ml-10 mb-5">-->
+<!--        <label for="" class="block mb-2 text-sm font-medium text-gray-900">Blogger Profile</label>-->
+<!--        <label class="switch">-->
+<!--          <input type="checkbox">-->
+<!--          <span class="slider"></span>-->
+<!--        </label>-->
+<!--      </div>-->
+    </div>
+    <div class="flex flex-row justify-end">
+      <button type="submit" class="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save Changes</button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  $(document).ready(function () {
+      $('#gender').niceSelect()
+  })
+    function rotate_svg(infoArrow, info, closeButton) {
+        var arrow = document.getElementById(`${infoArrow}`)
+        var infoBox = document.getElementById(`${info}`)
+        var infoCloseButton = document.getElementById(`${closeButton}`)
+        if (arrow.style.transform === "rotate(180deg)") {
+            arrow.style.transform = "rotate(360deg)"
+            infoBox.style.display = "grid"
+            infoCloseButton.classList.remove('mb-5')
+        } else {
+            arrow.style.transform = "rotate(180deg)"
+            infoBox.style.display = "none"
+            infoCloseButton.classList.add('mb-5')
+        }
+    }
+
+  $(function () {
+      $('#profile_image').on('change', function (event) {
+          var files = event.target.files;
+          var image = files[0]
+          var reader = new FileReader();
+          reader.onload = function (file) {
+              var img = new Image();
+              img.src = file.target.result;
+              img.setAttribute("class", "w-[12rem] h-[12rem] rounded-full absolute border")
+              img.setAttribute("id", "user-image")
+              $('#user-image').replaceWith(img)
+          }
+          reader.readAsDataURL(image);
+      });
+  });
+</script>

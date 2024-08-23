@@ -1,0 +1,20 @@
+<% if current_user.blogger_profile.educations.present? %>
+  <% current_user.blogger_profile.educations.each do |education| %>
+    <div class="border border-gray-200 flex flex-row justify-between p-4 rounded-lg mt-4" id="education_<%= education.id %>">
+      <div class="flex flex-row">
+        <img src="<%= asset_path('education.svg') %>" class="w-8 h-8" style="align-self: center">
+        <div class="flex flex-col">
+          <p class="font-medium text-[#2ECF32] text-lg ml-4 mt-1"><%= education.school.capitalize %></p>
+          <p class="font-normal text-sm ml-4 mt-1"><%= education.degree.capitalize %>, <%= education.field_of_study.capitalize %></p>
+          <div class="flex flex-row justify-start">
+            <p class="font-normal text-black text-sm ml-4 mt-1"><%= education.start_date.strftime('%Y') %> - <%= education.end_date.strftime('%Y') %> <%= education.grade.present? ? ", #{ education.grade}" : "" %></p>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row mt-2">
+        <img src="<%= asset_path('edit.svg') %>" class="w-5 h-5 mr-5 cursor-pointer hover:opacity-75" onclick="edit_education('<%= education.id %>', '<%= education.school %>', '<%= education.degree %>', '<%= education.field_of_study %>', '<%= education.start_date %>', '<%= education.end_date %>', '<%= education.skills %>', '<%= education.grade %>')">
+        <img src="<%= asset_path('delete.png') %>" class="w-5 h-5 cursor-pointer hover:opacity-75" onclick="delete_education('<%= education.id %>')">
+      </div>
+    </div>
+  <% end %>
+<% end %>

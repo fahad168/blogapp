@@ -4,3 +4,5 @@ import "./controllers"
 // import "font-awesome";
 //= require quill.global
 // import './quill'
+import "trix"
+import "@rails/actiontext"

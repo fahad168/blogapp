@@ -1,0 +1,64 @@
+<div id="profile-edit-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-xl max-h-full">
+    <div class="relative bg-white rounded-lg shadow">
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Edit Profile
+        </h3>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="profile-edit-modal" id="profile_toggle_modal">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <form class="p-4 md:p-5">
+        <div class="grid gap-4 mb-4 grid-cols-1">
+          <div class="relative w-full flex flex-row justify-center">
+            <img class="w-[5rem] h-[5rem] rounded-full absolute border" src="<%= current_user.profile.profile_image.present? ? url_for(current_user.profile.profile_image) : asset_path('user.png') %>" alt="profile_image" loading="lazy" id="user-image"/>
+            <label for="profile_image" class="w-[5rem] h-[5rem] group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+              <img class="hidden group-hover:block w-5" src="https://www.svgrepo.com/show/33565/upload.svg" alt=""/>
+            </label>
+            <%= file_field_tag :profile_image, class: 'hidden', id: 'profile_image', accept: 'image/jpeg, image/jpg, image/png' %>
+          </div>
+          <div class="col-span-2 mt-20">
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
+            <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Full Name" value="<%= current_user.username %>" disabled style="cursor: not-allowed">
+          </div>
+          <div class="col-span-2">
+            <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900">Job Title</label>
+            <input type="text" name="job_title" id="job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Job Title" value="<%= current_user.blogger_profile.job_title %>">
+          </div>
+          <div class="col-span-2">
+            <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Location</label>
+            <%= country_select("country".to_sym, "user".to_sym, { format: :with_data_attrs, include_blank: 'Select Location', selected: current_user.blogger_profile.location }, { class: 'country_select wide text-sm font-normal text-gray-400 w-full rounded-lg border border-gray-200 mt-2 outline-none', id: 'country', placeholder: 'Select Countries'}) %>
+          </div>
+          <div class="col-span-2">
+            <label for="" class="block mb-2 text-sm font-medium text-gray-900">Cover Photo</label>
+            <div class="flex items-center justify-center w-full">
+              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-100" id="dropzone">
+                <% if current_user.blogger_profile.present? && current_user.blogger_profile.cover_image.attached? %>
+                  <img src="<%= url_for(current_user.blogger_profile.cover_image) %>" class="overflow-hidden opacity-100 object-cover" id="dropzone-file-show" loading="lazy">
+                <% else %>
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6" id="dropzone-file-show">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, or JPG (minimum 500x800)</p>
+                  </div>
+                <% end %>
+                <input id="dropzone-file" name="thumbnail" type="file" class="hidden" accept="image/jpg, image/png, image/jpeg" />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row justify-end">
+          <button type="button" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" onclick="edit_profile()">
+            Update Profile
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

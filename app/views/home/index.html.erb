@@ -1,5 +1,16 @@
-<%= render 'shared/header' %>
-<div class="px-20 mt-5">
+<!--<style>-->
+<!--    /* Add CSS styles for parallax scrolling */-->
+<!--    .parallax-section {-->
+<!--        height: 100vh;-->
+<!--        background-attachment: fixed;-->
+<!--        background-position: center;-->
+<!--        background-repeat: no-repeat;-->
+<!--        background-size: cover;-->
+<!--    }-->
+<!--</style>-->
+
+<%= render 'shared/header', padding: 'py-4' %>
+<div class="px-20 mt-5" style="scroll-behavior: smooth; ">
     <section class="multiple-items hidden section" id="multiple_items">
       <% @slider.each do |slider, index| %>
           <%= render "home/slick_slider" , i: index, slider: slider %>
@@ -23,72 +34,53 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col justify-start w-full" id="replaceBlogs">
+      <div class="flex flex-col justify-start w-full md:pr-10" id="replaceBlogs">
           <%= render 'home/index_blogs' %>
       </div>
       <div class="flex flex-col justify-start">
-        <div class="flex flex-row justify-between rounded-full p-5 bg-white shadow-lg peer-focus:border-2">
-          <input placeholder="Search..." class="search-header__input w-[80%] bg-transparent focus:outline-none pl-3" type="text" />
-          <button>
-            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="1.5em" width="1.5em">
-              <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="black"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="h-[30rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-10 shadow-sm">
-          <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Categories</p>
-          <ul class="pl-5 pt-8">
-            <li class="font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-            <li class="mt-3 font-semibold font-lg text-[#1E215A] hover:opacity-75 hover:underline cursor-pointer">
-              Culture
-            </li>
-          </ul>
-        </div>
-        <div class="h-[40rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-20 shadow-sm">
-          <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Top Posts</p>
-          <ul class="pl-5 pt-8">
-            <% [1,2,3,4,5].each_with_index do |post, index| %>
-              <li class="font-semibold font-lg text-[#1E215A] <%= index > 0 ? 'mt-5' : '' %>">
-                <div class="flex flex-row justify-start">
-                  <p class="text-[2.5rem] font-bold text-[#1E215A]"><%= index + 1%></p>
-                  <div class="flex flex-col justify-start ml-5">
-                    <p class="text-[#1E215A] mt-2 leading-7 hover:opacity-75 hover:underline cursor-pointer">There are many variations of passages of Lorem Ipsum available.</p>
-                    <p class="text-[#8C98A2] font-normal text-sm mt-1">Food, Travel - NOV 17, 2020</p>
+          <div class="flex flex-row justify-between rounded-full p-5 bg-white shadow-lg peer-focus:border-2">
+            <input placeholder="Search..." class="search-header__input w-[80%] bg-transparent focus:outline-none pl-3" type="text" />
+            <button>
+              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="1.5em" width="1.5em">
+                <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="black"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="h-[30rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-10 shadow-sm">
+            <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Categories</p>
+            <ul class="pl-5 pt-8">
+              <% @categories&.each_with_index do |category, index| %>
+                <li class="<%= index != 0 ? 'mt-3' : '' %> font-semibold font-lg text-[#1E215A] border-b border-[#DDDDDD] pb-3 hover:opacity-75 hover:underline cursor-pointer">
+                  <%= category.capitalize %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="h-[40rem] w-[25rem] bg-[#F9F9F9] rounded-xl mt-20 shadow-sm">
+            <p class="text-[#1E215A] text-2xl font-bold pt-6 pl-5 pr-5">Top Posts</p>
+            <ul class="pl-5 pt-8">
+              <% [1,2,3,4,5].each_with_index do |post, index| %>
+                <li class="font-semibold font-lg text-[#1E215A] <%= index > 0 ? 'mt-5' : '' %>">
+                  <div class="flex flex-row justify-start">
+                    <p class="text-[2.5rem] font-bold text-[#1E215A]"><%= index + 1%></p>
+                    <div class="flex flex-col justify-start ml-5">
+                      <p class="text-[#1E215A] mt-2 leading-7 hover:opacity-75 hover:underline cursor-pointer">There are many variations of passages of Lorem Ipsum available.</p>
+                      <p class="text-[#8C98A2] font-normal text-sm mt-1">Food, Travel - NOV 17, 2020</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="mt-10 w-full">
-          <p class="text-[#1E215A] text-2xl font-bold pt-6">Top Writers</p>
-          <div class="mt-6 flex flex-row justify-start flex-wrap w-[24rem]">
-            <% [1,2,3,4,5,6].each_with_index do |i, index| %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="mt-10 w-full">
+            <p class="text-[#1E215A] text-2xl font-bold pt-6">Top Writers</p>
+            <div class="mt-6 flex flex-row justify-start flex-wrap w-[24rem]">
+              <% [1,2,3,4,5,6].each_with_index do |i, index| %>
                 <img src="<%= asset_path("author#{index + 1}") %>" class="w-[7rem] h-[7rem] mr-4 rounded-lg mt-4 cursor-pointer hover:opacity-75">
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   </section>
 
